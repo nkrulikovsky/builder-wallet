@@ -40,6 +40,13 @@ export const getQuery = (address: string, dataToLoad: string[]) => {
   return `
     query BuilderDAO {
       nouns {
+        nounsDaos(
+            where: {collectionAddresses: "${address}"}
+          ) {
+            nodes {
+              name
+            }
+        }
         ${auction}
         ${governance}
       }

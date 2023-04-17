@@ -27,6 +27,7 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
   })
   const data = result.data.data
 
+  const daoData = data.nouns.nounsDaos.nodes[0]
   const auctionData = data.nouns.nounsActiveMarket
   const governanceData = data.nouns.nounsProposals.nodes
 
@@ -107,8 +108,6 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     // proposals: proposals
   }
   return res.status(200).json(returnData)
-
-  return res.status(200).json('no error')
   // }
   // catch (e) {
   //   return res.status(500).json({ error: 'Error happened during data loading' })
