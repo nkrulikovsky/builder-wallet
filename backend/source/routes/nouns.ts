@@ -1,8 +1,8 @@
-import express from "express";
-import daoController from "../controllers/dao";
+import express from 'express'
+import daoController from '../controllers/dao'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/", daoController.getData);
+router.get('/dao/:slug', daoController.getData)
 
-export = router;
+export = router

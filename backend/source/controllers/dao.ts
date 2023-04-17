@@ -1,126 +1,118 @@
-import { Request, Response, NextFunction } from "express";
-import axios, { AxiosResponse } from "axios";
-import { ethers } from "ethers";
-import { ImageData, getNounData } from "@nouns/assets";
-import { buildSVG } from "@nouns/sdk";
-import { shortAddress, shortENS } from "../utils/addressAndENSDisplayUtils";
-import { AnkrProvider } from "@ethersproject/providers";
-import {
-  getProposalEndTimestamp,
-  getProposalState,
-} from "../utils/proposalHelpers";
-import sharp from "sharp";
-import { Nouns, Proposal } from "../types/nouns";
+import { Request, Response, NextFunction } from 'express'
+import axios, { AxiosResponse } from 'axios'
+import { shortAddress, shortENS } from '../utils/addressAndENSDisplayUtils'
+import sharp from 'sharp'
+import { getQuery } from '../utils/query'
+import { createPublicClient, http, isAddress } from 'viem'
+import { mainnet } from 'viem/chains'
 
-const { palette } = ImageData;
+import MetadataRendererAbi from '../abis/MetadataRenderer.json'
+import { base64ToObject, extractBase64FromDataUrl } from '../utils/types'
 
-const url = "https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph";
-const query = `
-    query NounsData {
-      auctions(where: {settled: false}) {
-        id,
-        noun {
-          seed {
-            head
-            glasses
-            body
-            accessory
-            background
-          }
-        },
-        endTime,
-        amount,
-        bidder {
-          id
-        }
-      },
-      proposals (where: {status_in: [PENDING, ACTIVE]}) {
-        id
-        proposer {
-          id
-        }
-        startBlock
-        endBlock
-        quorumVotes
-        minQuorumVotesBPS
-        maxQuorumVotesBPS
-        title
-        status
-        executionETA
-        forVotes
-        againstVotes
-        abstainVotes
-        totalSupply
-      }
-    }
-  `;
+const url = 'https://api.zora.co/graphql'
 
 const getData = async (req: Request, res: Response, next: NextFunction) => {
-  // get the id from the req
-  // let id: string = req.params.id;
-  const provider = new AnkrProvider();
+  // try {
+  const address = req.params.slug
+  const dataToLoad = String(req.query.data).split(',') ?? []
 
-  let result: AxiosResponse = await axios.post(url, { query: query });
-  const data = result.data.data;
+  if (!address) return res.status(404).json({ message: 'Provide DAO address' })
+  if (!isAddress(address))
+    return res.status(400).json({ error: 'Incorrect DAO address' })
 
-  let bidder = "-";
-  let amount = "0";
+  const query = getQuery(address, dataToLoad)
 
-  if (data.auctions[0].bidder && data.auctions[0].amount) {
-    const ens = await provider.lookupAddress(data.auctions[0].bidder.id);
-    bidder = ens ? shortENS(ens) : shortAddress(data.auctions[0].bidder.id);
+  let result: AxiosResponse = await axios.post(url, {
+    query: query
+  })
+  const data = result.data.data
 
-    amount = data.auctions[0].amount;
+  const auctionData = data.nouns.nounsActiveMarket
+  const governanceData = data.nouns.nounsProposals.nodes
+
+  const client = createPublicClient({
+    chain: mainnet,
+    transport: http()
+  })
+
+  let bidder = '-'
+  let amount = '0'
+
+  const auctionBidder = auctionData.highestBidder
+  const auctionAmount = auctionData.highestBidPrice.nativePrice.decimal
+
+  if (auctionBidder && auctionAmount) {
+    const ens = await client.getEnsName({
+      address: auctionBidder
+    })
+    bidder = ens ? shortENS(ens) : shortAddress(auctionBidder)
+
+    amount = auctionAmount
   }
 
-  const { parts, background } = getNounData(data.auctions[0].noun.seed);
-  const svgBinary = buildSVG(parts, palette, background);
-  const svgBuffer = Buffer.from(svgBinary);
-  const pngBuffer = await sharp(svgBuffer).resize(100).png().toBuffer();
-  const image = pngBuffer.toString("base64");
+  const tokenUri = await client.readContract({
+    address: auctionData.metadata,
+    abi: MetadataRendererAbi,
+    functionName: 'tokenURI',
+    args: [auctionData.tokenId]
+  })
+  const tokenUriObj = base64ToObject(extractBase64FromDataUrl(String(tokenUri)))
 
-  const blockNumber = await provider.getBlockNumber();
+  const imageUrl = tokenUriObj.image
+  const imageData = await axios.get(imageUrl, {
+    responseType: 'arraybuffer'
+  })
+  const pngBuffer = await sharp(imageData.data).resize(500).png().toBuffer()
+  const image = pngBuffer.toString('base64')
 
-  const proposals = Array<Proposal>();
+  // const blockNumber = await provider.getBlockNumber()
 
-  for (const prop of data.proposals) {
-    const state = getProposalState(blockNumber, prop);
+  // const proposals = Array<Proposal>()
 
-    if (state) {
-      // console.log(prop)
+  // for (const prop of data.proposals) {
+  //   const state = getProposalState(blockNumber, prop)
 
-      let propToAdd: Proposal = {
-        id: Number(prop.id),
-        title: prop.title,
-        state: state,
-        endTime: getProposalEndTimestamp(blockNumber, state, prop),
-        quorum: prop.quorumVotes,
-      };
+  //   if (state) {
+  //     // console.log(prop)
 
-      if (state === "ACTIVE") {
-        propToAdd.votes = {
-          yes: prop.forVotes,
-          no: prop.againstVotes,
-          abstain: prop.abstainVotes,
-        };
-      }
+  //     let propToAdd: Proposal = {
+  //       id: Number(prop.id),
+  //       title: prop.title,
+  //       state: state,
+  //       endTime: getProposalEndTimestamp(blockNumber, state, prop),
+  //       quorum: prop.quorumVotes
+  //     }
 
-      proposals.push(propToAdd);
-    }
-  }
+  //     if (state === 'ACTIVE') {
+  //       propToAdd.votes = {
+  //         yes: prop.forVotes,
+  //         no: prop.againstVotes,
+  //         abstain: prop.abstainVotes
+  //       }
+  //     }
 
-  let nounsData: Nouns = {
+  //     proposals.push(propToAdd)
+  //   }
+  // }
+
+  let returnData = {
     auction: {
-      id: parseInt(data.auctions[0].id),
-      currentBid: ethers.utils.formatEther(amount),
-      bidder: bidder,
-      endTime: parseInt(data.auctions[0].endTime) * 1000,
-      image: image,
-      seed: data.auctions[0].noun.seed,
-    },
-    proposals: proposals,
-  };
-  return res.status(200).json(nounsData);
-};
+      // id: parseInt(data.auctions[0].id),
+      // currentBid: ethers.utils.formatEther(amount),
+      // bidder: bidder,
+      // endTime: parseInt(data.auctions[0].endTime) * 1000,
+      image: image
+      // seed: data.auctions[0].noun.seed
+    }
+    // proposals: proposals
+  }
+  return res.status(200).json(returnData)
 
-export default { getData };
+  return res.status(200).json('no error')
+  // }
+  // catch (e) {
+  //   return res.status(500).json({ error: 'Error happened during data loading' })
+  // }
+}
+
+export default { getData }
