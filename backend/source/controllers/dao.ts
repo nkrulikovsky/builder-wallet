@@ -103,33 +103,39 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
 
     // const blockNumber = await provider.getBlockNumber()
 
-    // const proposals = Array<Proposal>()
+    const proposals = Array<Proposal>()
 
-    // for (const prop of data.proposals) {
-    //   if (prop.state === 'ACTIVE' || prop.state === 'PENDING') {
-    //     // console.log(prop)
+    for (const prop of governanceData) {
+      if (prop.status === 'ACTIVE' || prop.status === 'PENDING') {
+        // console.log(prop)
 
-    //     // let propToAdd: Proposal = {
-    //     let propToAdd: Proposal = {
-    //       id: prop.id,
-    //       number: Number(prop.proposalNumber),
-    //       title: prop.title,
-    //       state: prop.state,
-    //       endTime: getProposalEndTimestamp(blockNumber, state, prop),
-    //       quorum: prop.quorumVotes
-    //     }
+        // let propToAdd: Proposal = {
+        let propToAdd: Proposal = {
+          id: prop.proposalId,
+          number: Number(prop.proposalNumber),
+          title: prop.title,
+          state: prop.status,
+          endTime:
+            Number(prop.status === 'ACTIVE' ? prop.voteEnd : prop.voteStart) *
+            1000,
+          quorum: prop.quorumVotes
+        }
 
-    //     if (prop.state === 'ACTIVE') {
-    //       propToAdd.votes = {
-    //         yes: prop.forVotes,
-    //         no: prop.againstVotes,
-    //         abstain: prop.abstainVotes
-    //       }
-    //     }
+        if (prop.status === 'ACTIVE') {
+          propToAdd.votes = {
+            yes: prop.forVotes,
+            no: prop.againstVotes,
+            abstain: prop.abstainVotes
+          }
+        }
 
-    //     proposals.push(propToAdd)
-    //   }
-    // }
+        proposals.push(propToAdd)
+      }
+    }
+
+    returnData.governance = {
+      proposals: proposals
+    }
   }
 
   return res.status(200).json(returnData)
