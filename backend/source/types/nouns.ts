@@ -1,5 +1,6 @@
 export interface Proposal {
-  id: number
+  id: string
+  number: number
   title: string
   state: string
   endTime: number

@@ -8,6 +8,7 @@ import { mainnet } from 'viem/chains'
 
 import MetadataRendererAbi from '../abis/MetadataRenderer.json'
 import { base64ToObject, extractBase64FromDataUrl } from '../utils/types'
+import { Proposal } from '../types/nouns'
 
 const url = 'https://api.zora.co/graphql'
 
@@ -27,7 +28,7 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
   })
   const data = result.data.data
 
-  const daoData = data.nouns.nounsDaos.nodes[0]
+  const daoData = data.nouns.nounsDaos.nodes[0] ?? {}
   const auctionData = data.nouns.nounsActiveMarket
   const governanceData = data.nouns.nounsProposals.nodes
 
@@ -71,20 +72,20 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
   // const proposals = Array<Proposal>()
 
   // for (const prop of data.proposals) {
-  //   const state = getProposalState(blockNumber, prop)
-
-  //   if (state) {
+  //   if (prop.state === 'ACTIVE' || prop.state === 'PENDING') {
   //     // console.log(prop)
 
+  //     // let propToAdd: Proposal = {
   //     let propToAdd: Proposal = {
-  //       id: Number(prop.id),
+  //       id: prop.id,
+  //       number: Number(prop.proposalNumber),
   //       title: prop.title,
-  //       state: state,
+  //       state: prop.state,
   //       endTime: getProposalEndTimestamp(blockNumber, state, prop),
   //       quorum: prop.quorumVotes
   //     }
 
-  //     if (state === 'ACTIVE') {
+  //     if (prop.state === 'ACTIVE') {
   //       propToAdd.votes = {
   //         yes: prop.forVotes,
   //         no: prop.againstVotes,
