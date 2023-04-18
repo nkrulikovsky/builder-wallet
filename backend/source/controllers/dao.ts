@@ -9,6 +9,11 @@ import { mainnet } from 'viem/chains'
 import MetadataRendererAbi from '../abis/MetadataRenderer.json'
 import { base64ToObject, extractBase64FromDataUrl } from '../utils/types'
 import { Proposal } from '../types/nouns'
+import { AlchemyProvider, AnkrProvider, Contract } from 'ethers'
+
+require('dotenv').config()
+
+const ALCHEMY_KEY = process.env.ALCHEMY_KEY
 
 const url = 'https://api.zora.co/graphql'
 
@@ -21,10 +26,11 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
   if (!isAddress(address))
     return res.status(400).json({ error: 'Incorrect DAO address' })
 
-  const client = createPublicClient({
-    chain: mainnet,
-    transport: http()
-  })
+  const provider = new AlchemyProvider('mainnet', ALCHEMY_KEY) // TODO: Use custom key for nounish widgets
+  // const client = createPublicClient({
+  //   chain: mainnet,
+  //   transport: http()
+  // })
 
   const query = getQuery(address, dataToLoad)
 
@@ -51,20 +57,29 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     const auctionAmount = auctionData.highestBidPrice.nativePrice.decimal
 
     if (auctionBidder && auctionAmount) {
-      const ens = await client.getEnsName({
-        address: auctionBidder
-      })
+      const ens = await provider.lookupAddress(auctionBidder)
+      // const ens = await client.getEnsName({
+      //   address: auctionBidder
+      // })
       bidder = ens ? shortENS(ens) : shortAddress(auctionBidder)
 
       amount = auctionAmount
     }
 
-    const tokenUri = await client.readContract({
-      address: auctionData.metadata,
-      abi: MetadataRendererAbi,
-      functionName: 'tokenURI',
-      args: [auctionData.tokenId]
-    })
+    // const tokenUri = await client.readContract({
+    //   address: auctionData.metadata,
+    //   abi: MetadataRendererAbi,
+    //   functionName: 'tokenURI',
+    //   args: [auctionData.tokenId]
+    // })
+
+    const contract = new Contract(
+      auctionData.metadata,
+      MetadataRendererAbi,
+      provider
+    )
+    const tokenUri = await contract.tokenURI(auctionData.tokenId)
+
     const tokenUriObj = base64ToObject(
       extractBase64FromDataUrl(String(tokenUri))
     )
