@@ -101,23 +101,20 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
   if (dataToLoad.includes('governance')) {
     const governanceData = data.nouns.nounsProposals.nodes
 
-    // const blockNumber = await provider.getBlockNumber()
-
     const proposals = Array<Proposal>()
 
     for (const prop of governanceData) {
       if (prop.status === 'ACTIVE' || prop.status === 'PENDING') {
-        // console.log(prop)
+        const endTime =
+          Number(prop.status === 'ACTIVE' ? prop.voteEnd : prop.voteStart) *
+          1000
 
-        // let propToAdd: Proposal = {
         let propToAdd: Proposal = {
           id: prop.proposalId,
           number: Number(prop.proposalNumber),
           title: prop.title,
           state: prop.status,
-          endTime:
-            Number(prop.status === 'ACTIVE' ? prop.voteEnd : prop.voteStart) *
-            1000,
+          endTime: endTime,
           quorum: prop.quorumVotes
         }
 
