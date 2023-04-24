@@ -13,7 +13,7 @@ const SettingsScreen = ({
           <View className="flex flex-row">
             <Text className="text-4xl font-extrabold">Settings</Text>
           </View>
-          <View className="my-auto mx-auto pb-20 max-w-[160px] text-center">
+          <View className="my-auto mx-auto pb-12 max-w-[160px] text-center">
             <Text className="max-w-[160px] text-center">
               Nothing here just yet!
             </Text>

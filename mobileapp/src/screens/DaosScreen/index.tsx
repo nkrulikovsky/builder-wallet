@@ -20,9 +20,12 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
             placeholder="DAO name"
           />
           {savedDaos.length === 0 && (
-            <Text className="my-auto mx-auto pb-20 max-w-[160px] text-center">
-              Add some DAOs to enable widgets!
-            </Text>
+            <View className="my-auto mx-auto pb-12 max-w-[160px] text-center">
+              <Text className="max-w-[160px] text-center">
+                Add some DAOs to enable widgets!
+              </Text>
+              <Text className="mt-2 text-center">⌐◨-◨</Text>
+            </View>
           )}
         </View>
       </SafeAreaView>
