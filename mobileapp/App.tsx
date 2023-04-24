@@ -6,10 +6,30 @@ import React, { useEffect } from 'react'
 import zoraClient from './src/data/zoraClient'
 import DaosScreen from './src/screens/DaosScreen'
 import { useColorScheme } from 'nativewind'
+import SettingsScreen from './src/screens/SettingsScreen'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 // import type { PropsWithChildren } from 'react'
 
 const Stack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator()
+
+function HomeTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Daos"
+        component={DaosScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ headerShown: false }}
+      />
+    </Tab.Navigator>
+  )
+}
 
 const App = () => {
   const { setColorScheme } = useColorScheme()
@@ -23,9 +43,9 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="Daos"
-            component={DaosScreen}
-            options={{ headerShown: false, statusBarHidden: false }}
+            name="Home"
+            component={HomeTabs}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
