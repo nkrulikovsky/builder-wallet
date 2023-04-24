@@ -1,9 +1,30 @@
-import { Text, View } from 'react-native'
+import { Text, TextInput, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDaosStore } from '../../store/daos'
 
 const DaosScreen = ({ route, navigation }: { navigation: any; route: any }) => {
+  const savedDaos = useDaosStore(state => state.saved)
+
   return (
-    <View className="h-full bg-red-500">
-      <Text className="my-auto text-center">Load Daos</Text>
+    <View className="h-full bg-white">
+      <SafeAreaView>
+        <View className="mx-4 mt-6 flex flex-col h-full">
+          <View className="flex flex-row">
+            <Text className="text-4xl font-extrabold">DAOs</Text>
+          </View>
+          <TextInput
+            className="mt-3 bg-gray-100 px-3 h-9 rounded-lg"
+            onChangeText={() => {}}
+            // value={}
+            placeholder="DAO name"
+          />
+          {savedDaos.length === 0 && (
+            <Text className="my-auto mx-auto pb-20 max-w-[160px] text-center">
+              Add some DAOs to enable widgets
+            </Text>
+          )}
+        </View>
+      </SafeAreaView>
     </View>
   )
 }

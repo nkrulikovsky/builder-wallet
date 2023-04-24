@@ -1,22 +1,22 @@
 import { ApolloProvider } from '@apollo/client'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
-import type { PropsWithChildren } from 'react'
-import { View, useColorScheme } from 'react-native'
+import React, { useEffect } from 'react'
 
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import zoraClient from './src/data/zoraClient'
 import DaosScreen from './src/screens/DaosScreen'
+import { useColorScheme } from 'nativewind'
+
+// import type { PropsWithChildren } from 'react'
 
 const Stack = createNativeStackNavigator()
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark'
+  const { setColorScheme } = useColorScheme()
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
-  }
+  useEffect(() => {
+    setColorScheme('dark')
+  }, [setColorScheme])
 
   return (
     <ApolloProvider client={zoraClient}>
