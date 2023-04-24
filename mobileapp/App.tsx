@@ -8,15 +8,17 @@ import DaosScreen from './src/screens/DaosScreen'
 import { useColorScheme } from 'nativewind'
 import SettingsScreen from './src/screens/SettingsScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import TabBar from './src/components/TabBar'
+import { HomeTabParamList, RootStackParamList } from './src/navigation/types'
 
 // import type { PropsWithChildren } from 'react'
 
-const Stack = createNativeStackNavigator()
-const Tab = createBottomTabNavigator()
+const RootStack = createNativeStackNavigator<RootStackParamList>()
+const Tab = createBottomTabNavigator<HomeTabParamList>()
 
-function HomeTabs() {
+const HomeTabs = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator tabBar={props => <TabBar {...props} />}>
       <Tab.Screen
         name="Daos"
         component={DaosScreen}
@@ -41,13 +43,13 @@ const App = () => {
   return (
     <ApolloProvider client={zoraClient}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
+        <RootStack.Navigator initialRouteName="Home">
+          <RootStack.Screen
             name="Home"
             component={HomeTabs}
             options={{ headerShown: false }}
           />
-        </Stack.Navigator>
+        </RootStack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
   )

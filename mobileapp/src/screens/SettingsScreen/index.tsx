@@ -1,13 +1,11 @@
 import { Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { HomeTabScreenProps } from '../../navigation/types'
 
 const SettingsScreen = ({
   route,
   navigation
-}: {
-  navigation: any
-  route: any
-}) => {
+}: HomeTabScreenProps<'Settings'>) => {
   return (
     <View className="h-full bg-white">
       <SafeAreaView>
@@ -15,9 +13,12 @@ const SettingsScreen = ({
           <View className="flex flex-row">
             <Text className="text-4xl font-extrabold">Settings</Text>
           </View>
-          <Text className="my-auto mx-auto pb-20 max-w-[160px] text-center">
-            Modify some stuff here
-          </Text>
+          <View className="my-auto mx-auto pb-20 max-w-[160px] text-center">
+            <Text className="max-w-[160px] text-center">
+              Nothing here just yet!
+            </Text>
+            <Text className="mt-2 text-center">⌐◨-◨</Text>
+          </View>
         </View>
       </SafeAreaView>
     </View>

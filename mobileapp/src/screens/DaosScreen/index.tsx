@@ -1,8 +1,9 @@
 import { Text, TextInput, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDaosStore } from '../../store/daos'
+import { HomeTabScreenProps } from '../../navigation/types'
 
-const DaosScreen = ({ route, navigation }: { navigation: any; route: any }) => {
+const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const savedDaos = useDaosStore(state => state.saved)
 
   return (
@@ -20,7 +21,7 @@ const DaosScreen = ({ route, navigation }: { navigation: any; route: any }) => {
           />
           {savedDaos.length === 0 && (
             <Text className="my-auto mx-auto pb-20 max-w-[160px] text-center">
-              Add some DAOs to enable widgets
+              Add some DAOs to enable widgets!
             </Text>
           )}
         </View>
