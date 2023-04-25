@@ -2,9 +2,15 @@ import { Text, TextInput, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDaosStore } from '../../store/daos'
 import { HomeTabScreenProps } from '../../navigation/types'
+import DaoSearch from '../../components/DaoSearch'
+import { useDaoSearchStore } from '../../store/daoSearch'
+import { FlashList } from '@shopify/flash-list'
 
 const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const savedDaos = useDaosStore(state => state.saved)
+
+  const searchResults = useDaoSearchStore(state => state.searchResults)
+  const searchStatus = useDaoSearchStore(state => state.searchStatus)
 
   return (
     <View className="h-full bg-white">
@@ -13,11 +19,12 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
           <View className="flex flex-row">
             <Text className="text-4xl font-extrabold">DAOs</Text>
           </View>
-          <TextInput
-            className="mt-3 bg-gray-100 px-3 h-9 rounded-lg"
-            onChangeText={() => {}}
-            // value={}
-            placeholder="DAO name"
+          <DaoSearch />
+          <FlashList
+            data={searchResults}
+            renderItem={({ item }) => <Text>{item.name}</Text>}
+            keyExtractor={item => item.address}
+            estimatedItemSize={200}
           />
           {savedDaos.length === 0 && (
             <View className="my-auto mx-auto pb-12 max-w-[160px] text-center">
