@@ -7,7 +7,7 @@ const DaosIcon = ({ isFocused }: { isFocused: boolean }) => (
     fill="none"
     viewBox="0 0 24 24"
     strokeWidth={1.5}
-    stroke={isFocused ? '#000' : '#8C8C8C'}
+    stroke={isFocused ? '#000000' : '#9D9D9D'}
     className="w-6 h-6">
     <Path
       strokeLinecap="round"
@@ -23,7 +23,7 @@ const SettingsIcon = ({ isFocused }: { isFocused: boolean }) => {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={isFocused ? '#000' : '#8C8C8C'}
+      stroke={isFocused ? '#000000' : '#9D9D9D'}
       className="w-6 h-6">
       <Path
         strokeLinecap="round"
@@ -80,6 +80,9 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                 <SettingsIcon isFocused={isFocused} />
               ) : (
                 <View />
+              )}
+              {isFocused && (
+                <View className="mt-1.5 bg-black h-1 w-1 rounded-full mx-auto" />
               )}
             </View>
           </TouchableOpacity>
