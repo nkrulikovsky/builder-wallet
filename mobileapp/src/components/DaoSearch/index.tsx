@@ -57,9 +57,8 @@ const DaoSearch = () => {
 
   return (
     <View className="mt-3 justify-center">
-      {/* // TODO: colors from theme */}
       <TextInput
-        className="bg-gray-100 px-3 h-9 rounded-lg"
+        className="bg-grey-one px-3 h-9 rounded-lg"
         onChangeText={handleChangeText}
         value={searchText}
         placeholder="DAO name"
@@ -68,12 +67,11 @@ const DaoSearch = () => {
         <ActivityIndicator
           className="absolute top-2 right-2"
           size="small"
-          color="#8C8C8C"
+          color="#9D9D9D"
         />
       )}
       {error && (
-        // TODO: error color from theme
-        <Text className="mt-1 text-red-600">
+        <Text className="mt-1 text-red">
           Error happened during loading. Try again later.
         </Text>
       )}
