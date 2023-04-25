@@ -2,6 +2,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { View, TouchableOpacity } from 'react-native'
 import { Path, Svg } from 'react-native-svg'
 
+//TODO: optimize svg items
 const DaosIcon = ({ isFocused }: { isFocused: boolean }) => (
   <Svg
     fill="none"
@@ -50,7 +51,6 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
           })
 
           if (!isFocused && !event.defaultPrevented) {
-            // The `merge: true` option makes sure that the params inside the tab screen are preserved
             navigation.navigate(route.name, { merge: true })
           }
         }
