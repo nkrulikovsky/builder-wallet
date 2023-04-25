@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TextInput } from 'react-native'
+import { ActivityIndicator, TextInput, View, Text } from 'react-native'
 import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import { DaoSearchStatus, useDaoSearchStore } from '../../store/daoSearch'
@@ -25,6 +25,9 @@ const SEARCH_DAO_QUERY = gql`
 const DaoSearch = () => {
   const setSearchStatus = useDaoSearchStore(state => state.setSearchStatus)
   const setSearchResults = useDaoSearchStore(state => state.setSearchResults)
+  const clearSearchResults = useDaoSearchStore(
+    state => state.clearSearchResults
+  )
 
   const [searchText, setSearchText] = useState('')
 
@@ -34,26 +37,47 @@ const DaoSearch = () => {
     onCompleted: () => {
       if (data) {
         setSearchStatus(DaoSearchStatus.SUCCESS)
-        setSearchResults(data.nouns.nounsSearch.nodes)
+        const daos = data.nouns.nounsSearch.nodes.map((dao: any) => ({
+          name: dao.name,
+          address: dao.collectionAddress
+        }))
+        setSearchResults(daos)
       }
     },
     onError: () => {
       setSearchStatus(DaoSearchStatus.ERROR)
-      //   onResults([])
     }
   })
 
   const handleChangeText = (text: any) => {
     setSearchText(text)
+
+    if (text.length === 0) clearSearchResults()
   }
 
   return (
-    <TextInput
-      className="mt-3 bg-gray-100 px-3 h-9 rounded-lg"
-      onChangeText={handleChangeText}
-      value={searchText}
-      placeholder="DAO name"
-    />
+    <View className="mt-3 justify-center">
+      {/* // TODO: colors from theme */}
+      <TextInput
+        className="bg-gray-100 px-3 h-9 rounded-lg"
+        onChangeText={handleChangeText}
+        value={searchText}
+        placeholder="DAO name"
+      />
+      {loading && (
+        <ActivityIndicator
+          className="absolute top-2 right-2"
+          size="small"
+          color="#8C8C8C"
+        />
+      )}
+      {error && (
+        // TODO: error color from theme
+        <Text className="mt-1 text-red-600">
+          Error happened during loading. Try again later.
+        </Text>
+      )}
+    </View>
   )
 }
 

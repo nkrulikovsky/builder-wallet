@@ -1,14 +1,19 @@
 import { create } from 'zustand'
 
+export type SavedDao = {
+  address: string
+  name: string
+}
+
 interface DaosState {
-  saved: string[]
-  save: (address: string) => void
+  saved: SavedDao[]
+  save: (address: SavedDao) => void
   removeFromSaved: (address: string) => void
 }
 
-const useDaosStore = create<DaosState>()((set, get) => ({
+export const useDaosStore = create<DaosState>()((set, get) => ({
   saved: [],
-  save: (address: string) => {
+  save: (address: SavedDao) => {
     const saved = get().saved
     if (!saved.includes(address)) {
       set({ saved: [...saved, address] })
@@ -16,8 +21,6 @@ const useDaosStore = create<DaosState>()((set, get) => ({
   },
   removeFromSaved: (address: string) => {
     const saved = get().saved
-    set({ saved: saved.filter(a => a !== address) })
+    set({ saved: saved.filter(a => a.address !== address) })
   }
 }))
-
-export { useDaosStore }
