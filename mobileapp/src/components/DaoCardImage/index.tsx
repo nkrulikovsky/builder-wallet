@@ -52,7 +52,7 @@ const DaoCardImage = ({
   //   }
 
   return (
-    <Image source={{ uri: image.url }} className="rounded-xl h-full w-full" />
+    <Image source={{ uri: image.url }} className="rounded-lg h-full w-full" />
   )
 }
 

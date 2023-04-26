@@ -79,16 +79,16 @@
     "stream": "stream-browserify"
   },
   "browser": {
-    "net": "react-native-tcp",
-    "crypto": "react-native-crypto",
-    "zlib": "browserify-zlib",
-    "http": "@tradle/react-native-http",
-    "https": "https-browserify",
-    "_stream_transform": "readable-stream/transform",
-    "_stream_readable": "readable-stream/readable",
-    "_stream_writable": "readable-stream/writable",
     "_stream_duplex": "readable-stream/duplex",
     "_stream_passthrough": "readable-stream/passthrough",
-    "stream": "stream-browserify"
+    "_stream_readable": "readable-stream/readable",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_writable": "readable-stream/writable",
+    "crypto": "react-native-crypto",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "net": "react-native-tcp",
+    "stream": "stream-browserify",
+    "zlib": "browserify-zlib"
   }
 }
