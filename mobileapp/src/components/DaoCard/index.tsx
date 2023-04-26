@@ -4,6 +4,7 @@ import { SearchDao } from '../../store/daoSearch'
 import { SavedDao } from '../../store/daos'
 import { gql, useQuery } from '@apollo/client'
 import Countdown from '../Countdown'
+import DaoCardImage from '../DaoCardImage'
 
 type DaoCardProps = {
   dao: SavedDao | SearchDao
@@ -32,15 +33,43 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     variables: { address: dao.address }
   })
 
-  // TODO: correct loading and error states
-  if (loading) return <Text>Loading...</Text>
-  if (error) return <Text>Error! {error.message}</Text>
+  if (loading)
+    return (
+      <View className="flex flex-row items-center mb-3">
+        <View className="bg-grey-one rounded-xl w-36 h-36" />
+        <View className="ml-4">
+          <View className="bg-grey-one rounded-md h-5 w-40" />
+          <View className="pt-4 flex flex-col gap-2">
+            <View className="bg-grey-one rounded-md h-3 w-20" />
+            <View className="bg-grey-one rounded-md h-4 w-16" />
+            <View className="bg-grey-one rounded-md h-3 w-12" />
+            <View className="bg-grey-one rounded-md h-4 w-24" />
+          </View>
+        </View>
+      </View>
+    )
+  // TODO: better error state
+  if (error)
+    return (
+      <View className="flex flex-row items-center mb-3">
+        <View className="bg-grey-one rounded-xl w-36 h-36" />
+        <View className="ml-4">
+          <Text className="text-xl font-bold text-red">Couldn't load Dao</Text>
+          <View className="pt-4 flex flex-col gap-2">
+            <Text className="text-red">Try again later</Text>
+            <View className="bg-grey-one rounded-md h-3 w-20" />
+            <View className="bg-grey-one rounded-md h-3 w-16" />
+          </View>
+        </View>
+      </View>
+    )
 
   const activeMarket = data.nouns.nounsActiveMarket
 
-  const tokenId = activeMarket?.tokenId ?? ''
-  const highestBid = activeMarket?.highestBidPrice.nativePrice.decimal ?? '-'
-  const imageUrl = activeMarket?.metadata ?? ''
+  if (!activeMarket) return null
+
+  const tokenId = activeMarket?.tokenId
+  const highestBid = activeMarket?.highestBidPrice.nativePrice.decimal
   const endTime = activeMarket?.endTime * 1000
 
   const displayName = `${dao.name} #${tokenId}`
@@ -49,15 +78,14 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   return (
     <View className="flex flex-row items-center mb-3">
       <View className="bg-grey-one rounded-xl w-36 h-36">
-        {/* <Image
-            source={{ uri: imageUrl }}
-            style={{ width: '100%', height: '100%' }}
-          /> */}
+        <DaoCardImage
+          daoAddress={dao.address}
+          metadataAddress={activeMarket?.metadata}
+          tokenId={tokenId}
+        />
       </View>
       <View className="ml-4">
-        <Text className="text-xl font-bold whitespace-normal">
-          {displayName}
-        </Text>
+        <Text className="text-xl font-bold truncate">{displayName}</Text>
         <View className="pt-2 flex flex-col gap-1">
           <View>
             <Text className="text-sm text-grey-three">Highest Bid</Text>
@@ -68,6 +96,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             <Countdown
               timestamp={endTime}
               style="text-base font-bold text-black"
+              endText="Ended"
             />
           </View>
         </View>

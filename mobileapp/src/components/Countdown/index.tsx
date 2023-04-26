@@ -4,14 +4,16 @@ import { Text } from 'react-native'
 type CountdownProps = {
   timestamp: number
   style: string
+  endText: string
 }
 
 /*
  * Countdown component that takes a timestamp and displays the time remaining
  * [timestamp] should be in milliseconds
  */
-const Countdown = ({ timestamp, style }: CountdownProps) => {
+const Countdown = ({ timestamp, style, endText }: CountdownProps) => {
   if (isNaN(timestamp)) return <Text className={style}>-</Text>
+  if (timestamp < Date.now()) return <Text className={style}>{endText}</Text>
 
   const [timeRemaining, setTimeRemaining] = useState<number>(
     timestamp - Date.now()
