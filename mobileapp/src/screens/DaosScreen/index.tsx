@@ -11,7 +11,10 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const savedDaos = useDaosStore(state => state.saved)
   const searchDaos = useDaoSearchStore(state => state.searchResults)
 
-  const daos = [...searchDaos, ...savedDaos]
+  const daos = [
+    ...searchDaos.filter(s => !savedDaos.some(c => c.address === s.address)),
+    ...savedDaos
+  ]
 
   return (
     <View className="h-full bg-white">

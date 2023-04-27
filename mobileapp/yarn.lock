@@ -7831,6 +7831,7 @@ __metadata:
     prettier: ^2.4.1
     react: 18.2.0
     react-native: 0.71.7
+    react-native-mmkv: ^2.8.0
     react-native-safe-area-context: ^4.5.1
     react-native-screens: ^3.20.0
     react-native-svg: ^13.9.0
@@ -8871,6 +8872,16 @@ __metadata:
   version: 0.71.17
   resolution: "react-native-gradle-plugin@npm:0.71.17"
   checksum: 5ff996bafc3959a36551dc34d481cefb070ede4025b5eb2ce659f51adf74ba0e6845cc019ea1d547e0b4007f1c3c68146fa719688f09bde308f25320c6c6f834
+  languageName: node
+  linkType: hard
+
+"react-native-mmkv@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "react-native-mmkv@npm:2.8.0"
+  peerDependencies:
+    react: "*"
+    react-native: ">=0.71.0"
+  checksum: 993b486533b00c0b8092ea0b7682428fe704726ec03daf244fbd046bd772e3cfc0aba67b8a9eece31adcb6492c76d838f167eeed877657349a0cae51c8844b8d
   languageName: node
   linkType: hard
 
