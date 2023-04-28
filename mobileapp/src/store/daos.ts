@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { StateStorage, createJSONStorage, persist } from 'zustand/middleware'
 import { mmkvStorage } from '../storage/mmkv'
+import { daosGroupStorage, sharedGroupStorage } from '../storage/sharedStorage'
 
 const zustandStorage: StateStorage = {
   setItem: (name, value) => {
@@ -33,12 +34,18 @@ export const useDaosStore = create<DaosState>()(
       save: (dao: SavedDao) => {
         const saved = get().saved
         if (!saved.includes(dao)) {
-          set({ saved: [dao, ...saved] })
+          const newSaved = [dao, ...saved]
+
+          set({ saved: newSaved })
+          daosGroupStorage.setItem('saved', JSON.stringify(newSaved))
         }
       },
       removeFromSaved: (address: string) => {
         const saved = get().saved
-        set({ saved: saved.filter(a => a.address !== address) })
+        const newSaved = saved.filter(a => a.address !== address)
+
+        set({ saved: newSaved })
+        daosGroupStorage.setItem('saved', JSON.stringify(newSaved))
       }
     }),
     {

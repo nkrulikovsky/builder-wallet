@@ -30,8 +30,8 @@ __metadata:
   linkType: hard
 
 "@apollo/client@npm:^3.7.12":
-  version: 3.7.12
-  resolution: "@apollo/client@npm:3.7.12"
+  version: 3.7.13
+  resolution: "@apollo/client@npm:3.7.13"
   dependencies:
     "@graphql-typed-document-node/core": ^3.1.1
     "@wry/context": ^0.7.0
@@ -61,7 +61,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: 9b9b0cd3b02d6b90ac4565737a1fa4d0e3c8e1f4cd0a0e1c680ed6f174f522469d16f0a71bc57ea358538b482c5085c33ae22d0d3cc42d90cef1c03b1f036e61
+  checksum: 9c8adfcb5da0ec8adaa1f7bc7c16bc6fa4e5ec171422ca985043d92e1012958f0ab9b1bcb5a25167c713995f0502f0240a807114941d48b118de34dbd9f63428
   languageName: node
   linkType: hard
 
@@ -2579,9 +2579,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 18.16.1
-  resolution: "@types/node@npm:18.16.1"
-  checksum: 799026b949a48993cba7c9b81b2eabfdfb34c880744cb44c1c990fbedc9e315f3634d126eb2cf9a6e0795577c01016e2326d98565bef695ada9d363fadeb6946
+  version: 18.16.2
+  resolution: "@types/node@npm:18.16.2"
+  checksum: 7ad66d23b3b93885a9f879bff98e0196790ad35589b47a3d81b52db969ad17ee298082020296df5166c2d72d3cd6a4b9ab34d254483637d967944a4b3e6febdb
   languageName: node
   linkType: hard
 
@@ -2596,6 +2596,13 @@ __metadata:
   version: 15.7.5
   resolution: "@types/prop-types@npm:15.7.5"
   checksum: 5b43b8b15415e1f298243165f1d44390403bb2bd42e662bca3b5b5633fdd39c938e91b7fce3a9483699db0f7a715d08cef220c121f723a634972fdf596aec980
+  languageName: node
+  linkType: hard
+
+"@types/react-native-shared-group-preferences@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@types/react-native-shared-group-preferences@npm:1.1.1"
+  checksum: bf7a44a7b860d15848207cdccdf6aabc6817ed41f7c1e7fd5a0009304c0a597315e000cf5fbe2b22b63bf85d3f617d071130a8b1b537051cc40b578c19c00fbc
   languageName: node
   linkType: hard
 
@@ -4393,9 +4400,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.373
-  resolution: "electron-to-chromium@npm:1.4.373"
-  checksum: 4bca723681aed649abd7789736cca7f66930f5a9086c30894024db0523a7263f2c27741abe3f8e6047589695893c14027b29f2b9be16b206e5b37e1553bc26a0
+  version: 1.4.377
+  resolution: "electron-to-chromium@npm:1.4.377"
+  checksum: a38a09385701f1dd74b849f6265ed0dd9ab973b1a6acea78825c2dc162948cc795797e0aacea0176dd0c4d891decc4b81838a0996351dd294ffa5f08163d78d6
   languageName: node
   linkType: hard
 
@@ -5186,9 +5193,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.204.1
-  resolution: "flow-parser@npm:0.204.1"
-  checksum: dcd1e12d1944647fc368df8b9e31214c4d147f322cba0f639f0fbc2c80fce26ab8ad8e08eb4de08dbb556649f7563a601472026438f4ce967e243399a68ef9fa
+  version: 0.205.0
+  resolution: "flow-parser@npm:0.205.0"
+  checksum: 84e79867128c414a332e506b43d436baca15eea86100fcc9fb0791dabefd02e9ba72feb1706262378950a10fd97340d8f30363b4fe798ae6c86d74bb255ee0b6
   languageName: node
   linkType: hard
 
@@ -7816,6 +7823,7 @@ __metadata:
     "@tsconfig/react-native": ^2.0.2
     "@types/jest": ^29.2.1
     "@types/react": ^18.0.24
+    "@types/react-native-shared-group-preferences": ^1.1.1
     "@types/react-test-renderer": ^18.0.0
     babel-jest: ^29.2.1
     base-64: ^1.0.0
@@ -7834,6 +7842,7 @@ __metadata:
     react-native-mmkv: ^2.8.0
     react-native-safe-area-context: ^4.5.1
     react-native-screens: ^3.20.0
+    react-native-shared-group-preferences: ^1.1.23
     react-native-svg: ^13.9.0
     react-test-renderer: 18.2.0
     tailwindcss: ^3.3.1
@@ -8905,6 +8914,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 94ab21378ee82765d329ccb8c92f5ca7cb15df916496fac7ce9a03c45e22579715000dae9c16f0a7d734a8fc1c2d0569fd82ecb71119a0b56046b5ea7533e7c2
+  languageName: node
+  linkType: hard
+
+"react-native-shared-group-preferences@npm:^1.1.23":
+  version: 1.1.23
+  resolution: "react-native-shared-group-preferences@npm:1.1.23"
+  peerDependencies:
+    react-native: ">=0.41.2"
+  checksum: c9a7b659b11aba4d0aadfe691020390c35be0b53e4eb7fe65c25e66e873e2e3436432960e905940cdcee2ef48daea35a29909f6e4ead02faed1b57c33c013702
   languageName: node
   linkType: hard
 
@@ -10861,8 +10879,8 @@ __metadata:
   linkType: hard
 
 "yargs@npm:^17.3.1, yargs@npm:^17.5.1":
-  version: 17.7.1
-  resolution: "yargs@npm:17.7.1"
+  version: 17.7.2
+  resolution: "yargs@npm:17.7.2"
   dependencies:
     cliui: ^8.0.1
     escalade: ^3.1.1
@@ -10871,7 +10889,7 @@ __metadata:
     string-width: ^4.2.3
     y18n: ^5.0.5
     yargs-parser: ^21.1.1
-  checksum: 3d8a43c336a4942bc68080768664aca85c7bd406f018bad362fd255c41c8f4e650277f42fd65d543fce99e084124ddafee7bbfc1a5c6a8fda4cec78609dcf8d4
+  checksum: 73b572e863aa4a8cbef323dd911d79d193b772defd5a51aab0aca2d446655216f5002c42c5306033968193bdbf892a7a4c110b0d77954a7fdf563e653967b56a
   languageName: node
   linkType: hard
 
