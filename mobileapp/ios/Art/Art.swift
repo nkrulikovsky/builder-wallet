@@ -1,6 +1,5 @@
 import WidgetKit
 import SwiftUI
-//import SelectDAOIntent
 
 struct ArtProvider: IntentTimelineProvider {
   typealias Entry = ArtEntry
@@ -18,32 +17,32 @@ struct ArtProvider: IntentTimelineProvider {
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-    widgetDataLoader.getSavedDAOs { daos in
-      //      guard let daoName = configuration.dao?.identifier, let dao = daos.first(where: { $0.name == daoName }) else {
-      //        let entry = ArtEntry(date: Date(), image: UIImage(named: "placeholder")!.pngData()!)
-      //        let timeline = Timeline(entries: [entry], policy: .atEnd)
-      //        completion(timeline)
-      //        return
-      //      }
-      
-      //TODO: handle nil values
-      let address = configuration.dao?.identifier ?? "0xa45662638e9f3bbb7a6fecb4b17853b7ba0f3a60"
-      
-      widgetDataLoader.fetchImageData(daoAddress: address) { imageData in
-        let image = (imageData != nil) ? UIImage(data: imageData!)! : UIImage(named: "placeholder")!
-        let entry = ArtEntry(date: Date(), image: image.pngData()!)
-        let timeline = Timeline(entries: [entry], policy: .atEnd)
-        completion(timeline)
-      }
+    //    widgetDataLoader.getSavedDAOs { daos in
+    //      guard let daoName = configuration.dao?.identifier, let dao = daos.first(where: { $0.name == daoName }) else {
+    //        let entry = ArtEntry(date: Date(), image: UIImage(named: "placeholder")!.pngData()!)
+    //        let timeline = Timeline(entries: [entry], policy: .atEnd)
+    //        completion(timeline)
+    //        return
+    //      }
+    
+    //TODO: handle nil values
+    let address = configuration.dao?.identifier ?? "0xa45662638e9f3bbb7a6fecb4b17853b7ba0f3a60"
+    
+    widgetDataLoader.fetchImageData(daoAddress: address) { imageData in
+      let image = (imageData != nil) ? UIImage(data: imageData!)! : UIImage(named: "placeholder")!
+      let entry = ArtEntry(date: Date(), image: image.pngData()!)
+      let timeline = Timeline(entries: [entry], policy: .atEnd)
+      completion(timeline)
     }
   }
+  //  }
 }
 
 
 struct ArtEntry: TimelineEntry {
   let date: Date
   let image: Data
-//  let configuration: SelectDAOIntent
+  //  let configuration: SelectDAOIntent
 }
 
 struct ArtEntryView: View {
