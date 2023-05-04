@@ -3,7 +3,6 @@ import SwiftUI
 
 struct ArtProvider: IntentTimelineProvider {
   typealias Entry = ArtEntry
-  typealias Intent = SelectDAOIntent
   
   let widgetDataLoader = WidgetDataLoader()
   
@@ -12,19 +11,17 @@ struct ArtProvider: IntentTimelineProvider {
   }
   
   func getSnapshot(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (ArtEntry) -> Void) {
-    let entry = ArtEntry(date: Date(), image: UIImage(named: "placeholder")!.pngData()!)
-    completion(entry)
+    //TODO: handle nil values
+    let address = configuration.dao?.identifier ?? "0xa45662638e9f3bbb7a6fecb4b17853b7ba0f3a60"
+    
+    widgetDataLoader.fetchImageData(daoAddress: address) { imageData in
+      let image = (imageData != nil) ? UIImage(data: imageData!)! : UIImage(named: "placeholder")!
+      let entry = ArtEntry(date: Date(), image: image.pngData()!)
+      completion(entry)
+    }
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-    //    widgetDataLoader.getSavedDAOs { daos in
-    //      guard let daoName = configuration.dao?.identifier, let dao = daos.first(where: { $0.name == daoName }) else {
-    //        let entry = ArtEntry(date: Date(), image: UIImage(named: "placeholder")!.pngData()!)
-    //        let timeline = Timeline(entries: [entry], policy: .atEnd)
-    //        completion(timeline)
-    //        return
-    //      }
-    
     //TODO: handle nil values
     let address = configuration.dao?.identifier ?? "0xa45662638e9f3bbb7a6fecb4b17853b7ba0f3a60"
     
@@ -42,7 +39,6 @@ struct ArtProvider: IntentTimelineProvider {
 struct ArtEntry: TimelineEntry {
   let date: Date
   let image: Data
-  //  let configuration: SelectDAOIntent
 }
 
 struct ArtEntryView: View {
@@ -64,9 +60,9 @@ struct ArtWidget: Widget {
   var body: some WidgetConfiguration {
     IntentConfiguration(kind: kind, intent: SelectDAOIntent.self, provider: ArtProvider()) { entry in
       ArtEntryView(entry: entry)
-    }.supportedFamilies([.systemSmall, .systemMedium])
+    }.supportedFamilies([.systemSmall, .systemLarge])
       .configurationDisplayName("Art")
-      .description("This widget displays images from your selected DAOs.")
+      .description("This widget displays the current auctioned NFT image of your selected DAO.")
   }
 }
 
