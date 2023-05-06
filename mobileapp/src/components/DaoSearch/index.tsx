@@ -56,7 +56,7 @@ const DaoSearch = () => {
   }
 
   return (
-    <View className="mt-3 mb-3 justify-center">
+    <View className="mb-3 justify-center">
       <TextInput
         className="bg-grey-one px-3 h-9 rounded-lg"
         onChangeText={handleChangeText}

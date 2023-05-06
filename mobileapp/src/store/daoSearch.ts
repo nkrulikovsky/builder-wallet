@@ -13,16 +13,22 @@ export enum DaoSearchStatus {
 }
 
 interface DaoSearchState {
+  active: boolean
   searchStatus: DaoSearchStatus
   searchResults: SearchDao[]
+  setActive: (active: boolean) => void
   setSearchStatus: (status: DaoSearchStatus) => void
   setSearchResults: (results: SearchDao[]) => void
   clearSearchResults: () => void
 }
 
 export const useDaoSearchStore = create<DaoSearchState>()((set, get) => ({
+  active: false,
   searchStatus: DaoSearchStatus.IDLE,
   searchResults: [],
+  setActive: (active: boolean) => {
+    set({ active })
+  },
   setSearchStatus: (status: DaoSearchStatus) => {
     set({ searchStatus: status })
   },
