@@ -30,6 +30,7 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
               renderItem={({ item }) => <DaoCard dao={item} />}
               keyExtractor={item => item.address}
               estimatedItemSize={100}
+              showsVerticalScrollIndicator={false}
             />
           ) : (
             <View className="my-auto mx-auto pb-12 max-w-[160px] text-center">
