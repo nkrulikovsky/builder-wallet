@@ -9,6 +9,7 @@ type DaoCardImageProps = {
 
 const fetchImage = async (address: string, id: number | string) => {
   try {
+    // TODO: move to config
     const url = `https://api.builderwidgets.wtf/image/${address}/${id}`
 
     const response = await fetch(url)
