@@ -27,6 +27,7 @@
 		0A9D4AB02A01DAF500183302 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9D4AAE2A01DA9D00183302 /* Data.swift */; };
 		0A9D4AB22A01E7C100183302 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9D4AB12A01E7C100183302 /* Data.swift */; };
 		0A9D4AB52A02D73A00183302 /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0A9D4AB42A02D73A00183302 /* SwiftyUserDefaults */; };
+		0AA7E8D62A05DD88000B0F4D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA7E8D52A05DD88000B0F4D /* Utils.swift */; };
 		0C80B921A6F3F58F76C31292 /* libPods-mobileapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-mobileapp.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -96,6 +97,7 @@
 		0A9D4AAE2A01DA9D00183302 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		0A9D4AB12A01E7C100183302 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		0A9D4AB32A02B3B300183302 /* SelectDAOIntentExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectDAOIntentExtension.entitlements; sourceTree = "<group>"; };
+		0AA7E8D52A05DD88000B0F4D /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* mobileapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mobileapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = mobileapp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = mobileapp/AppDelegate.mm; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				0A9D4AA32A01D9E700183302 /* IntentHandler.swift */,
 				0A9D4AA52A01D9E700183302 /* Info.plist */,
 				0A9D4AB12A01E7C100183302 /* Data.swift */,
+				0AA7E8D52A05DD88000B0F4D /* Utils.swift */,
 			);
 			path = SelectDAOIntentExtension;
 			sourceTree = "<group>";
@@ -623,6 +626,7 @@
 				0A9D4AAC2A01DA1000183302 /* Art.intentdefinition in Sources */,
 				0A9D4AB22A01E7C100183302 /* Data.swift in Sources */,
 				0A9D4AA42A01D9E700183302 /* IntentHandler.swift in Sources */,
+				0AA7E8D62A05DD88000B0F4D /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

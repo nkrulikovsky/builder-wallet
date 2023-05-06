@@ -15,7 +15,7 @@ class IntentHandler: INExtension, SelectDAOIntentHandling {
         let daoOption = DAO(
           identifier: dao.address,
           display: dao.name,
-          subtitle: dao.address,
+          subtitle: shortAddress(dao.address),
           image: nil
         )
         
