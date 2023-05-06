@@ -11,19 +11,21 @@ class IntentHandler: INExtension, SelectDAOIntentHandling {
   
   func provideDaoOptionsCollection(for intent: SelectDAOIntent, searchTerm: String?, with completion: @escaping (INObjectCollection<DAO>?, Error?) -> Void) {
     intentData.getSavedDAOs { daos in
-      let daoOptions = daos.map { dao in
+      var daoOptions = daos.map { dao in
         let daoOption = DAO(
           identifier: dao.address,
-          display: dao.name
+          display: dao.name,
+          subtitle: dao.address,
+          image: nil
         )
-//          .init(
-//            identifier: "1",
-//            display: "SoupPay Credit",
-//            subtitle: "$248.20",
-//            image: nil
-//          ),
         
         return daoOption
+      }
+      
+      if ((searchTerm) != nil) {
+        daoOptions = daoOptions.filter { dao in
+          dao.displayString.contains(searchTerm!)
+        }
       }
       
       let collection = INObjectCollection(items: daoOptions)
