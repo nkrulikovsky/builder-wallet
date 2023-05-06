@@ -1,59 +1,42 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image } from 'react-native'
-import { SvgUri } from 'react-native-svg'
-import { gql, useQuery } from '@apollo/client'
 
 type DaoCardImageProps = {
   daoAddress: string
-  metadataAddress?: string
+  metadataAddress: string
   tokenId: number | string
 }
 
-const IMAGE_QUERY = gql`
-  query Image($address: String!, $tokenId: String!) {
-    token(token: { address: $address, tokenId: $tokenId }) {
-      token {
-        metadata
-        image {
-          url
-          mimeType
-        }
-      }
-    }
-  }
-`
+const fetchImage = async (address: string, id: number | string) => {
+  try {
+    const url = `https://api.builderwidgets.wtf/image/${address}/${id}`
 
-// TODO: clean up this component
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
+  } catch (error) {
+    return null
+  }
+}
+
 const DaoCardImage = ({
   daoAddress,
   metadataAddress,
   tokenId
 }: DaoCardImageProps) => {
-  const { loading, error, data } = useQuery(IMAGE_QUERY, {
-    variables: { address: daoAddress, tokenId }
-  })
+  const [image, setImage] = React.useState<string | null>(null)
 
-  const image = data?.token?.token?.image
-  //   const image = data?.token?.token?.metadata?.image
+  useEffect(() => {
+    fetchImage(metadataAddress, tokenId).then(data => {
+      setImage(data)
+    })
+  }, [metadataAddress, tokenId])
 
   if (!image) {
     return null
   }
 
-  //   if (image.mimeType === 'image/svg+xml') {
-  //     return (
-  //       <SvgUri
-  //         width="100%"
-  //         height="100%"
-  //         className="rounded-xl"
-  //         uri={image.url}
-  //       />
-  //     )
-  //   }
-
-  return (
-    <Image source={{ uri: image.url }} className="rounded-lg h-full w-full" />
-  )
+  return <Image source={{ uri: image }} className="rounded-lg h-full w-full" />
 }
 
 export default DaoCardImage
