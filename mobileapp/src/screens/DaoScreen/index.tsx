@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDaosStore } from '../../store/daos'
 import { RootStackScreenProps } from '../../navigation/types'
 import DaoCard from '../../components/DaoCard'
+import clsx from 'clsx'
 
 const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const { dao } = route.params
@@ -26,7 +27,7 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => navigation.goBack()}
-            className="mb-3 mt-3">
+            className="mb-6 mt-3">
             <View className="bg-grey-one h-12 w-12 rounded-lg"></View>
           </TouchableOpacity>
           <DaoCard dao={dao} />
@@ -34,11 +35,15 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
             activeOpacity={0.8}
             onPress={saveOrUnsave}
             className="mb-3 mt-3">
-            <View className="border-2 border-opacity-30 border-red h-12 w-full rounded-lg items-center justify-center">
+            <View
+              className={clsx(
+                'border border-opacity-30 h-12 w-full rounded-lg items-center justify-center',
+                daoIsSaved ? 'border-red' : 'border-grey-three'
+              )}>
               {daoIsSaved ? (
                 <Text className="text-red">Remove from saved</Text>
               ) : (
-                <Text className="text-red">Save back</Text>
+                <Text className="text-black">Save back</Text>
               )}
             </View>
           </TouchableOpacity>
