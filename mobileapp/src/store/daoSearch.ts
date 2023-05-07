@@ -27,7 +27,11 @@ export const useDaoSearchStore = create<DaoSearchState>()((set, get) => ({
   searchStatus: DaoSearchStatus.IDLE,
   searchResults: [],
   setActive: (active: boolean) => {
-    set({ active })
+    if (active) {
+      set({ active })
+    } else {
+      set({ active, searchStatus: DaoSearchStatus.IDLE, searchResults: [] })
+    }
   },
   setSearchStatus: (status: DaoSearchStatus) => {
     set({ searchStatus: status })

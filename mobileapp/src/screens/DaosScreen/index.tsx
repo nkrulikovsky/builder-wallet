@@ -13,10 +13,7 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const searchDaos = useDaoSearchStore(state => state.searchResults)
   const searchActive = useDaoSearchStore(state => state.active)
 
-  const daos = [
-    ...searchDaos.filter(s => !savedDaos.some(c => c.address === s.address)),
-    ...savedDaos
-  ]
+  const daos = searchActive && searchDaos.length > 0 ? searchDaos : savedDaos
 
   return (
     <View className="h-full bg-white">

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { SearchDao } from '../../store/daoSearch'
+import { SearchDao, useDaoSearchStore } from '../../store/daoSearch'
 import { SavedDao, useDaosStore } from '../../store/daos'
 import { gql, useQuery } from '@apollo/client'
 import Countdown from '../Countdown'
@@ -33,6 +33,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   const savedDaos = useDaosStore(state => state.saved)
   const save = useDaosStore(state => state.save)
   const removeFromSaved = useDaosStore(state => state.removeFromSaved)
+  const activeSearch = useDaoSearchStore(state => state.active)
 
   const { loading, error, data } = useQuery(DAO_QUERY, {
     variables: { address: dao.address }
@@ -43,7 +44,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   )
 
   const saveOrUnsave = () => {
-    if (daoIsSaved) removeFromSaved(dao.address)
+    if (daoIsSaved && activeSearch) removeFromSaved(dao.address)
     else save(dao)
   }
 
@@ -93,7 +94,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     <TouchableOpacity activeOpacity={0.8} onPress={saveOrUnsave}>
       <View
         className="box-border flex flex-row items-center mb-3 rounded-lg"
-        style={daoIsSaved ? style.selected : style.nonSelected}>
+        style={daoIsSaved && activeSearch ? style.selected : style.nonSelected}>
         <View className="bg-grey-one rounded-lg w-36 h-36">
           <DaoCardImage
             daoAddress={dao.address}
@@ -118,7 +119,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             </View>
           </View>
         </View>
-        {daoIsSaved && (
+        {daoIsSaved && activeSearch && (
           <Svg
             viewBox="0 0 24 24"
             className="absolute right-2 bottom-2 fill-grey-two w-6 h-6">
