@@ -10,6 +10,7 @@ import SettingsScreen from './src/screens/SettingsScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import TabBar from './src/components/TabBar'
 import { HomeTabParamList, RootStackParamList } from './src/navigation/types'
+import DaoScreen from './src/screens/DaoScreen'
 
 // import type { PropsWithChildren } from 'react'
 
@@ -47,6 +48,11 @@ const App = () => {
           <RootStack.Screen
             name="Home"
             component={HomeTabs}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name="Dao"
+            component={DaoScreen}
             options={{ headerShown: false }}
           />
         </RootStack.Navigator>

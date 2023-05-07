@@ -6,6 +6,7 @@ import { gql, useQuery } from '@apollo/client'
 import Countdown from '../Countdown'
 import DaoCardImage from '../DaoCardImage'
 import { Path, Svg } from 'react-native-svg'
+import { useNavigation } from '@react-navigation/native'
 
 type DaoCardProps = {
   dao: SavedDao | SearchDao
@@ -30,6 +31,7 @@ const DAO_QUERY = gql`
 `
 
 const DaoCard = ({ dao }: DaoCardProps) => {
+  const navigation = useNavigation()
   const savedDaos = useDaosStore(state => state.saved)
   const save = useDaosStore(state => state.save)
   const removeFromSaved = useDaosStore(state => state.removeFromSaved)
@@ -43,9 +45,18 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     savedDao => savedDao.address === dao.address
   )
 
-  const saveOrUnsave = () => {
-    if (daoIsSaved && activeSearch) removeFromSaved(dao.address)
-    else save(dao)
+  const unsaveOrOpen = () => {
+    if (activeSearch) {
+      if (daoIsSaved) removeFromSaved(dao.address)
+      else save(dao)
+    } else {
+      //TODO navigate
+      navigation.navigate('Dao', {
+        dao: dao
+      })
+    }
+    // if (daoIsSaved && activeSearch) removeFromSaved(dao.address)
+    // else save(dao)
   }
 
   if (loading)
@@ -91,7 +102,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   const bid = `${highestBid} Ξ`
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={saveOrUnsave}>
+    <TouchableOpacity activeOpacity={0.8} onPress={unsaveOrOpen}>
       <View
         className="box-border flex flex-row items-center mb-3 rounded-lg"
         style={daoIsSaved && activeSearch ? style.selected : style.nonSelected}>
