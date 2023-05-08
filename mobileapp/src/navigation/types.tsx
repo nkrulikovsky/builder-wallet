@@ -4,11 +4,11 @@ import type {
 } from '@react-navigation/native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import { SavedDao } from '../store/daos'
+import { DAO } from '../utils/types'
 
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
-  Dao: { dao: SavedDao }
+  Dao: { dao: DAO }
   //   PostDetails: { id: string }
   //   NotFound: undefined
 }

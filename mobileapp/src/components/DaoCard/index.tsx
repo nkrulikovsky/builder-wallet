@@ -7,6 +7,7 @@ import Countdown from '../Countdown'
 import DaoCardImage from '../DaoCardImage'
 import { Path, Svg } from 'react-native-svg'
 import { useNavigation } from '@react-navigation/native'
+import { CurrentAuction, DAO } from '../../utils/types'
 
 type DaoCardProps = {
   dao: SavedDao | SearchDao
@@ -40,24 +41,6 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   const { loading, error, data } = useQuery(DAO_QUERY, {
     variables: { address: dao.address }
   })
-
-  const daoIsSaved = savedDaos.some(
-    savedDao => savedDao.address === dao.address
-  )
-
-  const unsaveOrOpen = () => {
-    if (activeSearch) {
-      if (daoIsSaved) removeFromSaved(dao.address)
-      else save(dao)
-    } else {
-      //TODO navigate
-      navigation.navigate('Dao', {
-        dao: dao
-      })
-    }
-    // if (daoIsSaved && activeSearch) removeFromSaved(dao.address)
-    // else save(dao)
-  }
 
   if (loading)
     return (
@@ -100,6 +83,32 @@ const DaoCard = ({ dao }: DaoCardProps) => {
 
   const displayName = `${dao.name} #${tokenId}`
   const bid = `${highestBid} Ξ`
+
+  const daoIsSaved = savedDaos.some(
+    savedDao => savedDao.address === dao.address
+  )
+
+  const unsaveOrOpen = () => {
+    if (activeSearch) {
+      if (daoIsSaved) removeFromSaved(dao.address)
+      else save(dao)
+    } else if (activeMarket) {
+      const daoData: DAO = {
+        name: dao.name,
+        address: dao.address,
+        metadata: activeMarket.metadata,
+        auction: {
+          id: activeMarket?.tokenId,
+          highestBid: activeMarket?.highestBidPrice.nativePrice.decimal,
+          endTime: activeMarket?.endTime * 1000
+        }
+      }
+
+      navigation.navigate('Dao', {
+        dao: daoData
+      })
+    }
+  }
 
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={unsaveOrOpen}>
