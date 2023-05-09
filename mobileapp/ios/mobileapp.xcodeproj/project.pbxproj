@@ -19,6 +19,7 @@
 		0A90E38129FC63A300FB320D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0A90E38029FC63A300FB320D /* Alamofire */; };
 		0A90E38429FC63E500FB320D /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0A90E38329FC63E500FB320D /* SwiftyUserDefaults */; };
 		0A90E38629FC63F500FB320D /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0A90E38529FC63F500FB320D /* SwiftyUserDefaults */; };
+		0A95389B2A0A42D9009FD03D /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A95389A2A0A42D9009FD03D /* Views.swift */; };
 		0A9D4AA12A01D9E700183302 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A90E39229FC84BC00FB320D /* Intents.framework */; };
 		0A9D4AA42A01D9E700183302 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9D4AA32A01D9E700183302 /* IntentHandler.swift */; };
 		0A9D4AA82A01D9E700183302 /* SelectDAOIntentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0A9D4AA02A01D9E600183302 /* SelectDAOIntentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -128,6 +129,7 @@
 		0A90E39229FC84BC00FB320D /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		0A90E39D29FC84BC00FB320D /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
 		0A90E3C129FDC95E00FB320D /* ArtExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArtExtension.entitlements; sourceTree = "<group>"; };
+		0A95389A2A0A42D9009FD03D /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		0A9D4AA02A01D9E600183302 /* SelectDAOIntentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelectDAOIntentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9D4AA32A01D9E700183302 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		0A9D4AA52A01D9E700183302 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				0AE29FF92A09FB470035242E /* AuctionGovernance.swift */,
 				0AE29FFB2A09FB490035242E /* Assets.xcassets */,
 				0AE29FFD2A09FB490035242E /* Info.plist */,
+				0A95389A2A0A42D9009FD03D /* Views.swift */,
 			);
 			path = AuctionGovernance;
 			sourceTree = "<group>";
@@ -829,6 +832,7 @@
 			files = (
 				0AE29FFA2A09FB470035242E /* AuctionGovernance.swift in Sources */,
 				0AE2A0052A09FC570035242E /* Widgets.swift in Sources */,
+				0A95389B2A0A42D9009FD03D /* Views.swift in Sources */,
 				0AE2A0042A09FB6A0035242E /* SelectDAO.intentdefinition in Sources */,
 				0AE2A0072A09FC5C0035242E /* Types.swift in Sources */,
 				0AE2A0062A09FC5A0035242E /* Utils.swift in Sources */,

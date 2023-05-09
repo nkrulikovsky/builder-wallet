@@ -15,6 +15,10 @@ struct Provider: IntentTimelineProvider {
         image: UIImage(named: "ImagePlaceholder")!.pngData()!,
         duration: 86400
       ),
+      governance: [
+        ProposalData(id: "0x1", number: 1, title: "Placeholder Proposal N1", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 20, no: 0, abstain: 0)),
+        ProposalData(id: "0x2", number: 2, title: "Placeholder Proposal N2", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 12, no: 6, abstain: 6)),
+      ],
       state: .success
     )
   }
@@ -24,16 +28,22 @@ struct Provider: IntentTimelineProvider {
     
     if let address = address {
       dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
-        if data?.auction != nil {
-          let entry = SimpleEntry(date: Date(),auction: data?.auction, state: .success)
+        if data?.auction != nil && data?.governance != nil {
+          let entry = SimpleEntry(
+            date: Date(),
+            auction: data?.auction,
+            governance: data?.governance,
+            state: .success
+          )
+          
           completion(entry)
         } else {
-          let entry = SimpleEntry(date: Date(), auction: nil, state: .noDao)
+          let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .noDao)
           completion(entry)
         }
       }
     } else {
-      let entry = SimpleEntry(date: Date(), auction: nil, state: .noDao)
+      let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .noDao)
       completion(entry)
     }
   }
@@ -44,19 +54,25 @@ struct Provider: IntentTimelineProvider {
     if let address = address {
       dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
         if data?.auction != nil {
-          let entry = SimpleEntry(date: Date(),auction: data?.auction, state: .success)
+          let entry = SimpleEntry(
+            date: Date(),
+            auction: data?.auction,
+            governance: data?.governance,
+            state: .success
+          )
+          
           let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
           let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
         } else {
-          let entry = SimpleEntry(date: Date(), auction: nil, state: .noDao)
+          let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .noDao)
           let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
           let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
         }
       }
     } else {
-      let entry = SimpleEntry(date: Date(), auction: nil, state: .noDao)
+      let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .noDao)
       let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
       let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
       completion(timeline)
@@ -71,6 +87,7 @@ enum WidgetState {
 struct SimpleEntry: TimelineEntry {
   let date: Date
   let auction: AuctionData?
+  let governance: [ProposalData]?
   let state: WidgetState
 }
 
@@ -138,46 +155,7 @@ struct AuctionGovernanceEntryView : View {
         }
         
         VStack(alignment: .leading, spacing: 2) {
-          HStack(alignment: .center, spacing: 4) {
-            ZStack {
-              Text("Ends in 20 hours")
-                .font(.system(size: 10, weight: .bold))
-                .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
-                .padding(.horizontal, 2)
-            }
-            .cornerRadius(2)
-            .overlay(RoundedRectangle(cornerRadius: 2)
-            .stroke(Color(red: 0.80, green: 0.80, blue: 0.80), lineWidth: 1))
-            Text("Sponsor the Forefront Newsletter")
-              .font(.system(size: 12, weight: .semibold))
-          }
-//          HStack(alignment: .center, spacing: 4) {
-//            ZStack {
-//              Text("Ends in 20 hours")
-//                .font(.system(size: 10, weight: .bold))
-//                .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
-//                .padding(.horizontal, 2)
-//            }
-//            .cornerRadius(2)
-//            .overlay(RoundedRectangle(cornerRadius: 2)
-//            .stroke(Color(red: 0.80, green: 0.80, blue: 0.80), lineWidth: 1))
-//            Text("Extend Deadline for Hub issues Funding")
-//              .font(.system(size: 12, weight: .medium))
-//          }
-//          HStack(alignment: .center, spacing: 4) {
-//            ZStack {
-//              Text("Starts in 20 minutes")
-//                .font(.system(size: 10, weight: .bold))
-//                .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
-//                .padding(.horizontal, 2)
-//            }
-//            .cornerRadius(2)
-//            .overlay(RoundedRectangle(cornerRadius: 2)
-//            .stroke(Color(red: 0.80, green: 0.80, blue: 0.80), lineWidth: 1))
-//            Text("Removing the Founder Allocation for the Founder multisig")
-//              .font(.system(size: 12, weight: .medium))
-//          }
-          
+          ProposalsView(proposals: entry.governance!)
           Spacer(minLength: 0)
         }
       }
