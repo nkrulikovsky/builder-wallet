@@ -14,6 +14,7 @@ export const getQuery = (address: string, dataToLoad: string[]) => {
                 }
             }
             metadata
+            duration
         }`
     : ''
   const governance = dataToLoad.includes('governance')

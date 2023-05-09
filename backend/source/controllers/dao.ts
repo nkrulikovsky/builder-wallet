@@ -97,6 +97,7 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
         bidder: bidder,
         amount: amount,
         endTime: Number(auctionData.endTime),
+        duration: Number(auctionData.duration),
         image: image
       }
     }
