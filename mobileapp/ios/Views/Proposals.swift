@@ -1,35 +1,5 @@
 import SwiftUI
 
-struct ProposalsView: View {
-  let proposals: [ProposalData]
-  
-  @Environment(\.widgetFamily) var widgetFamily
-  @Environment(\.colorScheme) var colorScheme
-  
-  var body: some View {
-    VStack(alignment: .leading, spacing: 4) {
-      if (proposals.isEmpty) {
-        Text("All done. No Active or Pending props ⌐◨-◨")
-          .font(.system(size: 12))
-      } else {
-        let maxShow = widgetFamily == .systemMedium ? 3 : 7
-        let displayProposals = proposals.prefix(maxShow)
-        
-        ForEach(displayProposals, id: \.id) { proposal in
-          ProposalView(
-            proposal: proposal,
-            displayType: widgetFamily == .systemMedium ? .compact : .full,
-            lightTheme: colorScheme == .light
-          )
-        }
-      }
-      
-      Spacer(minLength: 0)
-    }
-    .padding(.top, 4)
-  }
-}
-
 enum ProposalDisplayType {
   case compact, full
 }
@@ -94,7 +64,6 @@ struct ProposalView: View {
       state = "Pending"
       
       stateColor = Color(red: 0.55, green: 0.55, blue: 0.55)
-//      stateBorderColor = Color(red: 0.80, green: 0.80, blue: 0.80)
       stateBorderColor = lightTheme
       ? Color(red: 0.8, green: 0.8, blue: 0.8)
       : Color(red: 0.2, green: 0.2, blue: 0.2)

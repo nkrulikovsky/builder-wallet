@@ -63,8 +63,7 @@ class WidgetDataLoader {
          let base64Image = auctionInfo["image"] as? String,
          let imageData = Data(base64Encoded: base64Image),
          let governanceInfo = json["governance"] as? [String: Any],
-         let proposals = governanceInfo["proposals"] as? [[String: Any]]
-      {
+         let proposals = governanceInfo["proposals"] as? [[String: Any]] {
         var governance: [ProposalData] = []
         
         for proposal in proposals {
@@ -111,6 +110,62 @@ class WidgetDataLoader {
             image: imageData,
             duration: duration
           ),
+          governance: governance
+        )
+        
+        completion(data)
+      } else {
+        completion(nil)
+      }
+    }
+  }
+  
+  func fetchGovernanceData(daoAddress: String, completion: @escaping (WidgetData?) -> Void) {
+    let url = "\(baseApiUrl)\(daoAddress)?data=governance"
+    
+    AF.request(url).responseJSON { response in
+      if let json = response.value as? [String: Any],
+         let governanceInfo = json["governance"] as? [String: Any],
+         let proposals = governanceInfo["proposals"] as? [[String: Any]] {
+        var governance: [ProposalData] = []
+        
+        for proposal in proposals {
+          if let id = proposal["id"] as? String,
+             let number = proposal["number"] as? Int,
+             let title = proposal["title"] as? String,
+             let state = proposal["state"] as? String,
+             let endTime = proposal["endTime"] as? Double,
+             let quorum = proposal["quorum"] as? Int {
+            
+            var votes: ProposalVotes? = nil
+            
+            if let propVotes = proposal["votes"] as? [String: Any],
+               let yesVotes = propVotes["yes"] as? Int,
+               let abstainVotes = propVotes["abstain"] as? Int,
+               let noVotes = propVotes["no"] as? Int {
+              votes = ProposalVotes(
+                yes: yesVotes,
+                no: noVotes,
+                abstain: abstainVotes
+              )
+            }
+            
+            governance.append(
+              ProposalData(
+                id: id,
+                number: number,
+                title: title,
+                state: state,
+                endTime: endTime,
+                quorum: quorum,
+                votes: votes
+              )
+            )
+          }
+        }
+        
+        let data = WidgetData(
+          auction: nil,
           governance: governance
         )
         
