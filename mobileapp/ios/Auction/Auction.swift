@@ -8,11 +8,14 @@ struct Provider: IntentTimelineProvider {
   func placeholder(in context: Context) -> SimpleEntry {
     return SimpleEntry(
       date: Date(),
-      id: 136,
-      currentBid: 0.1234,
-      endTime: 0,
-      image: UIImage(named: "ImagePlaceholder")!.pngData()!,
-      duration: 86400,
+      auction: AuctionData(
+        id: 136,
+        currentBid: 0.1234,
+        bidder: "-",
+        endTime: 0,
+        image: UIImage(named: "ImagePlaceholder")!.pngData()!,
+        duration: 86400
+      ),
       state: .success
     )
   }
@@ -22,42 +25,18 @@ struct Provider: IntentTimelineProvider {
     
     if let address = address {
       dataLoader.fetchAuctionData(daoAddress: address) { auction in
-        if auction != nil, let imageData = auction?.image, let image = UIImage(data: imageData) {
-          let entry = SimpleEntry(
-            date: Date(),
-            id: auction?.id,
-            currentBid: auction?.currentBid,
-            endTime: auction?.endTime,
-            image: image.pngData(),
-            duration: auction?.duration,
-            state: .success
-          )
+        if auction != nil {
+          let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
           
           completion(entry)
         } else {
-          let entry = SimpleEntry(
-            date: Date(),
-            id: nil,
-            currentBid: nil,
-            endTime: nil,
-            image: nil,
-            duration: nil,
-            state: .error
-          )
+          let entry = SimpleEntry(date: Date(), auction: nil, state: .error)
           
           completion(entry)
         }
       }
     } else {
-      let entry = SimpleEntry(
-        date: Date(),
-        id: nil,
-        currentBid: nil,
-        endTime: nil,
-        image: nil,
-        duration: nil,
-        state: .noDao
-      )
+      let entry = SimpleEntry(date: Date(), auction: nil, state: .noDao)
       
       completion(entry)
     }
@@ -68,30 +47,14 @@ struct Provider: IntentTimelineProvider {
     
     if let address = address {
       dataLoader.fetchAuctionData(daoAddress: address) { auction in
-        if auction != nil, let imageData = auction?.image, let image = UIImage(data: imageData) {
-          let entry = SimpleEntry(
-            date: Date(),
-            id: auction?.id,
-            currentBid: auction?.currentBid,
-            endTime: auction?.endTime,
-            image: image.pngData(),
-            duration: auction?.duration,
-            state: .success
-          )
+        if auction != nil {
+          let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
           
           let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
           let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
         } else {
-          let entry = SimpleEntry(
-            date: Date(),
-            id: nil,
-            currentBid: nil,
-            endTime: nil,
-            image: nil,
-            duration: nil,
-            state: .error
-          )
+          let entry = SimpleEntry(date: Date(), auction: nil, state: .error)
           
           let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
           let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
@@ -99,15 +62,7 @@ struct Provider: IntentTimelineProvider {
         }
       }
     } else {
-      let entry = SimpleEntry(
-        date: Date(),
-        id: nil,
-        currentBid: nil,
-        endTime: nil,
-        image: nil,
-        duration: nil,
-        state: .noDao
-      )
+      let entry = SimpleEntry(date: Date(), auction: nil, state: .noDao)
       
       let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
       let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
@@ -122,11 +77,7 @@ enum WidgetState {
 
 struct SimpleEntry: TimelineEntry {
   let date: Date
-  let id: Int?
-  let currentBid: Double?
-  let endTime: Int?
-  let image: Data?
-  let duration: Int?
+  let auction: AuctionData?
   let state: WidgetState
 }
 
@@ -138,23 +89,23 @@ struct AuctionEntryView : View {
   var body: some View {
     switch entry.state {
     case .success:
-      let timeToGo = max(0, Double(entry.endTime!) - Date().timeIntervalSince1970)
+      let timeToGo = max(0, Double(entry.auction!.endTime) - Date().timeIntervalSince1970)
       
       VStack(alignment: .leading, spacing: 8) {
         HStack(alignment: .top, spacing: 8) {
           VStack(alignment: .center, spacing: 1) {
-            Image(uiImage: UIImage(data: entry.image!)!)
+            Image(uiImage: UIImage(data: entry.auction!.image)!)
               .resizable()
               .frame(width: 52, height: 52)
               .cornerRadius(8)
-            Text(String(entry.id!))
+            Text(String(entry.auction!.id))
               .font(.system(size: 12, weight: .bold))
           }
           
           VStack(alignment: .leading, spacing: 0) {
             Text(timeToGo == 0 ? "Winning bid" : "Current bid")
               .font(.system(size: 12))
-            Text("\(String(entry.currentBid!)) Ξ")
+            Text("\(String(entry.auction!.currentBid)) Ξ")
               .font(.system(size: 18, weight: .black))
             HStack(alignment: .center, spacing: 2) {
               Image("ArrowCirclePath")
@@ -173,7 +124,7 @@ struct AuctionEntryView : View {
             .font(.system(size: 12))
           Text(timeToGo == 0 ? "Ended" : timeToGo.secondsToDhms())
             .font(.system(size: 18, weight: .black))
-          ProgressBar(value: timeToGo, maxValue: Double(entry.duration!))
+          ProgressBar(value: timeToGo, maxValue: Double(entry.auction!.duration))
             .frame(height: 8)
             .padding(.top, 2)
         }
@@ -205,8 +156,8 @@ struct ProgressBar: View {
   var body: some View {
     let foregroundColor: Color = colorScheme == .light ? .black : .white
     let backgroundColor: Color = colorScheme == .light
-    ? Color(red: 242/255, green: 242/255, blue: 242/255)
-    : Color(red: 20/255, green: 20/255, blue: 20/255)
+    ? Color(red: 0.95, green: 0.95, blue: 0.95)
+    : Color(red: 0.08, green: 0.08, blue: 0.08)
     
     GeometryReader { geometry in
       ZStack(alignment: .leading) {
