@@ -3,27 +3,113 @@ import SwiftUI
 import Intents
 
 struct Provider: IntentTimelineProvider {
+  let dataLoader = AuctionDataLoader()
+  
   func placeholder(in context: Context) -> SimpleEntry {
-    let endTime = Int((Date().timeIntervalSince1970 + 26200) * 1000)
-    return SimpleEntry(date: Date(), id: 136, currentBid: "0.1234", endTime: endTime, image: "ImagePlaceholder", state: .success)
+    return SimpleEntry(
+      date: Date(),
+      id: 136,
+      currentBid: 0.1234,
+      endTime: 0,
+      image: UIImage(named: "ImagePlaceholder")!.pngData()!,
+      duration: 86400,
+      state: .success
+    )
   }
   
   func getSnapshot(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(date: Date(), id: 136, currentBid: "0.1234", endTime: 123, image: "ImagePlaceholder", state: .success)
-    completion(entry)
+    let address = configuration.dao?.identifier
+    
+    if let address = address {
+      dataLoader.fetchAuctionData(daoAddress: address) { auction in
+        if auction != nil, let imageData = auction?.image, let image = UIImage(data: imageData) {
+          let entry = SimpleEntry(
+            date: Date(),
+            id: auction?.id,
+            currentBid: auction?.currentBid,
+            endTime: auction?.endTime,
+            image: image.pngData(),
+            duration: auction?.duration,
+            state: .success
+          )
+          
+          completion(entry)
+        } else {
+          let entry = SimpleEntry(
+            date: Date(),
+            id: nil,
+            currentBid: nil,
+            endTime: nil,
+            image: nil,
+            duration: nil,
+            state: .error
+          )
+          
+          completion(entry)
+        }
+      }
+    } else {
+      let entry = SimpleEntry(
+        date: Date(),
+        id: nil,
+        currentBid: nil,
+        endTime: nil,
+        image: nil,
+        duration: nil,
+        state: .noDao
+      )
+      
+      completion(entry)
+    }
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    var entries: [SimpleEntry] = []
+    let address = configuration.dao?.identifier
     
-    let currentDate = Date()
-    for _ in 0 ..< 5 {
-      let entry = SimpleEntry(date: Date(), id: 136, currentBid: "0.1234", endTime: 123, image: "ImagePlaceholder", state: .success)
-      entries.append(entry)
+    if let address = address {
+      dataLoader.fetchAuctionData(daoAddress: address) { auction in
+        if auction != nil, let imageData = auction?.image, let image = UIImage(data: imageData) {
+          let entry = SimpleEntry(
+            date: Date(),
+            id: auction?.id,
+            currentBid: auction?.currentBid,
+            endTime: auction?.endTime,
+            image: image.pngData(),
+            duration: auction?.duration,
+            state: .success
+          )
+          
+          let timeline = Timeline(entries: [entry], policy: .atEnd)
+          completion(timeline)
+        } else {
+          let entry = SimpleEntry(
+            date: Date(),
+            id: nil,
+            currentBid: nil,
+            endTime: nil,
+            image: nil,
+            duration: nil,
+            state: .error
+          )
+          
+          let timeline = Timeline(entries: [entry], policy: .atEnd)
+          completion(timeline)
+        }
+      }
+    } else {
+      let entry = SimpleEntry(
+        date: Date(),
+        id: nil,
+        currentBid: nil,
+        endTime: nil,
+        image: nil,
+        duration: nil,
+        state: .noDao
+      )
+      
+      let timeline = Timeline(entries: [entry], policy: .atEnd)
+      completion(timeline)
     }
-    
-    let timeline = Timeline(entries: entries, policy: .atEnd)
-    completion(timeline)
   }
 }
 
@@ -33,10 +119,11 @@ enum WidgetState {
 
 struct SimpleEntry: TimelineEntry {
   let date: Date
-  let id: Int
-  let currentBid: String
-  let endTime: Int
-  let image: String
+  let id: Int?
+  let currentBid: Double?
+  let endTime: Int?
+  let image: Data?
+  let duration: Int?
   let state: WidgetState
 }
 
@@ -48,21 +135,23 @@ struct AuctionEntryView : View {
   var body: some View {
     switch entry.state {
     case .success:
+      let timeToGo = max(0, Double(entry.endTime!) - Date().timeIntervalSince1970)
+      
       VStack(alignment: .leading, spacing: 8) {
         HStack(alignment: .top, spacing: 8) {
           VStack(alignment: .center, spacing: 1) {
-            Image("ImagePlaceholder")
+            Image(uiImage: UIImage(data: entry.image!)!)
               .resizable()
               .frame(width: 56, height: 56)
               .cornerRadius(8)
-            Text(String(entry.id))
+            Text(String(entry.id!))
               .font(.system(size: 14, weight: .bold))
           }
           
           VStack(alignment: .leading, spacing: 0) {
-            Text("Current bid")
+            Text(timeToGo == 0 ? "Winning bid" : "Current bid")
               .font(.system(size: 12))
-            Text(entry.currentBid)
+            Text(String(entry.currentBid!))
               .font(.system(size: 18, weight: .black))
             HStack(alignment: .center, spacing: 3) {
               Image("ArrowCirclePath")
@@ -79,9 +168,9 @@ struct AuctionEntryView : View {
         VStack(alignment: .leading, spacing: 2) {
           Text("Auction ends in")
             .font(.system(size: 12))
-          Text("7h 3m 36s")
+          Text(timeToGo == 0 ? "Ended" : timeToGo.secondsToDhms())
             .font(.system(size: 18, weight: .black))
-          ProgressBar(value: 12000, maxValue: 86400)
+          ProgressBar(value: timeToGo, maxValue: Double(entry.duration!))
             .frame(height: 12)
             .padding(.top, 2)
         }
