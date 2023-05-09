@@ -102,19 +102,15 @@ struct AuctionGovernanceEntryView : View {
     case .success:
       let timeToGo = max(0, Double(entry.auction!.endTime) - Date().timeIntervalSince1970)
       
-      VStack(alignment: .leading, spacing: 2) {
-        HStack(alignment: .top, spacing: 16) {
-          VStack(alignment: .center, spacing: 1) {
-            Image(uiImage: UIImage(data: entry.auction!.image)!)
-              .resizable()
-              .frame(width: 56, height: 56)
-              .cornerRadius(8)
-            Text(String(entry.auction!.id))
-              .font(.system(size: 12, weight: .bold))
-          }
+      VStack(alignment: .leading, spacing: 0) {
+        HStack(alignment: .top, spacing: 8) {
+          Image(uiImage: UIImage(data: entry.auction!.image)!)
+            .resizable()
+            .frame(width: 52, height: 52)
+            .cornerRadius(8)
           
           VStack(alignment: .leading, spacing: 0) {
-            Text("Auction ends in")
+            Text("Auction #\(String(entry.auction!.id))")
               .font(.system(size: 12))
             Text(timeToGo == 0 ? "Ended" : timeToGo.secondsToDhms())
               .font(.system(size: 18, weight: .black))
@@ -127,7 +123,7 @@ struct AuctionGovernanceEntryView : View {
                 .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
             }
           }
-          .padding(.top, 4)
+          .padding(.top, 2)
           .frame(width: 122, alignment: .topLeading)
           
           VStack(alignment: .leading, spacing: 0) {
@@ -139,7 +135,7 @@ struct AuctionGovernanceEntryView : View {
               .font(.system(size: 10))
               .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
           }
-          .padding(.top, 4)
+          .padding(.top, 2)
           
           Spacer(minLength: 0)
         }
@@ -153,6 +149,7 @@ struct AuctionGovernanceEntryView : View {
           }
           .padding(.leading, 4)
         }
+        .padding(.top, 4)
         
         ProposalsView(proposals: entry.governance!)
       }

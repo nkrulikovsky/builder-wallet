@@ -142,16 +142,16 @@ struct AuctionEntryView : View {
           VStack(alignment: .center, spacing: 1) {
             Image(uiImage: UIImage(data: entry.image!)!)
               .resizable()
-              .frame(width: 56, height: 56)
+              .frame(width: 52, height: 52)
               .cornerRadius(8)
             Text(String(entry.id!))
-              .font(.system(size: 14, weight: .bold))
+              .font(.system(size: 12, weight: .bold))
           }
           
           VStack(alignment: .leading, spacing: 0) {
             Text(timeToGo == 0 ? "Winning bid" : "Current bid")
               .font(.system(size: 12))
-            Text(String(entry.currentBid!))
+            Text("\(String(entry.currentBid!)) Ξ")
               .font(.system(size: 18, weight: .black))
             HStack(alignment: .center, spacing: 3) {
               Image("ArrowCirclePath")
@@ -162,7 +162,7 @@ struct AuctionEntryView : View {
                 .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
             }
           }
-          .padding(.top, 4)
+          .padding(.top, 2)
         }
         
         VStack(alignment: .leading, spacing: 2) {
@@ -171,7 +171,7 @@ struct AuctionEntryView : View {
           Text(timeToGo == 0 ? "Ended" : timeToGo.secondsToDhms())
             .font(.system(size: 18, weight: .black))
           ProgressBar(value: timeToGo, maxValue: Double(entry.duration!))
-            .frame(height: 12)
+            .frame(height: 8)
             .padding(.top, 2)
         }
       }

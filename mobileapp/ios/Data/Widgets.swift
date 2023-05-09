@@ -74,9 +74,9 @@ class WidgetDataLoader {
              let state = proposal["state"] as? String,
              let endTime = proposal["endTime"] as? Double,
              let quorum = proposal["quorum"] as? Int {
-
+            
             var votes: ProposalVotes? = nil
-
+            
             if let propVotes = proposal["votes"] as? [String: Any],
                let yesVotes = propVotes["yes"] as? Int,
                let abstainVotes = propVotes["abstain"] as? Int,
@@ -87,7 +87,7 @@ class WidgetDataLoader {
                 abstain: abstainVotes
               )
             }
-
+            
             governance.append(
               ProposalData(
                 id: id,
@@ -101,6 +101,17 @@ class WidgetDataLoader {
             )
           }
         }
+        
+//        governance = [
+//          ProposalData(id: "0x1", number: 1, title: "Removing the Founder Allocation for the Founder multisig", state: "ACTIVE", endTime: 1683645241, quorum: 18, votes: ProposalVotes(yes: 20, no: 0, abstain: 0)),
+//          ProposalData(id: "0x1", number: 1, title: "Removing the Founder Allocation for the Founder multisig", state: "ACTIVE", endTime: 1683645241, quorum: 18, votes: ProposalVotes(yes: 20, no: 0, abstain: 0)),
+//          ProposalData(id: "0x2", number: 2, title: "Extend Deadline for Hub issues Funding", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 12, no: 6, abstain: 6)),
+//          ProposalData(id: "0x2", number: 2, title: "Extend Deadline for Hub issues Funding", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 12, no: 6, abstain: 6)),
+//          ProposalData(id: "0x2", number: 2, title: "Extend Deadline for Hub issues Funding", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 12, no: 6, abstain: 6)),
+//          ProposalData(id: "0x2", number: 2, title: "Extend Deadline for Hub issues Funding", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 12, no: 6, abstain: 6)),
+//          ProposalData(id: "0x3", number: 3, title: "Sponsor the Forefront Newsletter", state: "PENDING", endTime: 1683789333, quorum: 18, votes: nil),
+//          ProposalData(id: "0x3", number: 3, title: "Sponsor the Forefront Newsletter", state: "PENDING", endTime: 1683789333, quorum: 18, votes: nil)
+//        ]
         
         let data = WidgetData(
           auction: AuctionData(

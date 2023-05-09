@@ -6,13 +6,12 @@ struct ProposalsView: View {
   @Environment(\.widgetFamily) var widgetFamily
   
   var body: some View {
-    VStack(alignment: .leading, spacing: 2) {
+    VStack(alignment: .leading, spacing: 4) {
       if (proposals.isEmpty) {
         Text("All done. No Active or Pending props ⌐◨-◨")
           .font(.system(size: 12))
-          .padding(.top, 2)
       } else {
-        let maxShow = widgetFamily == .systemMedium ? 3 : 8
+        let maxShow = widgetFamily == .systemMedium ? 3 : 7
         let displayProposals = proposals.prefix(maxShow)
         
         ForEach(displayProposals, id: \.id) { proposal in
@@ -25,6 +24,7 @@ struct ProposalsView: View {
       
       Spacer(minLength: 0)
     }
+    .padding(.top, 4)
   }
 }
 
@@ -109,9 +109,10 @@ struct ProposalView: View {
     return HStack(alignment: .center, spacing: 4) {
       ZStack {
         Text("\(timePrefix) \(endsIn)")
-          .font(.system(size: 10, weight: .bold))
+          .font(.system(size: 8, weight: .bold))
           .foregroundColor(timeColor)
-          .padding(.horizontal, 2)
+          .padding(.vertical, 2)
+          .padding(.horizontal, 3)
       }
       .cornerRadius(2)
       .overlay(
@@ -128,7 +129,7 @@ struct ProposalView: View {
   }
   
   var full: some View {
-    VStack(alignment: .leading, spacing: 2) {
+    VStack(alignment: .leading, spacing: 1) {
       Text("\(proposal.number) • \(proposal.title)")
         .font(.system(size: 12, weight: .semibold))
         .lineLimit(1)
@@ -144,21 +145,24 @@ struct ProposalView: View {
           borderColor: timeBorderColor
         )
         if (isActive) {
-          BoxText(
-            text: String(proposal.votes!.yes),
-            textColor: Color(red: 0.114, green: 0.714, blue: 0.529),
-            borderColor: Color(red: 0.114, green: 0.714, blue: 0.529, opacity: 0.3)
-          )
-          BoxText(
-            text: String(proposal.votes!.abstain),
-            textColor: Color(red: 0.55, green: 0.55, blue: 0.55),
-            borderColor: Color(red: 0.80, green: 0.80, blue: 0.80)
-          )
-          BoxText(
-            text: String(proposal.votes!.no),
-            textColor: Color(red: 0.941, green: 0.196, blue: 0.196),
-            borderColor: Color(red: 0.941, green: 0.196, blue: 0.196, opacity: 0.3)
-          )
+          HStack(alignment: .center, spacing: 4) {
+            BoxText(
+              text: String(proposal.votes!.yes),
+              textColor: Color(red: 0.114, green: 0.714, blue: 0.529),
+              borderColor: Color(red: 0.114, green: 0.714, blue: 0.529, opacity: 0.3)
+            )
+            BoxText(
+              text: String(proposal.votes!.abstain),
+              textColor: Color(red: 0.55, green: 0.55, blue: 0.55),
+              borderColor: Color(red: 0.80, green: 0.80, blue: 0.80)
+            )
+            BoxText(
+              text: String(proposal.votes!.no),
+              textColor: Color(red: 0.941, green: 0.196, blue: 0.196),
+              borderColor: Color(red: 0.941, green: 0.196, blue: 0.196, opacity: 0.3)
+            )
+          }
+          .padding(.horizontal, 2)
           BoxText(
             text: String(proposal.quorum),
             prefix: "Quorum:",
@@ -168,7 +172,7 @@ struct ProposalView: View {
           )
         }
       }
-    }.padding(.bottom, 2)
+    }
   }
 }
 
@@ -200,15 +204,16 @@ struct BoxText: View {
       HStack(alignment: .center, spacing: 0) {
         if (prefix != nil) {
           Text(prefix!)
-            .font(.system(size: 10, weight: .bold))
+            .font(.system(size: 8, weight: .bold))
             .foregroundColor(prefixColor != nil ? prefixColor : textColor)
-            .padding(.leading, 2)
+            .padding(.trailing, 1)
         }
         Text(text)
-          .font(.system(size: 10, weight: .bold))
+          .font(.system(size: 8, weight: .bold))
           .foregroundColor(textColor)
-          .padding(.horizontal, 2)
       }
+      .padding(.vertical, 2)
+      .padding(.horizontal, 3)
     }
     .cornerRadius(2)
     .overlay(
