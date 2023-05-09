@@ -38,7 +38,7 @@ struct Provider: IntentTimelineProvider {
           
           completion(entry)
         } else {
-          let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .noDao)
+          let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .error)
           completion(entry)
         }
       }
@@ -65,7 +65,7 @@ struct Provider: IntentTimelineProvider {
           let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
         } else {
-          let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .noDao)
+          let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .error)
           let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
           let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
