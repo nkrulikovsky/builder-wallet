@@ -93,9 +93,10 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
       const image = pngBuffer.toString('base64')
 
       returnData.auction = {
-        // bidder: bidder,
-        // amount: amount,
-        // endTime: auctionData.endTime,
+        id: Number(auctionData.tokenId),
+        bidder: bidder,
+        amount: amount,
+        endTime: Number(auctionData.endTime),
         image: image
       }
     }
