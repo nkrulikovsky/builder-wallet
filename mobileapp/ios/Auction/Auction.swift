@@ -79,7 +79,8 @@ struct Provider: IntentTimelineProvider {
             state: .success
           )
           
-          let timeline = Timeline(entries: [entry], policy: .atEnd)
+          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
         } else {
           let entry = SimpleEntry(
@@ -92,7 +93,8 @@ struct Provider: IntentTimelineProvider {
             state: .error
           )
           
-          let timeline = Timeline(entries: [entry], policy: .atEnd)
+          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
         }
       }
@@ -107,7 +109,8 @@ struct Provider: IntentTimelineProvider {
         state: .noDao
       )
       
-      let timeline = Timeline(entries: [entry], policy: .atEnd)
+      let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+      let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
       completion(timeline)
     }
   }

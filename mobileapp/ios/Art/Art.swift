@@ -36,17 +36,20 @@ struct ArtProvider: IntentTimelineProvider {
       widgetDataLoader.fetchImageData(daoAddress: address) { imageData in
         if let imageData = imageData, let image = UIImage(data: imageData) {
           let entry = ArtEntry(date: Date(), image: image.pngData()!, state: .success)
-          let timeline = Timeline(entries: [entry], policy: .atEnd)
+          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
         } else {
           let entry = ArtEntry(date: Date(), image: nil, state: .error)
-          let timeline = Timeline(entries: [entry], policy: .atEnd)
+          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
           completion(timeline)
         }
       }
     } else {
       let entry = ArtEntry(date: Date(), image: nil, state: .noDao)
-      let timeline = Timeline(entries: [entry], policy: .atEnd)
+      let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+      let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
       completion(timeline)
     }
   }
