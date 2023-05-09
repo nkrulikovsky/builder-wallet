@@ -100,8 +100,8 @@ struct ArtWidget: Widget {
   var body: some WidgetConfiguration {
     IntentConfiguration(kind: kind, intent: SelectDAOIntent.self, provider: ArtProvider()) { entry in
       ArtEntryView(entry: entry)
-    }.supportedFamilies([
-      .systemSmall, .systemLarge])
+    }
+    .supportedFamilies([.systemSmall])
     .configurationDisplayName("Art")
     .description("This widget displays the current auctioned NFT image of your selected DAO.")
   }
