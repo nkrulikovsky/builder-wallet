@@ -3,7 +3,7 @@ import SwiftUI
 import Intents
 
 struct Provider: IntentTimelineProvider {
-  let dataLoader = AuctionDataLoader()
+  let dataLoader = WidgetDataLoader()
   
   func placeholder(in context: Context) -> SimpleEntry {
     return SimpleEntry(
