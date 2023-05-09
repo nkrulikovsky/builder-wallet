@@ -68,7 +68,7 @@ struct ProposalView: View {
     )
     
     if (timeLeft <= 43200) {
-      timeColor = Color(red: 1, green: 0.226, blue: 0.226)
+      timeColor = Color(red: 0.941, green: 0.196, blue: 0.196)
       timeBorderColor = timeColor.opacity(0.3)
     } else {
       timeColor = Color(red: 0.55, green: 0.55, blue: 0.55)
@@ -81,7 +81,7 @@ struct ProposalView: View {
       timePrefix = "Ends"
       state = "Active"
       
-      stateColor = Color(red: 0, green: 0.89, blue: 0.486)
+      stateColor = Color(red: 0.114, green: 0.714, blue: 0.529)
       stateBorderColor = stateColor.opacity(0.3)
     } else {
       isActive = false
@@ -146,8 +146,8 @@ struct ProposalView: View {
         if (isActive) {
           BoxText(
             text: String(proposal.votes!.yes),
-            textColor: Color(red: 0, green: 0.89, blue: 0.486),
-            borderColor: Color(red: 0, green: 0.89, blue: 0.486, opacity: 0.3)
+            textColor: Color(red: 0.114, green: 0.714, blue: 0.529),
+            borderColor: Color(red: 0.114, green: 0.714, blue: 0.529, opacity: 0.3)
           )
           BoxText(
             text: String(proposal.votes!.abstain),
@@ -156,8 +156,8 @@ struct ProposalView: View {
           )
           BoxText(
             text: String(proposal.votes!.no),
-            textColor: Color(red: 1, green: 0.226, blue: 0.226),
-            borderColor: Color(red: 1, green: 0.226, blue: 0.226, opacity: 0.3)
+            textColor: Color(red: 0.941, green: 0.196, blue: 0.196),
+            borderColor: Color(red: 0.941, green: 0.196, blue: 0.196, opacity: 0.3)
           )
           BoxText(
             text: String(proposal.quorum),
