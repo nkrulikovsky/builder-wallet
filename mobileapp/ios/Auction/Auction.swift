@@ -4,22 +4,21 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
   func placeholder(in context: Context) -> SimpleEntry {
-    SimpleEntry(date: Date())
+    let endTime = Int((Date().timeIntervalSince1970 + 26200) * 1000)
+    return SimpleEntry(date: Date(), id: 136, currentBid: "0.1234", endTime: endTime, image: "ImagePlaceholder", state: .success)
   }
   
   func getSnapshot(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(date: Date())
+    let entry = SimpleEntry(date: Date(), id: 136, currentBid: "0.1234", endTime: 123, image: "ImagePlaceholder", state: .success)
     completion(entry)
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
     var entries: [SimpleEntry] = []
     
-    // Generate a timeline consisting of five entries an hour apart, starting from the current date.
     let currentDate = Date()
-    for hourOffset in 0 ..< 5 {
-      let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-      let entry = SimpleEntry(date: entryDate)
+    for _ in 0 ..< 5 {
+      let entry = SimpleEntry(date: Date(), id: 136, currentBid: "0.1234", endTime: 123, image: "ImagePlaceholder", state: .success)
       entries.append(entry)
     }
     
@@ -28,8 +27,17 @@ struct Provider: IntentTimelineProvider {
   }
 }
 
+enum WidgetState {
+  case success, error, noDao
+}
+
 struct SimpleEntry: TimelineEntry {
   let date: Date
+  let id: Int
+  let currentBid: String
+  let endTime: Int
+  let image: String
+  let state: WidgetState
 }
 
 struct AuctionEntryView : View {
@@ -38,46 +46,61 @@ struct AuctionEntryView : View {
   @Environment(\.colorScheme) var colorScheme
   
   var body: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      HStack(alignment: .top, spacing: 8) {
-        VStack(alignment: .center, spacing: 1) {
-          Image("ImagePlaceholder")
-            .resizable()
-            .frame(width: 56, height: 56)
-            .cornerRadius(8)
-          Text("136")
-            .font(.system(size: 14, weight: .bold))
+    switch entry.state {
+    case .success:
+      VStack(alignment: .leading, spacing: 8) {
+        HStack(alignment: .top, spacing: 8) {
+          VStack(alignment: .center, spacing: 1) {
+            Image("ImagePlaceholder")
+              .resizable()
+              .frame(width: 56, height: 56)
+              .cornerRadius(8)
+            Text(String(entry.id))
+              .font(.system(size: 14, weight: .bold))
+          }
+          
+          VStack(alignment: .leading, spacing: 0) {
+            Text("Current bid")
+              .font(.system(size: 12))
+            Text(entry.currentBid)
+              .font(.system(size: 18, weight: .black))
+            HStack(alignment: .center, spacing: 3) {
+              Image("ArrowCirclePath")
+                .resizable()
+                .frame(width: 10, height: 10)
+              Text(entry.date, style: .time)
+                .font(.system(size: 10))
+                .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
+            }
+          }
+          .padding(.top, 4)
         }
         
-        VStack(alignment: .leading, spacing: 0) {
-          Text("Current bid")
+        VStack(alignment: .leading, spacing: 2) {
+          Text("Auction ends in")
             .font(.system(size: 12))
-          Text("0.0234")
+          Text("7h 3m 36s")
             .font(.system(size: 18, weight: .black))
-          HStack(alignment: .center, spacing: 3) {
-            Image("ArrowCirclePath")
-              .resizable()
-              .frame(width: 10, height: 10)
-            Text("22:11")
-              .font(.system(size: 10))
-              .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
-          }
+          ProgressBar(value: 12000, maxValue: 86400)
+            .frame(height: 12)
+            .padding(.top, 2)
         }
-        .padding(.top, 4)
       }
-      
-      VStack(alignment: .leading, spacing: 2) {
-        Text("Auction ends in")
-          .font(.system(size: 12))
-        Text("7h 3m 36s")
-          .font(.system(size: 18, weight: .black))
-        ProgressBar(value: 12000, maxValue: 86400)
-          .frame(height: 12)
-          .padding(.top, 2)
+      .padding(16)
+      .foregroundColor(colorScheme == .light ? .black : .white)
+    case .error:
+      VStack {
+        Image(systemName: "xmark.octagon").padding(.bottom, 1)
+        Text("Error happened")
       }
+      .foregroundColor(colorScheme == .light ? .black : .white)
+    case .noDao:
+      VStack {
+        Image(systemName: "exclamationmark.triangle").padding(.bottom, 1)
+        Text("Select DAO")
+      }
+      .foregroundColor(colorScheme == .light ? .black : .white)
     }
-    .padding(16)
-    .foregroundColor(colorScheme == .light ? .black : .white)
   }
 }
 
@@ -117,12 +140,5 @@ struct Auction: Widget {
       .systemSmall])
     .configurationDisplayName("Auction")
     .description("This widget displays the current auction state.")
-  }
-}
-
-struct Auction_Previews: PreviewProvider {
-  static var previews: some View {
-    AuctionEntryView(entry: SimpleEntry(date: Date()))
-      .previewContext(WidgetPreviewContext(family: .systemSmall))
   }
 }

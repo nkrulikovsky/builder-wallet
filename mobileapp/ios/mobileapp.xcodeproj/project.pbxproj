@@ -36,6 +36,7 @@
 		0AE29FDA2A09B5700035242E /* AuctionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0AE29FCA2A09B56D0035242E /* AuctionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0AE29FDF2A09B5950035242E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0AE29FDE2A09B5950035242E /* Alamofire */; };
 		0AE29FE22A09BA480035242E /* SelectDAO.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 0A90E36E29FC5FAB00FB320D /* SelectDAO.intentdefinition */; };
+		0AE29FE42A09DC2B0035242E /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE29FE32A09DC2B0035242E /* Data.swift */; };
 		0C80B921A6F3F58F76C31292 /* libPods-mobileapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-mobileapp.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -119,6 +120,7 @@
 		0AE29FD02A09B56D0035242E /* Auction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auction.swift; sourceTree = "<group>"; };
 		0AE29FD32A09B5700035242E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AE29FD52A09B5700035242E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0AE29FE32A09DC2B0035242E /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* mobileapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mobileapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = mobileapp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = mobileapp/AppDelegate.mm; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				0AE29FD02A09B56D0035242E /* Auction.swift */,
 				0AE29FD32A09B5700035242E /* Assets.xcassets */,
 				0AE29FD52A09B5700035242E /* Info.plist */,
+				0AE29FE32A09DC2B0035242E /* Data.swift */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -722,6 +725,7 @@
 				0AE29FCF2A09B56D0035242E /* AuctionBundle.swift in Sources */,
 				0AE29FD12A09B56D0035242E /* Auction.swift in Sources */,
 				0AE29FE22A09BA480035242E /* SelectDAO.intentdefinition in Sources */,
+				0AE29FE42A09DC2B0035242E /* Data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
