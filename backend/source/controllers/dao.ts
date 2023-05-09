@@ -108,9 +108,9 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
 
       for (const prop of governanceData) {
         if (prop.status === 'ACTIVE' || prop.status === 'PENDING') {
-          const endTime =
-            Number(prop.status === 'ACTIVE' ? prop.voteEnd : prop.voteStart) *
-            1000
+          const endTime = Number(
+            prop.status === 'ACTIVE' ? prop.voteEnd : prop.voteStart
+          )
 
           let propToAdd: Proposal = {
             id: prop.proposalId,
