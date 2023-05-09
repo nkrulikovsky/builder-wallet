@@ -21,9 +21,8 @@ struct Provider: IntentTimelineProvider {
   }
   
   func getSnapshot(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let address = configuration.dao?.identifier
+    let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
-    if let address = address {
       dataLoader.fetchAuctionData(daoAddress: address) { auction in
         if auction != nil {
           let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
@@ -35,17 +34,11 @@ struct Provider: IntentTimelineProvider {
           completion(entry)
         }
       }
-    } else {
-      let entry = SimpleEntry(date: Date(), auction: nil, state: .noDao)
-      
-      completion(entry)
-    }
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    let address = configuration.dao?.identifier
+    let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
-    if let address = address {
       dataLoader.fetchAuctionData(daoAddress: address) { auction in
         if auction != nil {
           let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
@@ -61,18 +54,12 @@ struct Provider: IntentTimelineProvider {
           completion(timeline)
         }
       }
-    } else {
-      let entry = SimpleEntry(date: Date(), auction: nil, state: .noDao)
-      
-      let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-      let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-      completion(timeline)
-    }
+
   }
 }
 
 enum WidgetState {
-  case success, error, noDao
+  case success, error
 }
 
 struct SimpleEntry: TimelineEntry {
@@ -135,12 +122,6 @@ struct AuctionEntryView : View {
       VStack {
         Image(systemName: "xmark.octagon").padding(.bottom, 1)
         Text("Error happened")
-      }
-      .foregroundColor(colorScheme == .light ? .black : .white)
-    case .noDao:
-      VStack {
-        Image(systemName: "exclamationmark.triangle").padding(.bottom, 1)
-        Text("Select DAO")
       }
       .foregroundColor(colorScheme == .light ? .black : .white)
     }

@@ -29,3 +29,8 @@ struct ProposalVotes {
   let no: Int
   let abstain: Int
 }
+
+struct PlaceholderDao {
+  let address: String
+  let name: String
+}

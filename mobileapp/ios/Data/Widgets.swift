@@ -4,6 +4,11 @@ import Alamofire
 class WidgetDataLoader {
   private let baseApiUrl = "https://api.builderwidgets.wtf/dao/"
   
+  let placeholderDao = PlaceholderDao(
+    address: "0xdf9b7d26c8fc806b1ae6273684556761ff02d422",
+    name: "Builder"
+  )
+  
   func fetchImageData(daoAddress: String, completion: @escaping (Data?) -> Void) {
     let url = "\(baseApiUrl)\(daoAddress)?data=auction"
     
