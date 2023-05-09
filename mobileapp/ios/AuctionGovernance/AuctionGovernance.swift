@@ -154,10 +154,7 @@ struct AuctionGovernanceEntryView : View {
           .padding(.leading, 4)
         }
         
-        VStack(alignment: .leading, spacing: 2) {
-          ProposalsView(proposals: entry.governance!)
-          Spacer(minLength: 0)
-        }
+        ProposalsView(proposals: entry.governance!)
       }
       .foregroundColor(colorScheme == .light ? .black : .white)
       .padding(16)

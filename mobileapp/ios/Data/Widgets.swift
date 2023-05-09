@@ -70,6 +70,7 @@ class WidgetDataLoader {
           ProposalData(id: "0x2", number: 2, title: "Extend Deadline for Hub issues Funding", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 12, no: 6, abstain: 6)),
           ProposalData(id: "0x2", number: 2, title: "Extend Deadline for Hub issues Funding", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 12, no: 6, abstain: 6)),
           ProposalData(id: "0x2", number: 2, title: "Extend Deadline for Hub issues Funding", state: "ACTIVE", endTime: 1683789333, quorum: 18, votes: ProposalVotes(yes: 12, no: 6, abstain: 6)),
+          ProposalData(id: "0x3", number: 3, title: "Sponsor the Forefront Newsletter", state: "PENDING", endTime: 1683789333, quorum: 18, votes: nil),
           ProposalData(id: "0x3", number: 3, title: "Sponsor the Forefront Newsletter", state: "PENDING", endTime: 1683789333, quorum: 18, votes: nil)
         ]
         

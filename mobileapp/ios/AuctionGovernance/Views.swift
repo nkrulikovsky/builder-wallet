@@ -1,31 +1,35 @@
 import SwiftUI
 
-enum ProposalDisplayType {
-  case compact, full
-}
-
 struct ProposalsView: View {
   let proposals: [ProposalData]
   
   @Environment(\.widgetFamily) var widgetFamily
   
   var body: some View {
-    if (proposals.isEmpty) {
-      Text("All done. No Active or Pending props ⌐◨-◨")
-        .font(.system(size: 12))
-        .padding(.top, 2)
-    } else {
-      let maxShow = widgetFamily == .systemMedium ? 3 : 5
-      let displayProposals = proposals.prefix(maxShow)
-      
-      ForEach(displayProposals, id: \.id) { proposal in
-        ProposalView(
-          proposal: proposal,
-          displayType: widgetFamily == .systemMedium ? .compact : .full
-        )
+    VStack(alignment: .leading, spacing: 2) {
+      if (proposals.isEmpty) {
+        Text("All done. No Active or Pending props ⌐◨-◨")
+          .font(.system(size: 12))
+          .padding(.top, 2)
+      } else {
+        let maxShow = widgetFamily == .systemMedium ? 3 : 8
+        let displayProposals = proposals.prefix(maxShow)
+        
+        ForEach(displayProposals, id: \.id) { proposal in
+          ProposalView(
+            proposal: proposal,
+            displayType: widgetFamily == .systemMedium ? .compact : .full
+          )
+        }
       }
+      
+      Spacer(minLength: 0)
     }
   }
+}
+
+enum ProposalDisplayType {
+  case compact, full
 }
 
 struct ProposalView: View {
@@ -35,11 +39,15 @@ struct ProposalView: View {
   let timeLeft: Double
   let endsIn: String
   
-  let timeLeftColor: Color
-  let timeLeftBorder: Color
+  let isActive: Bool
   
+  let timePrefix: String
+  let timeColor: Color
+  let timeBorderColor: Color
+  
+  let state: String
   let stateColor: Color
-  let stateBorder: Color
+  let stateBorderColor: Color
   
   @Environment(\.colorScheme) var colorScheme
   
@@ -60,19 +68,29 @@ struct ProposalView: View {
     )
     
     if (timeLeft <= 43200) {
-      timeLeftColor = Color(red: 1, green: 0.226, blue: 0.226)
-      timeLeftBorder = timeLeftColor.opacity(0.3)
+      timeColor = Color(red: 1, green: 0.226, blue: 0.226)
+      timeBorderColor = timeColor.opacity(0.3)
     } else {
-      timeLeftColor = Color(red: 0.55, green: 0.55, blue: 0.55)
-      timeLeftBorder = Color(red: 0.80, green: 0.80, blue: 0.80)
+      timeColor = Color(red: 0.55, green: 0.55, blue: 0.55)
+      timeBorderColor = Color(red: 0.80, green: 0.80, blue: 0.80)
     }
     
     if (proposal.state == "ACTIVE") {
-      stateColor = Color(red: 1, green: 0.226, blue: 0.226)
-      stateBorder = timeLeftColor.opacity(0.3)
+      isActive = true
+      
+      timePrefix = "Ends"
+      state = "Active"
+      
+      stateColor = Color(red: 0, green: 0.89, blue: 0.486)
+      stateBorderColor = stateColor.opacity(0.3)
     } else {
+      isActive = false
+      
+      timePrefix = "Starts"
+      state = "Pending"
+      
       stateColor = Color(red: 0.55, green: 0.55, blue: 0.55)
-      stateBorder = Color(red: 0.80, green: 0.80, blue: 0.80)
+      stateBorderColor = Color(red: 0.80, green: 0.80, blue: 0.80)
     }
   }
   
@@ -90,16 +108,16 @@ struct ProposalView: View {
   var compact: some View {
     return HStack(alignment: .center, spacing: 4) {
       ZStack {
-        Text("Ends \(endsIn)")
+        Text("\(timePrefix) \(endsIn)")
           .font(.system(size: 10, weight: .bold))
-          .foregroundColor(timeLeftColor)
+          .foregroundColor(timeColor)
           .padding(.horizontal, 2)
       }
       .cornerRadius(2)
       .overlay(
         RoundedRectangle(cornerRadius: 2)
           .stroke(
-            timeLeftBorder,
+            timeBorderColor,
             lineWidth: 1
           )
       )
@@ -110,25 +128,95 @@ struct ProposalView: View {
   }
   
   var full: some View {
-    VStack(alignment: .leading, spacing: 1) {
+    VStack(alignment: .leading, spacing: 2) {
+      Text("\(proposal.number) • \(proposal.title)")
+        .font(.system(size: 12, weight: .semibold))
+        .lineLimit(1)
       HStack(alignment: .center, spacing: 4) {
-        ZStack {
-          Text("Ends in 20 hours")
-            .font(.system(size: 10, weight: .bold))
-            .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
-            .padding(.horizontal, 2)
-        }
-        .cornerRadius(2)
-        .overlay(
-          RoundedRectangle(cornerRadius: 2)
-            .stroke(
-              Color(red: 0.80, green: 0.80, blue: 0.80),
-              lineWidth: 1
-            )
+        BoxText(
+          text: state,
+          textColor: stateColor,
+          borderColor: stateBorderColor
         )
-        Text(proposal.title)
-          .font(.system(size: 12, weight: .semibold))
+        BoxText(
+          text: "\(timePrefix) \(endsIn)",
+          textColor: timeColor,
+          borderColor: timeBorderColor
+        )
+        if (isActive) {
+          BoxText(
+            text: String(proposal.votes!.yes),
+            textColor: Color(red: 0, green: 0.89, blue: 0.486),
+            borderColor: Color(red: 0, green: 0.89, blue: 0.486, opacity: 0.3)
+          )
+          BoxText(
+            text: String(proposal.votes!.abstain),
+            textColor: Color(red: 0.55, green: 0.55, blue: 0.55),
+            borderColor: Color(red: 0.80, green: 0.80, blue: 0.80)
+          )
+          BoxText(
+            text: String(proposal.votes!.no),
+            textColor: Color(red: 1, green: 0.226, blue: 0.226),
+            borderColor: Color(red: 1, green: 0.226, blue: 0.226, opacity: 0.3)
+          )
+          BoxText(
+            text: String(proposal.quorum),
+            prefix: "Quorum:",
+            textColor: Color(red: 0.55, green: 0.55, blue: 0.55),
+            prefixColor: Color(red: 0.80, green: 0.80, blue: 0.80),
+            borderColor: Color(red: 0.80, green: 0.80, blue: 0.80)
+          )
+        }
+      }
+    }.padding(.bottom, 2)
+  }
+}
+
+struct BoxText: View {
+  let text: String
+  let prefix: String?
+  
+  let textColor: Color
+  let prefixColor: Color?
+  
+  let borderColor: Color
+  
+  init(
+    text: String,
+    prefix: String? = nil,
+    textColor: Color,
+    prefixColor: Color? = nil,
+    borderColor: Color
+  ) {
+    self.text = text
+    self.prefix = prefix
+    self.textColor = textColor
+    self.prefixColor = prefixColor
+    self.borderColor = borderColor
+  }
+  
+  var body: some View {
+    ZStack {
+      HStack(alignment: .center, spacing: 0) {
+        if (prefix != nil) {
+          Text(prefix!)
+            .font(.system(size: 10, weight: .bold))
+            .foregroundColor(prefixColor != nil ? prefixColor : textColor)
+            .padding(.leading, 2)
+        }
+        Text(text)
+          .font(.system(size: 10, weight: .bold))
+          .foregroundColor(textColor)
+          .padding(.horizontal, 2)
       }
     }
+    .cornerRadius(2)
+    .overlay(
+      RoundedRectangle(cornerRadius: 2)
+        .stroke(
+          borderColor,
+          lineWidth: 1
+        )
+    )
   }
 }
