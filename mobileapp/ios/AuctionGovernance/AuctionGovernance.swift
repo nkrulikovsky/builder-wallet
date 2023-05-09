@@ -144,8 +144,13 @@ struct AuctionGovernanceEntryView : View {
           Text("Active Proposals")
             .font(.system(size: 12))
             .foregroundColor(Color(red: 0.55, green: 0.55, blue: 0.55))
+          
+          let deviderColor = colorScheme == .light
+          ? Color(red: 0.8, green: 0.8, blue: 0.8)
+          : Color(red: 0.079, green: 0.079, blue: 0.079)
+          
           VStack {
-            Divider().background(Color(red: 0.8, green: 0.8, blue: 0.8))
+            Divider().background(deviderColor)
           }
           .padding(.leading, 4)
         }

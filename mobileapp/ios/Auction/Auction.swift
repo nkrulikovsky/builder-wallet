@@ -153,7 +153,7 @@ struct AuctionEntryView : View {
               .font(.system(size: 12))
             Text("\(String(entry.currentBid!)) Ξ")
               .font(.system(size: 18, weight: .black))
-            HStack(alignment: .center, spacing: 3) {
+            HStack(alignment: .center, spacing: 2) {
               Image("ArrowCirclePath")
                 .resizable()
                 .frame(width: 10, height: 10)

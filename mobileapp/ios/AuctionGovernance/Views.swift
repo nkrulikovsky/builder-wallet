@@ -4,6 +4,7 @@ struct ProposalsView: View {
   let proposals: [ProposalData]
   
   @Environment(\.widgetFamily) var widgetFamily
+  @Environment(\.colorScheme) var colorScheme
   
   var body: some View {
     VStack(alignment: .leading, spacing: 4) {
@@ -17,7 +18,8 @@ struct ProposalsView: View {
         ForEach(displayProposals, id: \.id) { proposal in
           ProposalView(
             proposal: proposal,
-            displayType: widgetFamily == .systemMedium ? .compact : .full
+            displayType: widgetFamily == .systemMedium ? .compact : .full,
+            lightTheme: colorScheme == .light
           )
         }
       }
@@ -51,7 +53,7 @@ struct ProposalView: View {
   
   @Environment(\.colorScheme) var colorScheme
   
-  init(proposal: ProposalData, displayType: ProposalDisplayType) {
+  init(proposal: ProposalData, displayType: ProposalDisplayType, lightTheme: Bool) {
     self.proposal = proposal
     self.displayType = displayType
     
@@ -72,7 +74,9 @@ struct ProposalView: View {
       timeBorderColor = timeColor.opacity(0.3)
     } else {
       timeColor = Color(red: 0.55, green: 0.55, blue: 0.55)
-      timeBorderColor = Color(red: 0.80, green: 0.80, blue: 0.80)
+      timeBorderColor = lightTheme
+      ? Color(red: 0.8, green: 0.8, blue: 0.8)
+      : Color(red: 0.2, green: 0.2, blue: 0.2)
     }
     
     if (proposal.state == "ACTIVE") {
@@ -90,7 +94,10 @@ struct ProposalView: View {
       state = "Pending"
       
       stateColor = Color(red: 0.55, green: 0.55, blue: 0.55)
-      stateBorderColor = Color(red: 0.80, green: 0.80, blue: 0.80)
+//      stateBorderColor = Color(red: 0.80, green: 0.80, blue: 0.80)
+      stateBorderColor = lightTheme
+      ? Color(red: 0.8, green: 0.8, blue: 0.8)
+      : Color(red: 0.2, green: 0.2, blue: 0.2)
     }
   }
   
@@ -129,7 +136,11 @@ struct ProposalView: View {
   }
   
   var full: some View {
-    VStack(alignment: .leading, spacing: 1) {
+    let ordinaryBorderColor = colorScheme == .light
+    ? Color(red: 0.8, green: 0.8, blue: 0.8)
+    : Color(red: 0.2, green: 0.2, blue: 0.2)
+    
+    return VStack(alignment: .leading, spacing: 1) {
       Text("\(proposal.number) • \(proposal.title)")
         .font(.system(size: 12, weight: .semibold))
         .lineLimit(1)
@@ -154,7 +165,7 @@ struct ProposalView: View {
             BoxText(
               text: String(proposal.votes!.abstain),
               textColor: Color(red: 0.55, green: 0.55, blue: 0.55),
-              borderColor: Color(red: 0.80, green: 0.80, blue: 0.80)
+              borderColor: ordinaryBorderColor
             )
             BoxText(
               text: String(proposal.votes!.no),
@@ -167,8 +178,8 @@ struct ProposalView: View {
             text: String(proposal.quorum),
             prefix: "Quorum:",
             textColor: Color(red: 0.55, green: 0.55, blue: 0.55),
-            prefixColor: Color(red: 0.80, green: 0.80, blue: 0.80),
-            borderColor: Color(red: 0.80, green: 0.80, blue: 0.80)
+            prefixColor: ordinaryBorderColor,
+            borderColor: ordinaryBorderColor
           )
         }
       }
