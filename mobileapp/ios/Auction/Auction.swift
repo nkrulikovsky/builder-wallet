@@ -23,38 +23,38 @@ struct Provider: IntentTimelineProvider {
   func getSnapshot(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
     let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
-      dataLoader.fetchAuctionData(daoAddress: address) { auction in
-        if auction != nil {
-          let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
-          
-          completion(entry)
-        } else {
-          let entry = SimpleEntry(date: Date(), auction: nil, state: .error)
-          
-          completion(entry)
-        }
+    dataLoader.fetchAuctionData(daoAddress: address) { auction in
+      if auction != nil {
+        let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
+        
+        completion(entry)
+      } else {
+        let entry = SimpleEntry(date: Date(), auction: nil, state: .error)
+        
+        completion(entry)
       }
+    }
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
     let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
-      dataLoader.fetchAuctionData(daoAddress: address) { auction in
-        if auction != nil {
-          let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
-          
-          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-          completion(timeline)
-        } else {
-          let entry = SimpleEntry(date: Date(), auction: nil, state: .error)
-          
-          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-          completion(timeline)
-        }
+    dataLoader.fetchAuctionData(daoAddress: address) { auction in
+      if auction != nil {
+        let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
+        
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
+      } else {
+        let entry = SimpleEntry(date: Date(), auction: nil, state: .error)
+        
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
       }
-
+    }
+    
   }
 }
 

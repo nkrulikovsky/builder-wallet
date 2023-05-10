@@ -17,66 +17,54 @@ struct Provider: IntentTimelineProvider {
   }
   
   func getSnapshot(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let address = configuration.dao?.identifier
-    let daoName = configuration.dao?.displayString
+    let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
+    let daoName = configuration.dao?.displayString ?? dataLoader.placeholderDao.name
     
-    if let address = address, let daoName = daoName {
-      dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
-        if data?.governance != nil {
-          let entry = SimpleEntry(
-            date: Date(),
-            daoName: daoName,
-            governance: data?.governance,
-            state: .success
-          )
-          
-          completion(entry)
-        } else {
-          let entry = SimpleEntry(date: Date(), daoName: daoName, governance: nil, state: .error)
-          completion(entry)
-        }
+    dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
+      if data?.governance != nil {
+        let entry = SimpleEntry(
+          date: Date(),
+          daoName: daoName,
+          governance: data?.governance,
+          state: .success
+        )
+        
+        completion(entry)
+      } else {
+        let entry = SimpleEntry(date: Date(), daoName: daoName, governance: nil, state: .error)
+        completion(entry)
       }
-    } else {
-      let entry = SimpleEntry(date: Date(), daoName: nil, governance: nil, state: .noDao)
-      completion(entry)
     }
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    let address = configuration.dao?.identifier
-    let daoName = configuration.dao?.displayString
+    let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
+    let daoName = configuration.dao?.displayString ?? dataLoader.placeholderDao.name
     
-    if let address = address, let daoName = daoName {
-      dataLoader.fetchGovernanceData(daoAddress: address) { data in
-        if data?.governance != nil {
-          let entry = SimpleEntry(
-            date: Date(),
-            daoName: daoName,
-            governance: data?.governance,
-            state: .success
-          )
-          
-          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-          completion(timeline)
-        } else {
-          let entry = SimpleEntry(date: Date(), daoName: daoName, governance: nil, state: .error)
-          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-          completion(timeline)
-        }
+    dataLoader.fetchGovernanceData(daoAddress: address) { data in
+      if data?.governance != nil {
+        let entry = SimpleEntry(
+          date: Date(),
+          daoName: daoName,
+          governance: data?.governance,
+          state: .success
+        )
+        
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
+      } else {
+        let entry = SimpleEntry(date: Date(), daoName: daoName, governance: nil, state: .error)
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
       }
-    } else {
-      let entry = SimpleEntry(date: Date(), daoName: nil, governance: nil, state: .noDao)
-      let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-      let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-      completion(timeline)
     }
   }
 }
 
 enum WidgetState {
-  case success, error, noDao
+  case success, error
 }
 
 struct SimpleEntry: TimelineEntry {
@@ -158,12 +146,6 @@ struct GovernanceEntryView : View {
       VStack {
         Image(systemName: "xmark.octagon").padding(.bottom, 1)
         Text("Error happened")
-      }
-      .foregroundColor(colorScheme == .light ? .black : .white)
-    case .noDao:
-      VStack {
-        Image(systemName: "exclamationmark.triangle").padding(.bottom, 1)
-        Text("Select DAO")
       }
       .foregroundColor(colorScheme == .light ? .black : .white)
     }

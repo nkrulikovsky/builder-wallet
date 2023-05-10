@@ -24,64 +24,52 @@ struct Provider: IntentTimelineProvider {
   }
   
   func getSnapshot(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let address = configuration.dao?.identifier
+    let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
-    if let address = address {
-      dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
-        if data?.auction != nil && data?.governance != nil {
-          let entry = SimpleEntry(
-            date: Date(),
-            auction: data?.auction,
-            governance: data?.governance,
-            state: .success
-          )
-          
-          completion(entry)
-        } else {
-          let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .error)
-          completion(entry)
-        }
+    dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
+      if data?.auction != nil && data?.governance != nil {
+        let entry = SimpleEntry(
+          date: Date(),
+          auction: data?.auction,
+          governance: data?.governance,
+          state: .success
+        )
+        
+        completion(entry)
+      } else {
+        let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .error)
+        completion(entry)
       }
-    } else {
-      let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .noDao)
-      completion(entry)
     }
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    let address = configuration.dao?.identifier
+    let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
-    if let address = address {
-      dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
-        if data?.auction != nil {
-          let entry = SimpleEntry(
-            date: Date(),
-            auction: data?.auction,
-            governance: data?.governance,
-            state: .success
-          )
-          
-          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-          completion(timeline)
-        } else {
-          let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .error)
-          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-          completion(timeline)
-        }
+    dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
+      if data?.auction != nil {
+        let entry = SimpleEntry(
+          date: Date(),
+          auction: data?.auction,
+          governance: data?.governance,
+          state: .success
+        )
+        
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
+      } else {
+        let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .error)
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
       }
-    } else {
-      let entry = SimpleEntry(date: Date(), auction: nil, governance: nil, state: .noDao)
-      let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-      let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-      completion(timeline)
     }
   }
 }
 
 enum WidgetState {
-  case success, error, noDao
+  case success, error
 }
 
 struct SimpleEntry: TimelineEntry {
@@ -156,7 +144,6 @@ struct AuctionGovernanceEntryView : View {
         }
         .padding(.top, 4)
         
-//        ProposalsView(proposals: entry.governance!)
         VStack(alignment: .leading, spacing: 4) {
           if (entry.governance!.isEmpty) {
             Text("All done. No Active or Pending props ⌐◨-◨")
@@ -184,12 +171,6 @@ struct AuctionGovernanceEntryView : View {
       VStack {
         Image(systemName: "xmark.octagon").padding(.bottom, 1)
         Text("Error happened")
-      }
-      .foregroundColor(colorScheme == .light ? .black : .white)
-    case .noDao:
-      VStack {
-        Image(systemName: "exclamationmark.triangle").padding(.bottom, 1)
-        Text("Select DAO")
       }
       .foregroundColor(colorScheme == .light ? .black : .white)
     }

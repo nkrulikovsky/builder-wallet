@@ -4,59 +4,47 @@ import SwiftUI
 struct ArtProvider: IntentTimelineProvider {
   typealias Entry = ArtEntry
   
-  let widgetDataLoader = WidgetDataLoader()
+  let dataLoader = WidgetDataLoader()
   
   func placeholder(in context: Context) -> ArtEntry {
     ArtEntry(date: Date(), image: UIImage(named: "Placeholder")!.pngData()!, state: .success)
   }
   
   func getSnapshot(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (ArtEntry) -> Void) {
-    let address = configuration.dao?.identifier
+    let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
-    if let address = address {
-      widgetDataLoader.fetchImageData(daoAddress: address) { imageData in
-        if imageData != nil {
-          let entry = ArtEntry(date: Date(), image: imageData, state: .success)
-          completion(entry)
-        } else {
-          let entry = ArtEntry(date: Date(), image: nil, state: .error)
-          completion(entry)
-        }
+    dataLoader.fetchImageData(daoAddress: address) { imageData in
+      if imageData != nil {
+        let entry = ArtEntry(date: Date(), image: imageData, state: .success)
+        completion(entry)
+      } else {
+        let entry = ArtEntry(date: Date(), image: nil, state: .error)
+        completion(entry)
       }
-    } else {
-      let entry = ArtEntry(date: Date(), image: nil, state: .noDao)
-      completion(entry)
     }
   }
   
   func getTimeline(for configuration: SelectDAOIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-    let address = configuration.dao?.identifier
+    let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
-    if let address = address {
-      widgetDataLoader.fetchImageData(daoAddress: address) { imageData in
-        if imageData != nil {
-          let entry = ArtEntry(date: Date(), image: imageData, state: .success)
-          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-          completion(timeline)
-        } else {
-          let entry = ArtEntry(date: Date(), image: nil, state: .error)
-          let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-          let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-          completion(timeline)
-        }
+    dataLoader.fetchImageData(daoAddress: address) { imageData in
+      if imageData != nil {
+        let entry = ArtEntry(date: Date(), image: imageData, state: .success)
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
+      } else {
+        let entry = ArtEntry(date: Date(), image: nil, state: .error)
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
       }
-    } else {
-      let entry = ArtEntry(date: Date(), image: nil, state: .noDao)
-      let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
-      let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-      completion(timeline)
     }
   }
 }
 
 enum WidgetState {
-  case success, error, noDao
+  case success, error
 }
 
 struct ArtEntry: TimelineEntry {
@@ -83,12 +71,6 @@ struct ArtEntryView: View {
         Text("Error happened")
       }
       .foregroundColor(colorScheme == .light ? .black : .white)
-    case .noDao:
-      VStack {
-        Image(systemName: "exclamationmark.triangle").padding(.bottom, 1)
-        Text("Select DAO")
-      }
-      .foregroundColor(colorScheme == .light ? .black : .white)
     }
   }
 }
@@ -106,22 +88,3 @@ struct ArtWidget: Widget {
     .description("This widget displays the current auctioned NFT image of your selected DAO.")
   }
 }
-
-struct ArtWidget_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ArtEntryView(entry: ArtEntry(date: Date(), image: UIImage(named: "Placeholder")!.pngData()!, state: .success))
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-                .environment(\.colorScheme, .light)
-            
-            ArtEntryView(entry: ArtEntry(date: Date(), image: nil, state: .error))
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-                .environment(\.colorScheme, .dark)
-            
-            ArtEntryView(entry: ArtEntry(date: Date(), image: nil, state: .noDao))
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-                .environment(\.colorScheme, .light)
-        }
-    }
-}
-
