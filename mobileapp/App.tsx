@@ -11,6 +11,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import TabBar from './src/components/TabBar'
 import { HomeTabParamList, RootStackParamList } from './src/navigation/types'
 import DaoScreen from './src/screens/DaoScreen'
+import { StatusBar, View } from 'react-native'
 
 // import type { PropsWithChildren } from 'react'
 
@@ -42,22 +43,25 @@ const App = () => {
   }, [setColorScheme])
 
   return (
-    <ApolloProvider client={zoraClient}>
-      <NavigationContainer>
-        <RootStack.Navigator initialRouteName="Home">
-          <RootStack.Screen
-            name="Home"
-            component={HomeTabs}
-            options={{ headerShown: false }}
-          />
-          <RootStack.Screen
-            name="Dao"
-            component={DaoScreen}
-            options={{ headerShown: false }}
-          />
-        </RootStack.Navigator>
-      </NavigationContainer>
-    </ApolloProvider>
+    <>
+      <StatusBar barStyle="dark-content" hidden={false} />
+      <ApolloProvider client={zoraClient}>
+        <NavigationContainer>
+          <RootStack.Navigator initialRouteName="Home">
+            <RootStack.Screen
+              name="Home"
+              component={HomeTabs}
+              options={{ headerShown: false }}
+            />
+            <RootStack.Screen
+              name="Dao"
+              component={DaoScreen}
+              options={{ headerShown: false }}
+            />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </ApolloProvider>
+    </>
   )
 }
 
