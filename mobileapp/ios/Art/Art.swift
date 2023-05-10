@@ -85,6 +85,6 @@ struct ArtWidget: Widget {
     }
     .supportedFamilies([.systemSmall])
     .configurationDisplayName("Art")
-    .description("This widget displays the current auctioned NFT image of your selected DAO.")
+    .description("Current auctioned artwork.")
   }
 }

@@ -162,6 +162,6 @@ struct Governance: Widget {
     }
     .supportedFamilies([.systemMedium, .systemLarge])
     .configurationDisplayName("Governace")
-    .description("Track active and pending Dao proposals")
+    .description("Active and pending proposals.")
   }
 }

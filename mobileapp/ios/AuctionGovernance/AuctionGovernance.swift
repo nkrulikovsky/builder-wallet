@@ -188,6 +188,6 @@ struct AuctionGovernance: Widget {
     .supportedFamilies([
       .systemMedium, .systemLarge])
     .configurationDisplayName("Auction & Governance")
-    .description("This widget displays the current auction state and active proposals.")
+    .description("Auction state and latest proposals.")
   }
 }

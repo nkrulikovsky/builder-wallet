@@ -163,6 +163,6 @@ struct Auction: Widget {
     .supportedFamilies([
       .systemSmall])
     .configurationDisplayName("Auction")
-    .description("This widget displays the current auction state.")
+    .description("Auction state in compact form.")
   }
 }
