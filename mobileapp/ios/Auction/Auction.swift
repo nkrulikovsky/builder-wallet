@@ -24,7 +24,7 @@ struct Provider: IntentTimelineProvider {
     let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
     dataLoader.fetchAuctionData(daoAddress: address) { auction in
-      if auction != nil {
+      if let auction = auction {
         let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
         
         completion(entry)
@@ -40,7 +40,7 @@ struct Provider: IntentTimelineProvider {
     let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
     dataLoader.fetchAuctionData(daoAddress: address) { auction in
-      if auction != nil {
+      if let auction = auction {
         let entry = SimpleEntry(date: Date(), auction: auction, state: .success)
         
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!

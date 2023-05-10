@@ -14,8 +14,8 @@ struct ArtProvider: IntentTimelineProvider {
     let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
     dataLoader.fetchImageData(daoAddress: address) { imageData in
-      if imageData != nil {
-        let entry = ArtEntry(date: Date(), image: imageData, state: .success)
+      if let image = imageData {
+        let entry = ArtEntry(date: Date(), image: image, state: .success)
         completion(entry)
       } else {
         let entry = ArtEntry(date: Date(), image: nil, state: .error)
@@ -28,8 +28,8 @@ struct ArtProvider: IntentTimelineProvider {
     let address = configuration.dao?.identifier ?? dataLoader.placeholderDao.address
     
     dataLoader.fetchImageData(daoAddress: address) { imageData in
-      if imageData != nil {
-        let entry = ArtEntry(date: Date(), image: imageData, state: .success)
+      if let image = imageData {
+        let entry = ArtEntry(date: Date(), image: image, state: .success)
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date())!
         let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
         completion(timeline)

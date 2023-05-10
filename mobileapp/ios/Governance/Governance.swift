@@ -21,11 +21,11 @@ struct Provider: IntentTimelineProvider {
     let daoName = configuration.dao?.displayString ?? dataLoader.placeholderDao.name
     
     dataLoader.fetchAuctionAndGovernanceData(daoAddress: address) { data in
-      if data?.governance != nil {
+      if let governance = data?.governance {
         let entry = SimpleEntry(
           date: Date(),
           daoName: daoName,
-          governance: data?.governance,
+          governance: governance,
           state: .success
         )
         
@@ -42,11 +42,11 @@ struct Provider: IntentTimelineProvider {
     let daoName = configuration.dao?.displayString ?? dataLoader.placeholderDao.name
     
     dataLoader.fetchGovernanceData(daoAddress: address) { data in
-      if data?.governance != nil {
+      if let governance = data?.governance {
         let entry = SimpleEntry(
           date: Date(),
           daoName: daoName,
-          governance: data?.governance,
+          governance: governance,
           state: .success
         )
         
