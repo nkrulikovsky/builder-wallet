@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "rn-nodeify --install 'assert,buffer,process,stream,crypto,process,stream,events,net,http,https,zlib,url' --hack"
   },
   "dependencies": {
     "@apollo/client": "^3.7.12",
@@ -17,25 +18,39 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@shopify/flash-list": "^1.4.3",
+    "@tradle/react-native-http": "^2.0.1",
     "@types/react-native-dotenv": "^0.2.0",
     "@web3modal/react-native": "^1.0.0-alpha.3",
+    "assert": "^1.5.0",
     "base-64": "^1.0.0",
     "big-integer": "^1.6.51",
+    "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "clsx": "^1.2.1",
+    "crypto": "^1.0.1",
     "dayjs": "^1.11.7",
     "ethers": "^6.3.0",
+    "events": "^3.3.0",
     "graphql": "^16.6.0",
+    "https-browserify": "^1.0.0",
     "nativewind": "^2.0.11",
+    "process": "^0.11.10",
     "react": "18.2.0",
     "react-native": "0.71.7",
+    "react-native-crypto": "^2.2.0",
     "react-native-get-random-values": "^1.8.0",
     "react-native-mmkv": "^2.8.0",
     "react-native-modal": "^13.0.1",
+    "react-native-randombytes": "^3.6.1",
     "react-native-safe-area-context": "^4.5.1",
     "react-native-screens": "^3.20.0",
     "react-native-shared-group-preferences": "^1.1.23",
     "react-native-svg": "^13.9.0",
+    "react-native-tcp": "^4.0.0",
+    "readable-stream": "^1.0.33",
+    "stream": "^0.0.2",
+    "stream-browserify": "^1.0.0",
+    "url": "^0.11.0",
     "zustand": "^4.3.7"
   },
   "devDependencies": {
@@ -57,10 +72,37 @@
     "prettier": "^2.4.1",
     "react-native-dotenv": "^3.4.8",
     "react-test-renderer": "18.2.0",
+    "rn-nodeify": "^10.3.0",
     "tailwindcss": "^3.3.1",
     "typescript": "4.8.4"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "react-native": {
+    "crypto": "react-native-crypto",
+    "net": "react-native-tcp",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "zlib": "browserify-zlib"
+  },
+  "browser": {
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_writable": "readable-stream/writable",
+    "crypto": "react-native-crypto",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "net": "react-native-tcp",
+    "stream": "stream-browserify",
+    "zlib": "browserify-zlib"
   }
 }
