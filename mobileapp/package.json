@@ -20,7 +20,7 @@
     "@shopify/flash-list": "^1.4.3",
     "@tradle/react-native-http": "^2.0.1",
     "@types/react-native-dotenv": "^0.2.0",
-    "@web3modal/react-native": "^1.0.0-alpha.3",
+    "@web3modal/react-native": "^1.0.0-alpha.4",
     "assert": "^1.5.0",
     "base-64": "^1.0.0",
     "big-integer": "^1.6.51",

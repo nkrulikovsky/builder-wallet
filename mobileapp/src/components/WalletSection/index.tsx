@@ -9,20 +9,26 @@ const WalletSection = ({}) => {
 
   const [address, setAddress] = useState<string | null>(null)
 
-  // const web3Provider = useMemo(
-  //   () => (provider ? new ethers.BrowserProvider(provider) : undefined),
-  //   [provider]
-  // )
+  useEffect(() => {
+    const getAddress = async () => {
+      const web3Provider = provider
+        ? new ethers.BrowserProvider(provider)
+        : null
 
-  // useEffect(() => {
-  //   const getAddress = async () => {
-  //     if (web3Provider) {
-  //       const [address] = await web3Provider.listAccounts()
-  //       setAddress(address.address)
-  //     }
-  //   }
-  //   getAddress()
-  // }, [web3Provider])
+      if (web3Provider) {
+        const [address] = await web3Provider.listAccounts()
+        const shortAddress = `${address.address.slice(
+          0,
+          18
+        )}...${address.address.slice(address.address.length - 18)}`
+        setAddress(shortAddress)
+      }
+    }
+
+    if (isConnected && provider) {
+      getAddress()
+    }
+  }, [provider, isConnected])
 
   return (
     <View className="flex flex-col">
@@ -39,9 +45,8 @@ const WalletSection = ({}) => {
           </View>
         </View>
       )}
-      {address && (
-        <View className="mt-4 -mx-4">
-          <Text className="text-xl font-bold">Address</Text>
+      {isConnected && address && (
+        <View className="h-12 w-full bg-grey-one/70 rounded-lg px-4 mb-3 justify-center">
           <Text className="text-sm">{address}</Text>
         </View>
       )}
