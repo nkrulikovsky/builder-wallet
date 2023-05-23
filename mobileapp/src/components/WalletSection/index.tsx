@@ -1,41 +1,45 @@
-import { useWeb3Modal } from '@web3modal/react-native'
-import React, { useEffect, useMemo, useState } from 'react'
-import { Image, Pressable, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { Image, Text, View } from 'react-native'
 import ConnectWalletButton from '../ConnectWalletButton'
-import { ethers, TypedDataDomain, TypedDataField } from 'ethers'
+import { useAddressesStore } from '../../store/addresses'
+import AddAddressButton from '../AddAddressButton'
+import AddressesList from '../AddressesList'
 
 const WalletSection = ({}) => {
-  const { isOpen, open, close, provider, isConnected } = useWeb3Modal()
+  const manualAddresses = useAddressesStore(state => state.manualAddresses)
 
-  const [address, setAddress] = useState<string | null>(null)
+  // const { isOpen, open, close, provider, isConnected } = useWeb3Modal()
+  // useEffect(() => {
+  //   const getAddress = async () => {
+  //     const web3Provider = provider
+  //       ? new ethers.BrowserProvider(provider)
+  //       : null
 
-  useEffect(() => {
-    const getAddress = async () => {
-      const web3Provider = provider
-        ? new ethers.BrowserProvider(provider)
-        : null
+  //     if (web3Provider) {
+  //       const [address] = await web3Provider.listAccounts()
+  //       const shortAddress = `${address.address.slice(
+  //         0,
+  //         18
+  //       )}...${address.address.slice(address.address.length - 18)}`
+  //       setAddress(shortAddress)
+  //     }
+  //   }
 
-      if (web3Provider) {
-        const [address] = await web3Provider.listAccounts()
-        const shortAddress = `${address.address.slice(
-          0,
-          18
-        )}...${address.address.slice(address.address.length - 18)}`
-        setAddress(shortAddress)
-      }
-    }
+  //   if (isConnected && provider) {
+  //     getAddress()
+  //   }
+  // }, [provider, isConnected])
 
-    if (isConnected && provider) {
-      getAddress()
-    }
-  }, [provider, isConnected])
+  const anyManualAddresses = manualAddresses.length > 0
 
   return (
     <View className="flex flex-col">
-      {!isConnected && (
+      {anyManualAddresses ? (
+        <AddressesList />
+      ) : (
         <View className="w-full bg-grey-one/70 rounded-lg p-4 mb-3">
           <Text className="text-xl font-bold">Add your wallet</Text>
-          <Text className="">Connect to automatically follow your Daos</Text>
+          <Text className="">To automatically follow your Daos</Text>
           <View className="mt-4 -mx-4">
             {/* TODO: dynamically set image size */}
             <Image
@@ -45,12 +49,8 @@ const WalletSection = ({}) => {
           </View>
         </View>
       )}
-      {isConnected && address && (
-        <View className="h-12 w-full bg-grey-one/70 rounded-lg px-4 mb-3 justify-center">
-          <Text className="text-sm">{address}</Text>
-        </View>
-      )}
-      <ConnectWalletButton />
+      {/* <ConnectWalletButton /> */}
+      <AddAddressButton />
     </View>
   )
 }
