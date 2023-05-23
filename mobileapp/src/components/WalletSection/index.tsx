@@ -35,7 +35,10 @@ const WalletSection = ({}) => {
   return (
     <View className="flex flex-col">
       {anyManualAddresses ? (
-        <AddressesList />
+        <View className="flex flex-col">
+          <Text className="text-xl font-bold mb-1">Wallets</Text>
+          <AddressesList />
+        </View>
       ) : (
         <View className="w-full bg-grey-one/70 rounded-lg p-4 mb-3">
           <Text className="text-xl font-bold">Add your wallet</Text>
