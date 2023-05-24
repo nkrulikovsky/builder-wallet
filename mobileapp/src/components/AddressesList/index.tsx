@@ -51,7 +51,7 @@ const AddressesList = ({}) => {
                 index !== manualAddresses.length - 1 &&
                 'border-b border-grey-two/60'
             )}>
-            <View className="grow px-4">
+            <View className="w-[86%] pl-4">
               <Text className="text-ellipsis">
                 {shorterAddress(String(item))}
               </Text>
