@@ -57,11 +57,11 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
           <View className="mt-3">
             <Text className="text-3xl font-bold truncate">{displayName}</Text>
             <View className="mt-3 flex flex-row">
-              <View>
+              <View className="w-1/2">
                 <Text className="text-grey-three">Highest Bid</Text>
                 <Text className="text-xl font-bold text-black">{bid}</Text>
               </View>
-              <View className="ml-[52%]">
+              <View className="w-1/2 pl-[16%]">
                 <Text className="text-grey-three">Ends In</Text>
                 <Countdown
                   timestamp={dao.auction.endTime}
