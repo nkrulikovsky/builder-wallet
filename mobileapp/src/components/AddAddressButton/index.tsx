@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 import React, { useState } from 'react'
-import { Alert, Modal, Pressable, Text, TextInput, View } from 'react-native'
+import { Modal, Pressable, Text, TextInput, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { isAddress } from 'ethers'
+import { getAddress, isAddress } from 'ethers'
 import { useAddressesStore } from '../../store/addresses'
 
 const AddAddressButton = ({}) => {
@@ -32,8 +32,6 @@ const AddAddressButton = ({}) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          //TODO: what with this
-          Alert.alert('Modal has been closed.')
           setModalVisible(!modalVisible)
         }}>
         <Pressable
@@ -77,7 +75,7 @@ const AddAddressButton = ({}) => {
                 <Pressable
                   onPress={() => {
                     if (validAddress) {
-                      addAddress(addressText)
+                      addAddress(getAddress(addressText))
                       setAddressText('')
                       setModalVisible(false)
                     }

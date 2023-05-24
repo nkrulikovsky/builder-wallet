@@ -1,15 +1,35 @@
 import React from 'react'
-import { FlatList, Pressable, Text, View } from 'react-native'
+import { Alert, FlatList, Pressable, Text, View } from 'react-native'
 import { useAddressesStore } from '../../store/addresses'
 import Svg, { Path } from 'react-native-svg'
 import clsx from 'clsx'
-import { shorterAddress } from '../../utils/address'
+import { shortAddress, shorterAddress } from '../../utils/address'
 
 const AddressesList = ({}) => {
   const manualAddresses = useAddressesStore(state => state.manualAddresses)
   const removeManualAddress = useAddressesStore(
     state => state.removeManualAddress
   )
+
+  const removeAddress = (address: string) => {
+    Alert.prompt(
+      'Remove Address',
+      `Are you sure you want to remove ${shortAddress(address)}?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel'
+        },
+        {
+          text: 'Remove',
+          onPress: () => removeManualAddress(address),
+          style: 'destructive'
+        }
+      ],
+      'default'
+    )
+  }
 
   const oneAddress = manualAddresses.length === 1
   const manyAddresses = manualAddresses.length > 1
@@ -38,7 +58,7 @@ const AddressesList = ({}) => {
             </View>
             <Pressable
               className="h-12 w-12 items-center justify-center flex-none"
-              onPress={() => removeManualAddress(String(item))}>
+              onPress={() => removeAddress(String(item))}>
               <Svg
                 fill="none"
                 viewBox="0 0 24 24"
