@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { FlatList, ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDaosStore } from '../../store/daos'
 import { HomeTabScreenProps } from '../../navigation/types'
@@ -36,7 +36,9 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const daos = searchActive && searchDaos.length > 0 ? searchDaos : savedDaos
 
   return (
-    <View className="h-full bg-white">
+    <ScrollView
+      className="flex flex-col h-full bg-white"
+      showsVerticalScrollIndicator={false}>
       <SafeAreaView>
         <View className="mx-4 mt-6 flex flex-col h-full">
           <View className="mb-3 flex flex-row items-center justify-between">
@@ -45,12 +47,13 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
           </View>
           {searchActive && <DaoSearch />}
           {daos.length > 0 ? (
-            <FlashList
+            <FlatList
               data={daos}
               renderItem={({ item }) => <DaoCard dao={item} />}
               keyExtractor={item => item.address}
-              estimatedItemSize={100}
+              // estimatedItemSize={100}
               showsVerticalScrollIndicator={false}
+              scrollEnabled={false}
             />
           ) : (
             <View className="my-auto mx-auto pb-12 max-w-[160px] text-center">
@@ -62,7 +65,7 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
           )}
         </View>
       </SafeAreaView>
-    </View>
+    </ScrollView>
   )
 }
 
