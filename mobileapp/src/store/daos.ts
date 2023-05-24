@@ -10,7 +10,8 @@ export type SavedDao = {
 
 interface DaosState {
   saved: SavedDao[]
-  save: (address: SavedDao) => void
+  save: (dao: SavedDao) => void
+  saveMultiple: (daos: SavedDao[]) => void
   removeFromSaved: (address: string) => void
 }
 
@@ -20,12 +21,25 @@ export const useDaosStore = create<DaosState>()(
       saved: [],
       save: (dao: SavedDao) => {
         const saved = get().saved
-        if (!saved.includes(dao)) {
+        if (!saved.find(a => a.address === dao.address)) {
           const newSaved = [dao, ...saved]
 
           set({ saved: newSaved })
           daosGroupStorage.setItem('saved', newSaved)
         }
+      },
+      saveMultiple: (daos: SavedDao[]) => {
+        const saved = get().saved
+        let newSaved = [...saved]
+
+        for (const dao of daos) {
+          if (!saved.find(a => a.address === dao.address)) {
+            newSaved.push(dao)
+          }
+        }
+
+        set({ saved: newSaved })
+        daosGroupStorage.setItem('saved', newSaved)
       },
       removeFromSaved: (address: string) => {
         const saved = get().saved

@@ -7,11 +7,31 @@ import { useDaoSearchStore } from '../../store/daoSearch'
 import { FlashList } from '@shopify/flash-list'
 import DaoCard from '../../components/DaoCard'
 import SearchButton from '../../components/SearchButton'
+import { useEffect } from 'react'
+import { useAddressesStore } from '../../store/addresses'
+import { loadDaosForAddresses } from '../../data/addressDaos'
 
 const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const savedDaos = useDaosStore(state => state.saved)
   const searchDaos = useDaoSearchStore(state => state.searchResults)
   const searchActive = useDaoSearchStore(state => state.active)
+  const saveMultiple = useDaosStore(state => state.saveMultiple)
+
+  const savedManualAddresses = useAddressesStore(state => state.manualAddresses)
+
+  useEffect(() => {
+    const fetchDaos = async (addresses: string[]) => {
+      const daos = await loadDaosForAddresses(addresses)
+
+      if (daos) {
+        saveMultiple(daos)
+      }
+    }
+
+    if (savedManualAddresses.length > 0) {
+      fetchDaos(savedManualAddresses)
+    }
+  }, [savedManualAddresses])
 
   const daos = searchActive && searchDaos.length > 0 ? searchDaos : savedDaos
 

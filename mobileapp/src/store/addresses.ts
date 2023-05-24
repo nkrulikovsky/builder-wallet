@@ -3,11 +3,11 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { zustandStorage } from '../storage/zustand'
 
 interface AddressesState {
-  connectedAddress: String | undefined
-  manualAddresses: String[]
-  setConnectedAddress: (address: String | undefined) => void
-  addManualAddress: (address: String) => void
-  removeManualAddress: (address: String) => void
+  connectedAddress: string | undefined
+  manualAddresses: string[]
+  setConnectedAddress: (address: string | undefined) => void
+  addManualAddress: (address: string) => void
+  removeManualAddress: (address: string) => void
 }
 
 export const useAddressesStore = create<AddressesState>()(
@@ -15,16 +15,16 @@ export const useAddressesStore = create<AddressesState>()(
     (set, get) => ({
       connectedAddress: undefined,
       manualAddresses: [],
-      setConnectedAddress: (address: String | undefined) =>
+      setConnectedAddress: (address: string | undefined) =>
         set({ connectedAddress: address }),
-      addManualAddress: (address: String) => {
+      addManualAddress: (address: string) => {
         const addresses = get().manualAddresses
 
         if (!addresses.includes(address)) {
           set({ manualAddresses: [...addresses, address] })
         }
       },
-      removeManualAddress: (address: String) =>
+      removeManualAddress: (address: string) =>
         set({
           manualAddresses: get().manualAddresses.filter(
             manualAddress => manualAddress !== address
@@ -32,7 +32,7 @@ export const useAddressesStore = create<AddressesState>()(
         })
     }),
     {
-      name: 'daos',
+      name: 'addresses',
       storage: createJSONStorage(() => zustandStorage)
     }
   )
