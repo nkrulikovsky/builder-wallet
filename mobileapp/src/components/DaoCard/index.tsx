@@ -7,7 +7,7 @@ import Countdown from '../Countdown'
 import DaoCardImage from '../DaoCardImage'
 import { Path, Svg } from 'react-native-svg'
 import { useNavigation } from '@react-navigation/native'
-import { CurrentAuction, DAO } from '../../utils/types'
+import { DAO } from '../../utils/types'
 
 type DaoCardProps = {
   dao: SavedDao | SearchDao
@@ -25,6 +25,7 @@ const DAO_QUERY = gql`
             decimal
           }
         }
+        address
         metadata
       }
     }
