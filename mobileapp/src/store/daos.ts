@@ -1,20 +1,7 @@
 import { create } from 'zustand'
-import { StateStorage, createJSONStorage, persist } from 'zustand/middleware'
-import { mmkvStorage } from '../storage/mmkv'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import { daosGroupStorage } from '../storage/sharedStorage'
-
-const zustandStorage: StateStorage = {
-  setItem: (name, value) => {
-    return mmkvStorage.set(name, value)
-  },
-  getItem: name => {
-    const value = mmkvStorage.getString(name)
-    return value ?? null
-  },
-  removeItem: name => {
-    return mmkvStorage.delete(name)
-  }
-}
+import { zustandStorage } from '../storage/zustand'
 
 export type SavedDao = {
   address: string

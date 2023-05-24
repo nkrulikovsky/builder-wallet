@@ -44,7 +44,7 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     const pngBuffer = await sharp(imageData.data).resize(1500).png().toBuffer()
     const image = pngBuffer.toString('base64')
 
-    return res.status(200).json(`data:image/png;base64,${image}`)
+    return res.status(200).send(`data:image/png;base64,${image}`)
   } catch (e) {
     console.error(e)
     return res.status(500).json({ error: 'Error happened during data loading' })
