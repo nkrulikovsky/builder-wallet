@@ -8,6 +8,7 @@ import { isAddress } from 'ethers'
 import { useAddressesStore } from '../../store/addresses'
 
 const AddAddressButton = ({}) => {
+  // TODO: gives paste alert
   const [clipboardData] = useClipboard()
 
   const addAddress = useAddressesStore(state => state.addManualAddress)
@@ -21,7 +22,6 @@ const AddAddressButton = ({}) => {
 
   const validAddress = isAddress(addressText)
   const hasClipboardData = clipboardData.length > 0
-  console.log(clipboardData)
 
   return (
     <View>
@@ -30,10 +30,15 @@ const AddAddressButton = ({}) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
+          //TODO: what with this
           Alert.alert('Modal has been closed.')
           setModalVisible(!modalVisible)
         }}>
-        <Pressable onPress={() => setModalVisible(false)}>
+        <Pressable
+          onPress={() => {
+            setModalVisible(false)
+            setAddressText('')
+          }}>
           <View className="h-full w-full bg-grey-three/30">
             <Pressable
               onPress={() => {}}

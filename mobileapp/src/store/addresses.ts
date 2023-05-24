@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
+import { zustandStorage } from '../storage/zustand'
 
 interface AddressesState {
   connectedAddress: String | undefined
@@ -8,17 +10,30 @@ interface AddressesState {
   removeManualAddress: (address: String) => void
 }
 
-export const useAddressesStore = create<AddressesState>()((set, get) => ({
-  connectedAddress: undefined,
-  manualAddresses: [],
-  setConnectedAddress: (address: String | undefined) =>
-    set({ connectedAddress: address }),
-  addManualAddress: (address: String) =>
-    set({ manualAddresses: [...get().manualAddresses, address] }),
-  removeManualAddress: (address: String) =>
-    set({
-      manualAddresses: get().manualAddresses.filter(
-        manualAddress => manualAddress !== address
-      )
-    })
-}))
+export const useAddressesStore = create<AddressesState>()(
+  persist(
+    (set, get) => ({
+      connectedAddress: undefined,
+      manualAddresses: [],
+      setConnectedAddress: (address: String | undefined) =>
+        set({ connectedAddress: address }),
+      addManualAddress: (address: String) => {
+        const addresses = get().manualAddresses
+
+        if (!addresses.includes(address)) {
+          set({ manualAddresses: [...addresses, address] })
+        }
+      },
+      removeManualAddress: (address: String) =>
+        set({
+          manualAddresses: get().manualAddresses.filter(
+            manualAddress => manualAddress !== address
+          )
+        })
+    }),
+    {
+      name: 'daos',
+      storage: createJSONStorage(() => zustandStorage)
+    }
+  )
+)
