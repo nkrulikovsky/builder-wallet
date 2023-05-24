@@ -14,22 +14,11 @@ import DaoScreen from './src/screens/DaoScreen'
 import { StatusBar, View } from 'react-native'
 import { Web3Modal } from '@web3modal/react-native'
 import { wcProviderMetadata } from './src/constants/config'
-import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi'
-import { publicProvider } from 'wagmi/providers/public'
+import { WagmiConfig } from 'wagmi'
 
 // @ts-expect-error - `@env` is a virtualised module via Babel config.
 import { WALLET_CONNECT_PROJECT_ID } from '@env'
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet],
-  [publicProvider()]
-)
-
-const wagmiConfig = createConfig({
-  autoConnect: false,
-  publicClient,
-  webSocketPublicClient
-})
+import { wagmiConfig } from './src/constants/viemWagmi'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<HomeTabParamList>()
