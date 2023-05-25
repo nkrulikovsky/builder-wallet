@@ -2,6 +2,7 @@ import { Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { HomeTabScreenProps } from '../../navigation/types'
 import WalletSection from '../../components/WalletSection'
+import WidgetsSection from '../../components/WidgetsSection'
 
 const SettingsScreen = ({
   route,
@@ -15,6 +16,7 @@ const SettingsScreen = ({
             <Text className="text-4xl font-extrabold">Settings</Text>
           </View>
           <WalletSection />
+          <WidgetsSection />
         </View>
       </SafeAreaView>
     </View>
