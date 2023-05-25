@@ -1,23 +1,36 @@
-import { FlatList, ScrollView, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { FlatList, RefreshControl, ScrollView, Text, View } from 'react-native'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDaosStore } from '../../store/daos'
 import { HomeTabScreenProps } from '../../navigation/types'
 import DaoSearch from '../../components/DaoSearch'
 import { useDaoSearchStore } from '../../store/daoSearch'
-import { FlashList } from '@shopify/flash-list'
 import DaoCard from '../../components/DaoCard'
 import SearchButton from '../../components/SearchButton'
-import { useEffect } from 'react'
+import { useEffect, useReducer } from 'react'
 import { useAddressesStore } from '../../store/addresses'
 import { loadDaosForAddresses } from '../../data/addressDaos'
+import React from 'react'
 
 const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
+  const insets = useSafeAreaInsets()
+
   const savedDaos = useDaosStore(state => state.saved)
   const searchDaos = useDaoSearchStore(state => state.searchResults)
   const searchActive = useDaoSearchStore(state => state.active)
   const saveMultiple = useDaosStore(state => state.saveMultiple)
 
   const savedManualAddresses = useAddressesStore(state => state.manualAddresses)
+
+  const [refreshing, setRefreshing] = React.useState(false)
+  const [reloadKey, reloadData] = useReducer(x => x + 1, 0)
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true)
+    reloadData()
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 2000)
+  }, [])
 
   useEffect(() => {
     const fetchDaos = async (addresses: string[]) => {
@@ -38,7 +51,14 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   return (
     <ScrollView
       className="flex flex-col h-full bg-white"
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          progressViewOffset={insets.top}
+        />
+      }>
       <SafeAreaView>
         <View className="mx-4 mt-6 flex flex-col h-full">
           <View className="mb-3 flex flex-row items-center justify-between">
@@ -49,7 +69,9 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
           {daos.length > 0 ? (
             <FlatList
               data={daos}
-              renderItem={({ item }) => <DaoCard dao={item} />}
+              renderItem={({ item }) => (
+                <DaoCard key={`${item.address}-${reloadKey}`} dao={item} />
+              )}
               keyExtractor={item => item.address}
               // estimatedItemSize={100}
               showsVerticalScrollIndicator={false}
