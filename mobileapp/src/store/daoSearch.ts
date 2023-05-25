@@ -16,16 +16,19 @@ interface DaoSearchState {
   active: boolean
   searchStatus: DaoSearchStatus
   searchResults: SearchDao[]
+  focusRequested: boolean
   setActive: (active: boolean) => void
   setSearchStatus: (status: DaoSearchStatus) => void
   setSearchResults: (results: SearchDao[]) => void
   clearSearchResults: () => void
+  setFocusRequested: (focusRequested: boolean) => void
 }
 
 export const useDaoSearchStore = create<DaoSearchState>()((set, get) => ({
   active: false,
   searchStatus: DaoSearchStatus.IDLE,
   searchResults: [],
+  focusRequested: false,
   setActive: (active: boolean) => {
     if (active) {
       set({ active })
@@ -41,5 +44,8 @@ export const useDaoSearchStore = create<DaoSearchState>()((set, get) => ({
   },
   clearSearchResults: () => {
     set({ searchResults: [] })
+  },
+  setFocusRequested: (focusRequested: boolean) => {
+    set({ focusRequested })
   }
 }))

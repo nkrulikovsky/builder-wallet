@@ -7,9 +7,11 @@ import Svg, { Path } from 'react-native-svg'
 const SearchButton = () => {
   const active = useDaoSearchStore(state => state.active)
   const setActive = useDaoSearchStore(state => state.setActive)
+  const setFocusRequested = useDaoSearchStore(state => state.setFocusRequested)
 
   const onPress = () => {
     setActive(!active)
+    setFocusRequested(!active)
   }
 
   return (

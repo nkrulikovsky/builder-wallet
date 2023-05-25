@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, TextInput, View, Text } from 'react-native'
 import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import { DaoSearchStatus, useDaoSearchStore } from '../../store/daoSearch'
+import { useFocus } from '../../hooks/focus'
 
 const SEARCH_DAO_QUERY = gql`
   query SearchDAO($text: String!) {
@@ -23,6 +24,8 @@ const SEARCH_DAO_QUERY = gql`
 `
 
 const DaoSearch = () => {
+  const focusRequested = useDaoSearchStore(state => state.focusRequested)
+  const setFocusRequested = useDaoSearchStore(state => state.setFocusRequested)
   const setSearchStatus = useDaoSearchStore(state => state.setSearchStatus)
   const setSearchResults = useDaoSearchStore(state => state.setSearchResults)
   const clearSearchResults = useDaoSearchStore(
@@ -30,6 +33,8 @@ const DaoSearch = () => {
   )
 
   const [searchText, setSearchText] = useState('')
+
+  const inputRef = React.useRef<TextInput>(null)
 
   const { data, loading, error } = useQuery(SEARCH_DAO_QUERY, {
     variables: { text: searchText },
@@ -49,6 +54,15 @@ const DaoSearch = () => {
     }
   })
 
+  useEffect(() => {
+    if (focusRequested) {
+      if (inputRef.current) {
+        inputRef.current.focus()
+      }
+      setFocusRequested(false)
+    }
+  }, [focusRequested])
+
   const handleChangeText = (text: any) => {
     setSearchText(text)
 
@@ -58,6 +72,9 @@ const DaoSearch = () => {
   return (
     <View className="mb-3 justify-center">
       <TextInput
+        ref={inputRef}
+        // autoFocus={true}
+        // autoComplete="off"
         className="bg-grey-one px-3 h-9 rounded-lg"
         onChangeText={handleChangeText}
         value={searchText}
