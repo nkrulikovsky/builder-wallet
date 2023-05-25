@@ -9,8 +9,7 @@ import { DAO } from '../utils/types'
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
   Dao: { dao: DAO }
-  //   PostDetails: { id: string }
-  //   NotFound: undefined
+  Intro: undefined
 }
 
 export type HomeTabParamList = {

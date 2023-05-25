@@ -10,9 +10,12 @@ import { useEffect, useReducer } from 'react'
 import { useAddressesStore } from '../../store/addresses'
 import { loadDaosForAddresses } from '../../data/addressDaos'
 import React from 'react'
+import { IntroStage, useIntroStore } from '../../store/intro'
 
 const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const insets = useSafeAreaInsets()
+
+  const introStage = useIntroStore(state => state.stage)
 
   const savedDaos = useDaosStore(state => state.saved)
   const searchDaos = useDaoSearchStore(state => state.searchResults)
@@ -45,6 +48,12 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
       fetchDaos(savedManualAddresses)
     }
   }, [savedManualAddresses])
+
+  useEffect(() => {
+    if (introStage === IntroStage.NOT_STARTED) {
+      navigation.navigate('Intro')
+    }
+  }, [introStage, navigation])
 
   const daos = searchActive && searchDaos.length > 0 ? searchDaos : savedDaos
 
