@@ -1,19 +1,30 @@
 import clsx from 'clsx'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Pressable, Text, TextInput, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { getAddress, isAddress } from 'viem'
 import { useAddressesStore } from '../../store/addresses'
 import { fetchEnsAddress } from '@wagmi/core'
+import { IntroNextAction, useIntroStore } from '../../store/intro'
 
 const AddAddressButton = ({}) => {
+  const introNextAction = useIntroStore(state => state.nextAction)
+  const setIntroNextAction = useIntroStore(state => state.setNextAction)
+
   const addAddress = useAddressesStore(state => state.addManualAddress)
 
   const [modalVisible, setModalVisible] = useState(false)
   const [addressText, setAddressText] = useState('')
   const [checkingEns, setCheckingEns] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    if (introNextAction === IntroNextAction.ADD_WALLET) {
+      setModalVisible(true)
+      setIntroNextAction(IntroNextAction.NONE)
+    }
+  }, [introNextAction])
 
   const handleChangeText = (text: any) => {
     setAddressText(String(text).trim())

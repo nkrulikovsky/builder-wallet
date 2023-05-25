@@ -1,7 +1,7 @@
 import { Image, Pressable, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RootStackScreenProps } from '../../navigation/types'
-import { IntroStage, useIntroStore } from '../../store/intro'
+import { IntroNextAction, IntroStage, useIntroStore } from '../../store/intro'
 import { useEffect } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -33,14 +33,12 @@ const Dots = ({
 const IntroScreen = ({ route, navigation }: RootStackScreenProps<'Intro'>) => {
   const introStage = useIntroStore(state => state.stage)
   const setIntroStage = useIntroStore(state => state.setState)
+  const setNextAction = useIntroStore(state => state.setNextAction)
 
   useEffect(() => {
     if (introStage === IntroStage.NOT_STARTED) {
       setIntroStage(IntroStage.AUCTIONS)
     }
-    // else if (introStage === IntroStage.AUCTIONS) {
-    //   navigation.pop()
-    // }
   }, [introStage, setIntroStage])
 
   let view = <></>
@@ -58,7 +56,10 @@ const IntroScreen = ({ route, navigation }: RootStackScreenProps<'Intro'>) => {
           <LinearGradient
             locations={[0, 0.42]}
             colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)']}
-            className="flex flex-col gap-3 px-4 pb-3 pt-28">
+            className="flex flex-col gap-3 px-4 pb-3 pt-36">
+            <Text className="text-orange font-extrabold text-2xl">
+              Auctions
+            </Text>
             <Text className="text-black font-extrabold text-2xl mb-12 pr-12">
               Track auctions from your favorite DAOs from the single place
             </Text>
@@ -90,7 +91,8 @@ const IntroScreen = ({ route, navigation }: RootStackScreenProps<'Intro'>) => {
           <LinearGradient
             locations={[0, 0.42]}
             colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)']}
-            className="flex flex-col gap-3 px-4 pb-3 pt-32">
+            className="flex flex-col gap-3 px-4 pb-3 pt-40">
+            <Text className="text-purple font-extrabold text-2xl">Widgets</Text>
             <Text className="text-black font-extrabold text-2xl mb-12 pr-12">
               Add widgets to the Home Screen to know what is happening without
               opening the app
@@ -123,9 +125,9 @@ const IntroScreen = ({ route, navigation }: RootStackScreenProps<'Intro'>) => {
           <LinearGradient
             locations={[0, 0.42]}
             colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)']}
-            className="flex flex-col gap-3 px-4 pb-3 pt-40">
-            <Text className="text-black font-extrabold text-2xl">
-              Your DAOs
+            className="flex flex-col gap-3 px-4 pb-3 pt-44">
+            <Text className="text-red font-extrabold text-2xl">
+              Let's Start
             </Text>
             <Text className="text-black text-2xl mb-12 font-extrabold">
               Add your wallet to automatically load all your DAOs or add them
@@ -133,8 +135,9 @@ const IntroScreen = ({ route, navigation }: RootStackScreenProps<'Intro'>) => {
             </Text>
             <Pressable
               onPress={() => {
-                // TODO
+                setNextAction(IntroNextAction.ADD_WALLET)
                 setIntroStage(IntroStage.DONE)
+                navigation.navigate('Home', { screen: 'Settings' })
               }}>
               <View className="h-12 w-full bg-black rounded-lg items-center justify-center text-center">
                 <Text className="text-white">Add Wallet</Text>
@@ -142,8 +145,9 @@ const IntroScreen = ({ route, navigation }: RootStackScreenProps<'Intro'>) => {
             </Pressable>
             <Pressable
               onPress={() => {
-                // TODO
+                setNextAction(IntroNextAction.SEARCH_DAO)
                 setIntroStage(IntroStage.DONE)
+                navigation.navigate('Home', { screen: 'Daos' })
               }}>
               <View className="h-12 w-full bg-grey-one rounded-lg items-center justify-center text-center">
                 <Text className="text-black">Add Manually</Text>
@@ -154,22 +158,6 @@ const IntroScreen = ({ route, navigation }: RootStackScreenProps<'Intro'>) => {
             </View>
           </LinearGradient>
         </View>
-      </View>
-    )
-  }
-
-  if (introStage === IntroStage.DONE) {
-    view = (
-      <View className="mx-4 h-full pb-6">
-        <Text className="mt-auto">Intro. Stage DONE</Text>
-        <Pressable
-          onPress={() => {
-            setIntroStage(IntroStage.NOT_STARTED)
-          }}>
-          <View className="h-12 w-full bg-black rounded-lg items-center justify-center text-center">
-            <Text className="text-white">Next</Text>
-          </View>
-        </Pressable>
       </View>
     )
   }
