@@ -19,6 +19,7 @@ import { WagmiConfig } from 'wagmi'
 // @ts-expect-error - `@env` is a virtualised module via Babel config.
 import { WALLET_CONNECT_PROJECT_ID } from '@env'
 import { wagmiConfig } from './src/constants/viemWagmi'
+import IntroScreen from './src/screens/IntroScreen'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<HomeTabParamList>()
@@ -66,6 +67,11 @@ const App = () => {
               <RootStack.Screen
                 name="Dao"
                 component={DaoScreen}
+                options={{ headerShown: false }}
+              />
+              <RootStack.Screen
+                name="Intro"
+                component={IntroScreen}
                 options={{ headerShown: false }}
               />
             </RootStack.Navigator>

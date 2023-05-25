@@ -10,14 +10,24 @@ import { useEffect, useReducer } from 'react'
 import { useAddressesStore } from '../../store/addresses'
 import { loadDaosForAddresses } from '../../data/addressDaos'
 import React from 'react'
+import { IntroNextAction, IntroStage, useIntroStore } from '../../store/intro'
 
 const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const insets = useSafeAreaInsets()
 
+  const introStage = useIntroStore(state => state.stage)
+  const introNextAction = useIntroStore(state => state.nextAction)
+  const setIntroNextAction = useIntroStore(state => state.setNextAction)
+
   const savedDaos = useDaosStore(state => state.saved)
+  const saveMultiple = useDaosStore(state => state.saveMultiple)
+
   const searchDaos = useDaoSearchStore(state => state.searchResults)
   const searchActive = useDaoSearchStore(state => state.active)
-  const saveMultiple = useDaosStore(state => state.saveMultiple)
+  const setSearchActive = useDaoSearchStore(state => state.setActive)
+  const setSearchFocusRequested = useDaoSearchStore(
+    state => state.setFocusRequested
+  )
 
   const savedManualAddresses = useAddressesStore(state => state.manualAddresses)
 
@@ -27,10 +37,19 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
     reloadData()
+    const reloadTime = savedDaos.length > 0 ? 2000 : 400
     setTimeout(() => {
       setRefreshing(false)
-    }, 2000)
-  }, [])
+    }, reloadTime)
+  }, [savedDaos])
+
+  useEffect(() => {
+    if (introNextAction === IntroNextAction.SEARCH_DAO) {
+      setSearchFocusRequested(true)
+      setSearchActive(true)
+      setIntroNextAction(IntroNextAction.NONE)
+    }
+  }, [introNextAction])
 
   useEffect(() => {
     const fetchDaos = async (addresses: string[]) => {
@@ -45,6 +64,12 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
       fetchDaos(savedManualAddresses)
     }
   }, [savedManualAddresses])
+
+  useEffect(() => {
+    if (introStage !== IntroStage.DONE) {
+      navigation.navigate('Intro')
+    }
+  }, [introStage, navigation])
 
   const daos = searchActive && searchDaos.length > 0 ? searchDaos : savedDaos
 
@@ -73,12 +98,11 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
                 <DaoCard key={`${item.address}-${reloadKey}`} dao={item} />
               )}
               keyExtractor={item => item.address}
-              // estimatedItemSize={100}
               showsVerticalScrollIndicator={false}
               scrollEnabled={false}
             />
           ) : (
-            <View className="my-auto mx-auto pb-12 max-w-[160px] text-center">
+            <View className="mx-auto mt-[80%] max-w-[160px] text-center">
               <Text className="max-w-[160px] text-center">
                 Add some DAOs to enable widgets!
               </Text>
