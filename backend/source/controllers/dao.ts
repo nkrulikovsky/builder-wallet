@@ -140,6 +140,7 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
 
     return res.status(200).json(returnData)
   } catch (e) {
+    console.error(e)
     return res.status(500).json({ error: 'Error happened during data loading' })
   }
 }
