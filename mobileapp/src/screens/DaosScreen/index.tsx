@@ -50,7 +50,7 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   }, [savedManualAddresses])
 
   useEffect(() => {
-    if (introStage === IntroStage.NOT_STARTED) {
+    if (introStage !== IntroStage.DONE) {
       navigation.navigate('Intro')
     }
   }, [introStage, navigation])
