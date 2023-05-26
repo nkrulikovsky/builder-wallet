@@ -1,8 +1,11 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 
 const WidgetsSection = ({}) => {
+  const navigation = useNavigation()
+
   return (
     <View className="flex flex-col mt-6">
       <Text className="text-2xl font-bold mb-1">Widgets</Text>
@@ -10,7 +13,7 @@ const WidgetsSection = ({}) => {
         <Text>Learn how to add and configure widgets for your Dao</Text>
         <Pressable
           onPress={() => {
-            // TODO: navigate to widgets info screen
+            navigation.navigate('WidgetsSetupInfo')
           }}>
           <View className="h-12 w-full px-4 bg-grey-one rounded-lg items-center justify-between text-center flex flex-row">
             <Text className="text-black">Adding Widgets</Text>
