@@ -95,7 +95,7 @@ const AddAddressButton = ({}) => {
                 className="bg-white rounded-lg absolute bottom-0 left-0 right-0">
                 <View className="flex flex-col gap-3 pt-3 pb-5 px-4">
                   <Text className="text-lg font-bold text-center">
-                    Enter Ethereum Address
+                    Enter Ethereum Address or Ens
                   </Text>
                   <View className="flex flex-col gap-px">
                     <View className="flex flex-row h-12 bg-grey-one rounded-lg justify-between items-center">
