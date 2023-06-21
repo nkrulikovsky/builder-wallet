@@ -1,5 +1,5 @@
 export const shorterAddress = (address: string) => {
-  return `${address.slice(0, 18)}...${address.slice(-18)}`
+  return `${address.slice(0, 16)}...${address.slice(-16)}`
 }
 
 export const shortAddress = (address: string) => {
