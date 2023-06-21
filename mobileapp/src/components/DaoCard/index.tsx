@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Text, TouchableOpacity, View } from 'react-native'
 import { SearchDao, useDaoSearchStore } from '../../store/daoSearch'
 import { SavedDao, useDaosStore } from '../../store/daos'
 import { gql, useQuery } from '@apollo/client'
@@ -38,6 +38,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   const save = useDaosStore(state => state.save)
   const removeFromSaved = useDaosStore(state => state.removeFromSaved)
   const activeSearch = useDaoSearchStore(state => state.active)
+  const searchDaos = useDaoSearchStore(state => state.searchResults)
 
   const { loading, error, data } = useQuery(DAO_QUERY, {
     variables: { address: dao.address }
@@ -89,33 +90,54 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     savedDao => savedDao.address === dao.address
   )
 
-  const unsaveOrOpen = () => {
-    if (activeSearch) {
-      if (daoIsSaved) removeFromSaved(dao.address)
-      else save(dao)
-    } else if (activeMarket) {
-      const daoData: DAO = {
-        name: dao.name,
-        address: dao.address,
-        metadata: activeMarket.metadata,
-        auction: {
-          id: activeMarket?.tokenId,
-          highestBid: activeMarket?.highestBidPrice.nativePrice.decimal,
-          endTime: activeMarket?.endTime * 1000
-        }
+  const openDaoPage = () => {
+    const daoData: DAO = {
+      name: dao.name,
+      address: dao.address,
+      metadata: activeMarket.metadata,
+      auction: {
+        id: activeMarket?.tokenId,
+        highestBid: activeMarket?.highestBidPrice.nativePrice.decimal,
+        endTime: activeMarket?.endTime * 1000
       }
+    }
 
-      navigation.navigate('Dao', {
-        dao: daoData
-      })
+    navigation.navigate('Dao', {
+      dao: daoData
+    })
+  }
+
+  const saveOrUnSave = () => {
+    if (daoIsSaved) {
+      if (searchDaos.some(d => d.address === dao.address)) {
+        removeFromSaved(dao.address)
+      } else {
+        Alert.prompt(
+          'Remove Dao',
+          `Are you sure you want to remove ${dao.name} from saved?`,
+          [
+            {
+              text: 'Cancel',
+              onPress: () => {},
+              style: 'cancel'
+            },
+            {
+              text: 'Remove',
+              onPress: () => removeFromSaved(dao.address),
+              style: 'destructive'
+            }
+          ],
+          'default'
+        )
+      }
+    } else {
+      save(dao)
     }
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={unsaveOrOpen}>
-      <View
-        className="box-border flex flex-row items-center mb-3 rounded-lg"
-        style={daoIsSaved && activeSearch ? style.selected : style.nonSelected}>
+    <TouchableOpacity activeOpacity={0.8} onPress={openDaoPage}>
+      <View className="relative box-border flex flex-row items-center mb-3 rounded-lg">
         <View className="bg-grey-one rounded-lg w-36 h-36">
           <DaoCardImage
             daoAddress={dao.address}
@@ -140,31 +162,39 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             </View>
           </View>
         </View>
-        {daoIsSaved && activeSearch && (
-          <Svg
-            viewBox="0 0 24 24"
-            className="absolute right-2 bottom-2 fill-grey-two w-6 h-6">
-            <Path
-              fillRule="evenodd"
-              d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-              clipRule="evenodd"
-            />
-          </Svg>
+        {activeSearch && (
+          <TouchableOpacity
+            className="absolute h-full z-10"
+            activeOpacity={0.8}
+            onPress={saveOrUnSave}>
+            <View className="absolute bottom-0 left-0 h-12 w-12 bg-grey-one/80 rounded-tr-lg rounded-bl-lg flex items-center justify-center">
+              {daoIsSaved ? (
+                <Svg viewBox="0 0 24 24" className="fill-black w-6 h-6">
+                  <Path
+                    fillRule="evenodd"
+                    d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
+                    clipRule="evenodd"
+                  />
+                </Svg>
+              ) : (
+                <Svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width={1.5}
+                  className="stroke-black w-6 h-6">
+                  <Path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                  />
+                </Svg>
+              )}
+            </View>
+          </TouchableOpacity>
         )}
       </View>
     </TouchableOpacity>
   )
 }
-
-const style = StyleSheet.create({
-  selected: {
-    borderColor: '#F2F2F2',
-    borderWidth: 2
-  },
-  nonSelected: {
-    borderColor: 'transparent',
-    borderWidth: 2
-  }
-})
 
 export default DaoCard

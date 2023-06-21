@@ -66,7 +66,7 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
               {daoIsSaved ? (
                 <Text className="text-red">Remove from saved</Text>
               ) : (
-                <Text className="text-black">Save back</Text>
+                <Text className="text-black">Save</Text>
               )}
             </View>
           </TouchableOpacity>
