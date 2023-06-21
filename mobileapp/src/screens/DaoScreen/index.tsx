@@ -5,7 +5,7 @@ import { RootStackScreenProps } from '../../navigation/types'
 import clsx from 'clsx'
 import DaoCardImage from '../../components/DaoCardImage'
 import Countdown from '../../components/Countdown'
-import Svg, { Path } from 'react-native-svg'
+import BackButton from '../../components/BackButton'
 
 const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const { dao } = route.params
@@ -29,24 +29,7 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
     <View className="h-full bg-white">
       <SafeAreaView>
         <View className="mx-4 h-full">
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => navigation.goBack()}
-            className="mb-6 mt-3">
-            <View className="bg-grey-one h-12 w-12 rounded-lg justify-center items-center">
-              <Svg
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                className="w-6 h-6 stroke-black">
-                <Path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-                />
-              </Svg>
-            </View>
-          </TouchableOpacity>
+          <BackButton onPress={() => navigation.goBack()} />
           <View className="bg-grey-one rounded-lg w-full aspect-square">
             <DaoCardImage
               daoAddress={dao.address}

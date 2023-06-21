@@ -36,7 +36,7 @@ const WalletSection = ({}) => {
     <View className="flex flex-col">
       {anyManualAddresses ? (
         <View className="flex flex-col">
-          <Text className="text-xl font-bold mb-1">Wallets</Text>
+          <Text className="text-2xl font-bold mb-1">Wallets</Text>
           <AddressesList />
         </View>
       ) : (

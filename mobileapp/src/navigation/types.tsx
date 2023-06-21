@@ -10,6 +10,7 @@ export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
   Dao: { dao: DAO }
   Intro: undefined
+  WidgetsSetupInfo: undefined
 }
 
 export type HomeTabParamList = {

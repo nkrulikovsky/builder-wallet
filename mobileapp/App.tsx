@@ -20,6 +20,7 @@ import { WagmiConfig } from 'wagmi'
 import { WALLET_CONNECT_PROJECT_ID } from '@env'
 import { wagmiConfig } from './src/constants/viemWagmi'
 import IntroScreen from './src/screens/IntroScreen'
+import WidgetsSetupInfoScreen from './src/screens/WidgetsSetupInfoScreen'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<HomeTabParamList>()
@@ -72,6 +73,11 @@ const App = () => {
               <RootStack.Screen
                 name="Intro"
                 component={IntroScreen}
+                options={{ headerShown: false }}
+              />
+              <RootStack.Screen
+                name="WidgetsSetupInfo"
+                component={WidgetsSetupInfoScreen}
                 options={{ headerShown: false }}
               />
             </RootStack.Navigator>
