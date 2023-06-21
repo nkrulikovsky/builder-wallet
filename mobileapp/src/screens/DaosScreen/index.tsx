@@ -79,6 +79,8 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
       showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
+          colors={['#CCCCCC']}
+          tintColor={'#CCCCCC'}
           refreshing={refreshing}
           onRefresh={onRefresh}
           progressViewOffset={insets.top}
