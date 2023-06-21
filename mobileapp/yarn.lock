@@ -10545,6 +10545,7 @@ __metadata:
     react-native-safe-area-context: ^4.5.1
     react-native-screens: ^3.20.0
     react-native-shared-group-preferences: ^1.1.23
+    react-native-shimmer-placeholder: ^2.0.9
     react-native-svg: ^13.9.0
     react-native-tcp: ^4.0.0
     react-test-renderer: 18.2.0
@@ -12015,6 +12016,16 @@ __metadata:
   peerDependencies:
     react-native: ">=0.41.2"
   checksum: c9a7b659b11aba4d0aadfe691020390c35be0b53e4eb7fe65c25e66e873e2e3436432960e905940cdcee2ef48daea35a29909f6e4ead02faed1b57c33c013702
+  languageName: node
+  linkType: hard
+
+"react-native-shimmer-placeholder@npm:^2.0.9":
+  version: 2.0.9
+  resolution: "react-native-shimmer-placeholder@npm:2.0.9"
+  peerDependencies:
+    prop-types: ">=15.6.0"
+    react-native-linear-gradient: ">=2.4.0"
+  checksum: 72ef49877c66994acbae7be2e810aef20ced6301b5146c36f671876525d8904e3810af69e277ffe390f05925021f44e3dd16ea04f7e3782ca57610d36d723d54
   languageName: node
   linkType: hard
 
