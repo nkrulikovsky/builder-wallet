@@ -39,7 +39,7 @@ struct ProposalView: View {
       relativeTo: Date.now
     )
     
-    if (timeLeft <= 43200) {
+    if (timeLeft <= 43200 && proposal.state == "ACTIVE") {
       timeColor = Color(red: 0.941, green: 0.196, blue: 0.196)
       timeBorderColor = timeColor.opacity(0.3)
     } else {

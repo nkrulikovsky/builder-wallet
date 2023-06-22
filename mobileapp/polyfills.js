@@ -18,3 +18,4 @@ process.browser = false
 // eslint-disable-next-line no-undef
 const isDev = typeof __DEV__ === 'boolean' && __DEV__
 process.env.NODE_ENV = isDev ? 'development' : 'production'
+Object.assign(process.env, { "NODE_ENV": isDev ? "development" : "production" })
