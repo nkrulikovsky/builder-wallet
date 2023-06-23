@@ -1,7 +1,10 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
+import config from '../../config'
+
+const { app: AppConfig } = config
 
 const zoraClient = new ApolloClient({
-  uri: 'https://api.zora.co/graphql',
+  uri: AppConfig.zoraUrl,
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

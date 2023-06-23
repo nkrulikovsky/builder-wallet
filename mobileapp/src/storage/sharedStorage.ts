@@ -1,7 +1,7 @@
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
+import config from '../../config'
 
-//TODO: move to cental config
-const daosAppGroup = 'group.com.nouns.ng.builder.daos'
+const { app: AppConfig } = config
 
 export const sharedGroupStorage = {
   setItem: async (key: string, value: any, appGroup: string) => {
@@ -24,7 +24,7 @@ export const sharedGroupStorage = {
 
 export const daosGroupStorage = {
   setItem: async (key: string, value: any) =>
-    sharedGroupStorage.setItem(key, value, daosAppGroup),
+    sharedGroupStorage.setItem(key, value, AppConfig.daosAppGroup),
   getItem: async (key: string): Promise<any | null> =>
-    sharedGroupStorage.getItem(key, daosAppGroup)
+    sharedGroupStorage.getItem(key, AppConfig.daosAppGroup)
 }

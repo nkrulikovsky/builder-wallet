@@ -3,6 +3,9 @@ import React from 'react'
 import { Image, Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
+import config from '../../../config'
+
+const { app: appConfig } = config
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
@@ -50,14 +53,13 @@ const DaoCardImage = ({
     onError: () => setLoadError(true)
   })
 
-  let imageUrl = undefined
-
   const image = data?.token.token?.image
   const media = image?.mediaEncoding
 
+  let imageUrl = undefined
+
   if ((image && String(image.mimeType).includes('svg')) || !image) {
-    // TODO: move base url to config
-    imageUrl = `https://api.builderwidgets.wtf/image/${daoAddress}/${tokenId}?type=${imageType}`
+    imageUrl = `${appConfig.imageEndpoint}/${daoAddress}/${tokenId}?type=${imageType}`
   } else if (media && imageType === 'thumbnail' && media.thumbnail) {
     imageUrl = media.thumbnail
   } else if (media && media.original) {
