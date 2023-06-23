@@ -143,6 +143,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             daoAddress={dao.address}
             metadataAddress={activeMarket?.metadata}
             tokenId={tokenId}
+            imageType="thumbnail"
           />
         </View>
         <View className="ml-4">
