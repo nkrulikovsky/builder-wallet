@@ -1,17 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import axios from 'axios'
 import sharp from 'sharp'
-import { createPublicClient, http, isAddress } from 'viem'
-
+import { createPublicClient, fallback, http, isAddress } from 'viem'
 import MetadataRendererAbi from '../abis/MetadataRenderer.json'
 import { base64ToObject, extractBase64FromDataUrl } from '../utils/types'
-import { AlchemyProvider, Contract } from 'ethers'
+import { mainnet } from 'viem/chains'
 
 require('dotenv').config()
 
-const ALCHEMY_KEY = process.env.ALCHEMY_KEY
-
-const url = 'https://api.zora.co/graphql'
+const ANKR_RPC_URL = process.env.ANKR_RPC_URL
+const BLOCKPI_RPC_URL = process.env.BLOCKPI_RPC_URL
+const ALCHEMY_RPC_URL = process.env.ALCHEMY_RPC_URL
 
 const getData = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -24,14 +23,21 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     if (!isAddress(address))
       return res.status(400).json({ error: 'Incorrect DAO address' })
 
-    const provider = new AlchemyProvider('mainnet', ALCHEMY_KEY) // TODO: Use custom key for nounish widgets
-    // const client = createPublicClient({
-    //   chain: mainnet,
-    //   transport: http()
-    // })
+    const ankr = http(ANKR_RPC_URL)
+    const blockpi = http(BLOCKPI_RPC_URL)
+    const alchemy = http(ALCHEMY_RPC_URL)
 
-    const contract = new Contract(address, MetadataRendererAbi, provider)
-    const tokenUri = await contract.tokenURI(tokenId)
+    const client = createPublicClient({
+      chain: mainnet,
+      transport: fallback([ankr, blockpi, alchemy])
+    })
+
+    const tokenUri = await client.readContract({
+      address: address,
+      abi: MetadataRendererAbi,
+      functionName: 'tokenURI',
+      args: [tokenId]
+    })
 
     const tokenUriObj = base64ToObject(
       extractBase64FromDataUrl(String(tokenUri))
@@ -41,6 +47,7 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     const imageData = await axios.get(imageUrl, {
       responseType: 'arraybuffer'
     })
+
     const pngBuffer = await sharp(imageData.data).resize(1500).png().toBuffer()
 
     res.setHeader('Content-Type', 'image/png')
