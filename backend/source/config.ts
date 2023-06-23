@@ -1,10 +1,6 @@
 type ContractAddresses = {
   nounsToken: `0x${string}`
-  // nounsSeeder: `0x${string}`
-  // nounsDescriptor: `0x${string}`
   lilNounsToken: `0x${string}`
-  // lilNounsSeeder: `0x${string}`
-  // lilNounsDescriptor: `0x${string}`
 }
 
 type AppConfig = {

@@ -1,7 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
 import axios from 'axios'
 import sharp from 'sharp'
-import { Abi, createPublicClient, fallback, http, isAddress } from 'viem'
+import {
+  Abi,
+  createPublicClient,
+  fallback,
+  http,
+  isAddress,
+  isAddressEqual
+} from 'viem'
 import MetadataRendererAbi from '../abis/MetadataRenderer.json'
 import NounsTokenAbi from '../abis/NounsToken.json'
 import NounsDescriptorAbi from '../abis/NounsDescriptor.json'
@@ -41,8 +48,8 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     let image
 
     if (
-      address === addresses.lilNounsToken ||
-      address === addresses.nounsToken
+      isAddressEqual(address, addresses.lilNounsToken) ||
+      isAddressEqual(address, addresses.nounsToken)
     ) {
       const tokenContract = {
         address: address,
