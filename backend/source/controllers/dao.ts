@@ -3,17 +3,18 @@ import axios, { AxiosResponse } from 'axios'
 import { shortAddress, shortENS } from '../utils/addressAndENSDisplayUtils'
 import sharp from 'sharp'
 import { getQuery } from '../utils/query'
-import { createPublicClient, http, isAddress } from 'viem'
+import { createPublicClient, fallback, http, isAddress } from 'viem'
 import { mainnet } from 'viem/chains'
 
 import MetadataRendererAbi from '../abis/MetadataRenderer.json'
 import { base64ToObject, extractBase64FromDataUrl } from '../utils/types'
 import { Proposal } from '../types/nouns'
-import { AlchemyProvider, AnkrProvider, Contract } from 'ethers'
 
 require('dotenv').config()
 
-const ALCHEMY_KEY = process.env.ALCHEMY_KEY
+const ANKR_RPC_URL = process.env.ANKR_RPC_URL
+const BLOCKPI_RPC_URL = process.env.BLOCKPI_RPC_URL
+const ALCHEMY_RPC_URL = process.env.ALCHEMY_RPC_URL
 
 const url = 'https://api.zora.co/graphql'
 
@@ -27,11 +28,14 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     if (!isAddress(address))
       return res.status(400).json({ error: 'Incorrect DAO address' })
 
-    const provider = new AlchemyProvider('mainnet', ALCHEMY_KEY) // TODO: Use custom key for nounish widgets
-    // const client = createPublicClient({
-    //   chain: mainnet,
-    //   transport: http()
-    // })
+    const ankr = http(ANKR_RPC_URL)
+    const blockpi = http(BLOCKPI_RPC_URL)
+    const alchemy = http(ALCHEMY_RPC_URL)
+
+    const client = createPublicClient({
+      chain: mainnet,
+      transport: fallback([ankr, blockpi, alchemy])
+    })
 
     const query = getQuery(address, dataToLoad)
 
@@ -58,28 +62,20 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
       const auctionAmount = auctionData.highestBidPrice.nativePrice.decimal
 
       if (auctionBidder && auctionAmount) {
-        const ens = await provider.lookupAddress(auctionBidder)
-        // const ens = await client.getEnsName({
-        //   address: auctionBidder
-        // })
+        const ens = await client.getEnsName({
+          address: auctionBidder
+        })
         bidder = ens ? shortENS(ens) : shortAddress(auctionBidder)
 
         amount = auctionAmount
       }
 
-      // const tokenUri = await client.readContract({
-      //   address: auctionData.metadata,
-      //   abi: MetadataRendererAbi,
-      //   functionName: 'tokenURI',
-      //   args: [auctionData.tokenId]
-      // })
-
-      const contract = new Contract(
-        auctionData.metadata,
-        MetadataRendererAbi,
-        provider
-      )
-      const tokenUri = await contract.tokenURI(auctionData.tokenId)
+      const tokenUri = await client.readContract({
+        address: auctionData.metadata,
+        abi: MetadataRendererAbi,
+        functionName: 'tokenURI',
+        args: [auctionData.tokenId]
+      })
 
       const tokenUriObj = base64ToObject(
         extractBase64FromDataUrl(String(tokenUri))
