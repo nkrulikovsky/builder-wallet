@@ -50,14 +50,14 @@ const DaoCardImage = ({
     onError: () => setLoadError(true)
   })
 
-  let imageUrl = ''
+  let imageUrl = undefined
 
-  const image = data?.token.token.image
+  const image = data?.token.token?.image
   const media = image?.mediaEncoding
 
   if ((image && String(image.mimeType).includes('svg')) || !image) {
     // TODO: move base url to config
-    imageUrl = `https://api.builderwidgets.wtf/image/${metadataAddress}/${tokenId}?type=${imageType}`
+    imageUrl = `https://api.builderwidgets.wtf/image/${daoAddress}/${tokenId}?type=${imageType}`
   } else if (media && imageType === 'thumbnail' && media.thumbnail) {
     imageUrl = media.thumbnail
   } else if (media && media.original) {
@@ -66,7 +66,7 @@ const DaoCardImage = ({
 
   return (
     <View className="w-full h-full">
-      {media && (
+      {imageUrl && (
         <Image
           onError={() => setLoadError(true)}
           onLoadEnd={() => setShowShimmer(false)}
