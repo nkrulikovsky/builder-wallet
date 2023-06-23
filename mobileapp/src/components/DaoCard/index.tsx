@@ -59,15 +59,17 @@ const DaoCard = ({ dao }: DaoCardProps) => {
         </View>
       </View>
     )
-  // TODO: better error state
+
   if (error)
     return (
       <View className="flex flex-row items-center mb-3">
         <View className="bg-grey-one rounded-lg w-36 h-36" />
         <View className="ml-4">
-          <Text className="text-xl font-bold text-red">Couldn't load Dao</Text>
+          <Text className="text-xl font-bold text-red/90">
+            Couldn't load Dao
+          </Text>
           <View className="pt-4 flex flex-col gap-2">
-            <Text className="text-red">Try again later</Text>
+            <Text className="text-red/60">Try to refresh later</Text>
             <View className="bg-grey-one rounded-md h-3 w-20" />
             <View className="bg-grey-one rounded-md h-3 w-16" />
           </View>

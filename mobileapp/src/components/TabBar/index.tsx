@@ -2,7 +2,6 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { View, TouchableOpacity } from 'react-native'
 import { Path, Svg } from 'react-native-svg'
 
-//TODO: optimize svg items
 const DaosIcon = ({ isFocused }: { isFocused: boolean }) => (
   <Svg
     fill="none"
