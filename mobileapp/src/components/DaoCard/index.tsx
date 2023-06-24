@@ -54,8 +54,8 @@ const DaoCard = ({ dao }: DaoCardProps) => {
           </Text>
           <View className="pt-4 flex flex-col gap-2">
             <Text className="text-red/60">Try to refresh later</Text>
-            <View className="bg-grey-one rounded-md h-3 w-20" />
-            <View className="bg-grey-one rounded-md h-3 w-16" />
+            <View className="bg-grey-one rounded-md h-5 w-20" />
+            <View className="bg-grey-one rounded-md h-5 w-16" />
           </View>
         </View>
       </View>
@@ -142,7 +142,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             <View>
               <Text className="text-sm text-grey-three">Highest Bid</Text>
               {loading ? (
-                <View className="bg-grey-one rounded-md h-4 w-16" />
+                <View className="bg-grey-one rounded-md h-5 w-16" />
               ) : (
                 <Text className="text-base font-bold text-black">{bid}</Text>
               )}
@@ -150,7 +150,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             <View className="">
               <Text className="text-sm text-grey-three">Ends In</Text>
               {loading ? (
-                <View className="bg-grey-one rounded-md h-4 w-24" />
+                <View className="bg-grey-one rounded-md h-5 w-24" />
               ) : (
                 <Countdown
                   timestamp={endTime}
