@@ -68,12 +68,13 @@ const DaoSearch = () => {
     if (text.length === 0) clearSearchResults()
   }
 
+  const noDaos = data && data.nouns.nounsSearch.nodes.length === 0
+
   return (
     <View className="mb-3 justify-center">
       <TextInput
         ref={inputRef}
-        // autoFocus={true}
-        // autoComplete="off"
+        autoComplete="off"
         className="bg-grey-one px-3 h-9 rounded-lg"
         onChangeText={handleChangeText}
         value={searchText}
@@ -87,9 +88,14 @@ const DaoSearch = () => {
         />
       )}
       {error && (
-        <Text className="mt-1 text-red">
-          Error happened during loading. Try again later.
-        </Text>
+        <View className="absolute top-0 h-9 right-2 justify-center">
+          <Text className="text-red">Error happened • Try again</Text>
+        </View>
+      )}
+      {noDaos && (
+        <View className="absolute top-0 h-9 right-2 justify-center">
+          <Text className="text-grey-four">No results</Text>
+        </View>
       )}
     </View>
   )
