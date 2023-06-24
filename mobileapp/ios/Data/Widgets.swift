@@ -106,6 +106,8 @@ class WidgetDataLoader {
           }
         }
         
+        governance = governance.sorted { $0.number < $1.number }
+        
         let data = WidgetData(
           auction: AuctionData(
             id: id,
@@ -168,6 +170,8 @@ class WidgetDataLoader {
             )
           }
         }
+        
+        governance = governance.sorted { $0.number < $1.number }
         
         let data = WidgetData(
           auction: nil,
