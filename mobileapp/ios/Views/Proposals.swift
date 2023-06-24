@@ -73,9 +73,7 @@ struct ProposalView: View {
   var body: some View {
     switch displayType {
     case .compact:
-      if (proposal.state == "ACTIVE") {
-        compact
-      }
+      compact
     case .full:
       full
     }
