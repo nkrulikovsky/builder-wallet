@@ -77,6 +77,7 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
     <ScrollView
       className="flex flex-col h-full bg-white"
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
       refreshControl={
         <RefreshControl
           colors={['#CCCCCC']}
@@ -102,6 +103,7 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
               keyExtractor={item => item.address}
               showsVerticalScrollIndicator={false}
               scrollEnabled={false}
+              keyboardShouldPersistTaps="handled"
             />
           ) : (
             <View className="mx-auto mt-[80%] max-w-[160px] text-center">
