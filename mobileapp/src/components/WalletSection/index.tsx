@@ -1,34 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Image, Text, View } from 'react-native'
-import ConnectWalletButton from '../ConnectWalletButton'
 import { useAddressesStore } from '../../store/addresses'
 import AddAddressButton from '../AddAddressButton'
 import AddressesList from '../AddressesList'
 
 const WalletSection = ({}) => {
   const manualAddresses = useAddressesStore(state => state.manualAddresses)
-
-  // const { isOpen, open, close, provider, isConnected } = useWeb3Modal()
-  // useEffect(() => {
-  //   const getAddress = async () => {
-  //     const web3Provider = provider
-  //       ? new ethers.BrowserProvider(provider)
-  //       : null
-
-  //     if (web3Provider) {
-  //       const [address] = await web3Provider.listAccounts()
-  //       const shortAddress = `${address.address.slice(
-  //         0,
-  //         18
-  //       )}...${address.address.slice(address.address.length - 18)}`
-  //       setAddress(shortAddress)
-  //     }
-  //   }
-
-  //   if (isConnected && provider) {
-  //     getAddress()
-  //   }
-  // }, [provider, isConnected])
 
   const anyManualAddresses = manualAddresses.length > 0
 
@@ -52,7 +29,6 @@ const WalletSection = ({}) => {
           </View>
         </View>
       )}
-      {/* <ConnectWalletButton /> */}
       <AddAddressButton />
     </View>
   )

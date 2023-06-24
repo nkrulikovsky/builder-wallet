@@ -1,7 +1,3 @@
-export const ANKR_RPC_URL = process.env.ANKR_RPC_URL!
-export const BLOCKPI_RPC_URL = process.env.BLOCKPI_RPC_URL!
-export const ALCHEMY_RPC_URL = process.env.ALCHEMY_RPC_URL!
-
 type AppConfig = {
   zoraUrl: string
   imageEndpoint: string

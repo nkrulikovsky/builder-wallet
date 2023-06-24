@@ -1,7 +1,9 @@
 import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 import { jsonRpcProvider } from '@wagmi/core/providers/jsonRpc'
-import { ALCHEMY_RPC_URL, ANKR_RPC_URL, BLOCKPI_RPC_URL } from '../../config'
+
+// @ts-expect-error - `@env` is a virtualised module via Babel config.
+import { ANKR_RPC_URL, BLOCKPI_RPC_URL, ALCHEMY_RPC_URL } from '@env'
 
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],

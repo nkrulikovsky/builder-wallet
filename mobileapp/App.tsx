@@ -12,12 +12,8 @@ import TabBar from './src/components/TabBar'
 import { HomeTabParamList, RootStackParamList } from './src/navigation/types'
 import DaoScreen from './src/screens/DaoScreen'
 import { StatusBar } from 'react-native'
-import { Web3Modal } from '@web3modal/react-native'
-import { wcProviderMetadata } from './src/constants/config'
 import { WagmiConfig } from 'wagmi'
 
-// @ts-expect-error - `@env` is a virtualised module via Babel config.
-import { WALLET_CONNECT_PROJECT_ID } from '@env'
 import { wagmiConfig } from './src/constants/viemWagmi'
 import IntroScreen from './src/screens/IntroScreen'
 import WidgetsSetupInfoScreen from './src/screens/WidgetsSetupInfoScreen'
@@ -53,10 +49,6 @@ const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" hidden={false} />
-      <Web3Modal
-        projectId={WALLET_CONNECT_PROJECT_ID}
-        providerMetadata={wcProviderMetadata}
-      />
       <ApolloProvider client={zoraClient}>
         <WagmiConfig config={wagmiConfig}>
           <NavigationContainer>
