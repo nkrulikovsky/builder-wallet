@@ -44,22 +44,6 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     variables: { address: dao.address }
   })
 
-  if (loading)
-    return (
-      <View className="flex flex-row items-center mb-3">
-        <View className="bg-grey-one rounded-lg w-36 h-36" />
-        <View className="ml-4">
-          <View className="bg-grey-one rounded-md h-5 w-40" />
-          <View className="pt-4 flex flex-col gap-2">
-            <View className="bg-grey-one rounded-md h-3 w-20" />
-            <View className="bg-grey-one rounded-md h-4 w-16" />
-            <View className="bg-grey-one rounded-md h-3 w-12" />
-            <View className="bg-grey-one rounded-md h-4 w-24" />
-          </View>
-        </View>
-      </View>
-    )
-
   if (error)
     return (
       <View className="flex flex-row items-center mb-3">
@@ -77,9 +61,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
       </View>
     )
 
-  const activeMarket = data.nouns.nounsActiveMarket
-
-  if (!activeMarket) return null
+  const activeMarket = data?.nouns.nounsActiveMarket
 
   const tokenId = activeMarket?.tokenId
   const highestBid = activeMarket?.highestBidPrice.nativePrice.decimal
@@ -93,20 +75,22 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   )
 
   const openDaoPage = () => {
-    const daoData: DAO = {
-      name: dao.name,
-      address: dao.address,
-      metadata: activeMarket.metadata,
-      auction: {
-        id: activeMarket?.tokenId,
-        highestBid: activeMarket?.highestBidPrice.nativePrice.decimal,
-        endTime: activeMarket?.endTime * 1000
+    if (data) {
+      const daoData: DAO = {
+        name: dao.name,
+        address: dao.address,
+        metadata: activeMarket.metadata,
+        auction: {
+          id: activeMarket?.tokenId,
+          highestBid: activeMarket?.highestBidPrice.nativePrice.decimal,
+          endTime: activeMarket?.endTime * 1000
+        }
       }
-    }
 
-    navigation.navigate('Dao', {
-      dao: daoData
-    })
+      navigation.navigate('Dao', {
+        dao: daoData
+      })
+    }
   }
 
   const saveOrUnSave = () => {
@@ -141,27 +125,39 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     <TouchableOpacity activeOpacity={0.8} onPress={openDaoPage}>
       <View className="relative box-border flex flex-row items-center mb-3 rounded-lg">
         <View className="bg-grey-one rounded-lg w-36 h-36">
-          <DaoCardImage
-            daoAddress={dao.address}
-            metadataAddress={activeMarket?.metadata}
-            tokenId={tokenId}
-            imageType="thumbnail"
-          />
+          {data && (
+            <DaoCardImage
+              daoAddress={dao.address}
+              metadataAddress={activeMarket?.metadata}
+              tokenId={tokenId}
+              imageType="thumbnail"
+            />
+          )}
         </View>
         <View className="ml-4">
-          <Text className="text-xl font-bold truncate">{displayName}</Text>
+          <Text className="text-xl font-bold truncate">
+            {loading ? dao.name : displayName}
+          </Text>
           <View className="pt-2 flex flex-col gap-1">
             <View>
               <Text className="text-sm text-grey-three">Highest Bid</Text>
-              <Text className="text-base font-bold text-black">{bid}</Text>
+              {loading ? (
+                <View className="bg-grey-one rounded-md h-4 w-16" />
+              ) : (
+                <Text className="text-base font-bold text-black">{bid}</Text>
+              )}
             </View>
             <View className="">
               <Text className="text-sm text-grey-three">Ends In</Text>
-              <Countdown
-                timestamp={endTime}
-                style="text-base font-bold text-black"
-                endText="Ended"
-              />
+              {loading ? (
+                <View className="bg-grey-one rounded-md h-4 w-24" />
+              ) : (
+                <Countdown
+                  timestamp={endTime}
+                  style="text-base font-bold text-black"
+                  endText="Ended"
+                />
+              )}
             </View>
           </View>
         </View>
