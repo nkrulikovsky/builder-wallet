@@ -10548,6 +10548,7 @@ __metadata:
     react-native-shimmer-placeholder: ^2.0.9
     react-native-svg: ^13.9.0
     react-native-tcp: ^4.0.0
+    react-native-toast-message: ^2.1.6
     react-test-renderer: 18.2.0
     readable-stream: ^1.0.33
     rn-nodeify: ^10.3.0
@@ -12055,6 +12056,16 @@ __metadata:
   peerDependencies:
     react-native: ">=0.60.0"
   checksum: e323a2abecafa713e9e4a259d219029152f82582590a8e743667ce43c37921b253d96621d014cbbb6a58ef35ddcf759e106d1ae2fbed3159a5cd4fc76a57855d
+  languageName: node
+  linkType: hard
+
+"react-native-toast-message@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "react-native-toast-message@npm:2.1.6"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 250ce35cf3df05562ac19a0f1dd9ca3b0f4731021cc1f95a6291fe320a1122f8fbc55e6e4185c9bc0303c43b0acf1435861a0a08e05dc69495b06db818f1daa1
   languageName: node
   linkType: hard
 

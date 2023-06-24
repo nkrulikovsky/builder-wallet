@@ -11,7 +11,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import TabBar from './src/components/TabBar'
 import { HomeTabParamList, RootStackParamList } from './src/navigation/types'
 import DaoScreen from './src/screens/DaoScreen'
-import { StatusBar, View } from 'react-native'
+import { StatusBar } from 'react-native'
 import { Web3Modal } from '@web3modal/react-native'
 import { wcProviderMetadata } from './src/constants/config'
 import { WagmiConfig } from 'wagmi'
@@ -21,6 +21,7 @@ import { WALLET_CONNECT_PROJECT_ID } from '@env'
 import { wagmiConfig } from './src/constants/viemWagmi'
 import IntroScreen from './src/screens/IntroScreen'
 import WidgetsSetupInfoScreen from './src/screens/WidgetsSetupInfoScreen'
+import AppToast from './src/components/AppToast'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<HomeTabParamList>()
@@ -84,6 +85,7 @@ const App = () => {
           </NavigationContainer>
         </WagmiConfig>
       </ApolloProvider>
+      <AppToast />
     </>
   )
 }
