@@ -166,7 +166,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             className="absolute h-full z-10"
             activeOpacity={0.8}
             onPress={saveOrUnSave}>
-            <View className="absolute bottom-0 left-0 h-12 w-12 bg-grey-one/80 rounded-tr-lg rounded-bl-lg flex items-center justify-center">
+            <View className="absolute bottom-0 left-0 h-12 w-12 bg-grey-one/95 rounded-tr-lg rounded-bl-lg flex items-center justify-center">
               {daoIsSaved ? (
                 <Svg viewBox="0 0 24 24" className="fill-black w-6 h-6">
                   <Path
@@ -177,14 +177,14 @@ const DaoCard = ({ dao }: DaoCardProps) => {
                 </Svg>
               ) : (
                 <Svg
-                  viewBox="0 0 24 24"
                   fill="none"
-                  stroke-width={1.5}
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
                   className="stroke-black w-6 h-6">
                   <Path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                    d="M12 4.5v15m7.5-7.5h-15"
                   />
                 </Svg>
               )}
