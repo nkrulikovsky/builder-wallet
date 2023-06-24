@@ -34,10 +34,21 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   const [refreshing, setRefreshing] = React.useState(false)
   const [reloadKey, reloadData] = useReducer(x => x + 1, 0)
 
+  const fetchDaos = async (addresses: string[]) => {
+    const daos = await loadDaosForAddresses(addresses)
+
+    if (daos) {
+      saveMultiple(daos)
+    }
+  }
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
     reloadData()
-    const reloadTime = savedDaos.length > 0 ? 2000 : 400
+    if (savedManualAddresses.length > 0) {
+      fetchDaos(savedManualAddresses)
+    }
+    const reloadTime = savedDaos.length > 0 ? 1420 : 400
     setTimeout(() => {
       setRefreshing(false)
     }, reloadTime)
@@ -52,14 +63,6 @@ const DaosScreen = ({ route, navigation }: HomeTabScreenProps<'Daos'>) => {
   }, [introNextAction])
 
   useEffect(() => {
-    const fetchDaos = async (addresses: string[]) => {
-      const daos = await loadDaosForAddresses(addresses)
-
-      if (daos) {
-        saveMultiple(daos)
-      }
-    }
-
     if (savedManualAddresses.length > 0) {
       fetchDaos(savedManualAddresses)
     }
