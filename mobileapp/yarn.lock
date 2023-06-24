@@ -7266,6 +7266,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-text-encoding@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "fast-text-encoding@npm:1.0.6"
+  checksum: 9d58f694314b3283e785bf61954902536da228607ad246905e30256f9ab8331f780ac987e7222c9f5eafd04168d07e12b8054c85cedb76a2c05af0e82387a903
+  languageName: node
+  linkType: hard
+
 "fast-xml-parser@npm:^4.0.12":
   version: 4.2.2
   resolution: "fast-xml-parser@npm:4.2.2"
@@ -10389,6 +10396,7 @@ __metadata:
     eslint: ^8.19.0
     ethers: ^6.3.0
     events: ^3.3.0
+    fast-text-encoding: ^1.0.6
     graphql: ^16.6.0
     https-browserify: ^1.0.0
     jest: ^29.2.1

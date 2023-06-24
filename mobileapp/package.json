@@ -31,6 +31,7 @@
     "dayjs": "^1.11.7",
     "ethers": "^6.3.0",
     "events": "^3.3.0",
+    "fast-text-encoding": "^1.0.6",
     "graphql": "^16.6.0",
     "https-browserify": "^1.0.0",
     "nativewind": "^2.0.11",

@@ -1,5 +1,6 @@
 import { decode, encode } from 'base-64'
 import '@ethersproject/shims'
+import "fast-text-encoding";
 
 if (typeof BigInt === 'undefined') {
     global.BigInt = require('big-integer')
