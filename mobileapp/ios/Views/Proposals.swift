@@ -36,7 +36,7 @@ struct ProposalView: View {
     
     endsIn = formatter.localizedString(
       for: Date(timeIntervalSince1970: proposal.endTime),
-      relativeTo: Date.now
+      relativeTo: Date()
     )
     
     if (timeLeft <= 43200 && proposal.state == "ACTIVE") {

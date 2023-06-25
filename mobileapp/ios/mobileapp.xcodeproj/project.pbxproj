@@ -641,8 +641,8 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire.git" */,
-				0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults.git" */,
+				0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -1055,7 +1055,7 @@
 				INFOPLIST_FILE = Governance/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Governance;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1096,7 +1096,7 @@
 				INFOPLIST_FILE = Governance/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Governance;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1136,7 +1136,7 @@
 				INFOPLIST_FILE = Art/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Art;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1178,7 +1178,7 @@
 				INFOPLIST_FILE = Art/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Art;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1216,7 +1216,7 @@
 				INFOPLIST_FILE = SelectDAOIntentExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SelectDAOIntentExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1256,7 +1256,7 @@
 				INFOPLIST_FILE = SelectDAOIntentExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SelectDAOIntentExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1295,7 +1295,7 @@
 				INFOPLIST_FILE = Auction/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Auction;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1336,7 +1336,7 @@
 				INFOPLIST_FILE = Auction/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Auction;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1375,7 +1375,7 @@
 				INFOPLIST_FILE = AuctionGovernance/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AuctionGovernance;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1416,7 +1416,7 @@
 				INFOPLIST_FILE = AuctionGovernance/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AuctionGovernance;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1712,7 +1712,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -1720,7 +1720,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults.git" */ = {
+		0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sunshinejr/SwiftyUserDefaults.git";
 			requirement = {
@@ -1733,42 +1733,42 @@
 /* Begin XCSwiftPackageProductDependency section */
 		0A3802DB2A0B0264000C34A0 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		0A90E37E29FC620400FB320D /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		0A90E38029FC63A300FB320D /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		0A90E38329FC63E500FB320D /* SwiftyUserDefaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults.git" */;
+			package = 0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
 			productName = SwiftyUserDefaults;
 		};
 		0A90E38529FC63F500FB320D /* SwiftyUserDefaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults.git" */;
+			package = 0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
 			productName = SwiftyUserDefaults;
 		};
 		0A9D4AB42A02D73A00183302 /* SwiftyUserDefaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults.git" */;
+			package = 0A90E38229FC63E500FB320D /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
 			productName = SwiftyUserDefaults;
 		};
 		0AE29FDE2A09B5950035242E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		0AE2A0082A09FCE40035242E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 0A90E37D29FC620300FB320D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
