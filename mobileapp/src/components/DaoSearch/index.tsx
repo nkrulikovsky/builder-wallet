@@ -78,7 +78,7 @@ const DaoSearch = () => {
         className="bg-grey-one px-3 h-9 rounded-lg"
         onChangeText={handleChangeText}
         value={searchText}
-        placeholder="DAO name"
+        placeholder="DAO name or address"
       />
       {loading && (
         <ActivityIndicator
