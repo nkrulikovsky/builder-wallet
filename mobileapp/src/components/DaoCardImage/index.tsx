@@ -16,7 +16,7 @@ type DaoCardImageProps = {
   imageType?: 'thumbnail' | 'full'
 }
 
-const DAO_QUERY = gql`
+const IMAGE_QUERY = gql`
   query Image($address: String!, $tokenId: String!) {
     token(token: { address: $address, tokenId: $tokenId }) {
       token {
@@ -48,8 +48,8 @@ const DaoCardImage = ({
   const [showShimmer, setShowShimmer] = React.useState(true)
   const [loadError, setLoadError] = React.useState(false)
 
-  const { data } = useQuery(DAO_QUERY, {
-    variables: { address: daoAddress, tokenId: tokenId.toString() },
+  const { data } = useQuery(IMAGE_QUERY, {
+    variables: { address: daoAddress, tokenId: String(tokenId) },
     onError: () => setLoadError(true)
   })
 

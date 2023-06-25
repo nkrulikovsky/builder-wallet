@@ -8,6 +8,7 @@ import DaoCardImage from '../DaoCardImage'
 import { Path, Svg } from 'react-native-svg'
 import { useNavigation } from '@react-navigation/native'
 import { DAO } from '../../utils/types'
+import clsx from 'clsx'
 
 type DaoCardProps = {
   dao: SavedDao | SearchDao
@@ -44,24 +45,26 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     variables: { address: dao.address }
   })
 
-  if (error)
+  const activeMarket = data?.nouns.nounsActiveMarket
+
+  if (error || !activeMarket)
     return (
       <View className="flex flex-row items-center mb-3">
         <View className="bg-grey-one rounded-lg w-36 h-36" />
         <View className="ml-4">
-          <Text className="text-xl font-bold text-red/90">
-            Couldn't load Dao
+          <Text className={clsx('text-xl font-bold', error && 'text-red/90')}>
+            {error ? `Couldn't load Dao` : dao.name}
           </Text>
           <View className="pt-4 flex flex-col gap-2">
-            <Text className="text-red/60">Try to refresh later</Text>
+            <Text className={clsx(error && 'text-red/70')}>
+              {error ? `Try to refresh later` : `No tokens minted yet`}
+            </Text>
             <View className="bg-grey-one rounded-md h-5 w-20" />
             <View className="bg-grey-one rounded-md h-5 w-16" />
           </View>
         </View>
       </View>
     )
-
-  const activeMarket = data?.nouns.nounsActiveMarket
 
   const tokenId = activeMarket?.tokenId
   const highestBid = activeMarket?.highestBidPrice.nativePrice.decimal
@@ -75,6 +78,8 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   )
 
   const openDaoPage = () => {
+    // Dao page won't open if dao was created,
+    // but no token was minted yet
     if (data) {
       const daoData: DAO = {
         name: dao.name,
