@@ -1,10 +1,42 @@
-import { FlatList, RefreshControl, ScrollView, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  Text,
+  View
+} from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDaosStore } from '../../store/daos'
 import { HomeTabScreenProps } from '../../navigation/types'
-import DaoCard from '../../components/DaoCard'
-import { useEffect, useReducer } from 'react'
+import { useReducer } from 'react'
 import React from 'react'
+import { gql, useQuery } from '@apollo/client'
+
+const PROPS_QUERY = gql`
+  query BuilderDAOsProps($addresses: [String!], $limit: Int!) {
+    nouns {
+      nounsProposals(
+        where: { collectionAddresses: $addresses }
+        sort: { sortKey: CREATED, sortDirection: DESC }
+        pagination: { limit: $limit }
+      ) {
+        nodes {
+          proposalNumber
+          proposalId
+          title
+          status
+          voteStart
+          voteEnd
+          abstainVotes
+          againstVotes
+          forVotes
+          quorumVotes
+        }
+      }
+    }
+  }
+`
 
 const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
   const insets = useSafeAreaInsets()
@@ -14,7 +46,16 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
   const [refreshing, setRefreshing] = React.useState(false)
   const [reloadKey, reloadData] = useReducer(x => x + 1, 0)
 
+  const { loading, error, data, refetch } = useQuery(PROPS_QUERY, {
+    variables: {
+      addresses: savedDaos.map(dao => dao.address),
+      limit: 10 * savedDaos.length
+    },
+    pollInterval: 600000
+  })
+
   const onRefresh = React.useCallback(() => {
+    refetch()
     setRefreshing(true)
     reloadData()
     const reloadTime = savedDaos.length > 0 ? 1420 : 400
@@ -23,7 +64,10 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
     }, reloadTime)
   }, [savedDaos])
 
-  const props: any[] = []
+  const props = data?.nouns.nounsProposals.nodes.filter(
+    (p: any) =>
+      p.status === 'ACTIVE' || p.status === 'PENDING' || p.status === 'QUEUED'
+  )
 
   return (
     <ScrollView
@@ -44,11 +88,25 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
           <View className="mb-3 flex flex-row items-center justify-between">
             <Text className="text-4xl font-extrabold">Feed</Text>
           </View>
-          {props.length > 0 ? (
+          {loading ? (
+            <ActivityIndicator
+              className="mx-auto mt-[80%]"
+              size="small"
+              color="#9D9D9D"
+            />
+          ) : error ? (
+            <View className="mx-auto mt-[80%] max-w-[160px] text-center">
+              <Text className="max-w-[160px] text-center text-red">
+                Couldn't load proposals
+              </Text>
+            </View>
+          ) : data && props.length > 0 ? (
             <FlatList
               data={props}
-              renderItem={({ item }) => (
-                <DaoCard key={`${item.address}-${reloadKey}`} dao={item} />
+              renderItem={({ item, index }) => (
+                <View key={`${index}-${item.id}-${reloadKey}`} className="my-8">
+                  <Text className="font-bold">{item.title}</Text>
+                </View>
               )}
               keyExtractor={item => item.address}
               showsVerticalScrollIndicator={false}
