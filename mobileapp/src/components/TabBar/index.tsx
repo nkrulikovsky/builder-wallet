@@ -17,6 +17,21 @@ const DaosIcon = ({ isFocused }: { isFocused: boolean }) => (
   </Svg>
 )
 
+const FeedIcon = ({ isFocused }: { isFocused: boolean }) => (
+  <Svg
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke={isFocused ? '#000000' : '#9D9D9D'}
+    className="w-6 h-6">
+    <Path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
+    />
+  </Svg>
+)
+
 const SettingsIcon = ({ isFocused }: { isFocused: boolean }) => {
   return (
     <Svg
@@ -75,6 +90,8 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
             <View>
               {route.name === 'Daos' ? (
                 <DaosIcon isFocused={isFocused} />
+              ) : route.name === 'Feed' ? (
+                <FeedIcon isFocused={isFocused} />
               ) : route.name === 'Settings' ? (
                 <SettingsIcon isFocused={isFocused} />
               ) : (

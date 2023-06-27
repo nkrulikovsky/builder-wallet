@@ -20,6 +20,7 @@ import WidgetsSetupInfoScreen from './src/screens/WidgetsSetupInfoScreen'
 import AppToast from './src/components/AppToast'
 import { PostHogProvider } from 'posthog-react-native'
 import { posthogAsync } from './src/constants/posthog'
+import FeedScreen from './src/screens/FeedScreen'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<HomeTabParamList>()
@@ -30,6 +31,11 @@ const HomeTabs = () => {
       <Tab.Screen
         name="Daos"
         component={DaosScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Feed"
+        component={FeedScreen}
         options={{ headerShown: false }}
       />
       <Tab.Screen

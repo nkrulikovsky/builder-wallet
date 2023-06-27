@@ -15,6 +15,7 @@ export type RootStackParamList = {
 
 export type HomeTabParamList = {
   Daos: undefined
+  Feed: undefined
   Settings: undefined
 }
 
