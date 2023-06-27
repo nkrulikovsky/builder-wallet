@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { zustandStorage } from '../storage/zustand'
+import { track } from '../utils/track'
 
 interface AddressesState {
   connectedAddress: string | undefined
@@ -22,6 +23,7 @@ export const useAddressesStore = create<AddressesState>()(
 
         if (!addresses.includes(address)) {
           set({ manualAddresses: [...addresses, address] })
+          track('Add Wallet Address')
         }
       },
       removeManualAddress: (address: string) =>
