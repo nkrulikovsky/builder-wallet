@@ -53,7 +53,7 @@ const DaoCardImage = ({
     onError: () => setLoadError(true)
   })
 
-  const image = data?.token.token?.image
+  const image = data?.token?.token?.image
   const media = image?.mediaEncoding
 
   let imageUrl = undefined

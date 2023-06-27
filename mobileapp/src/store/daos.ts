@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { daosGroupStorage } from '../storage/sharedStorage'
 import { zustandStorage } from '../storage/zustand'
 import Toast from 'react-native-toast-message'
+import { track } from '../utils/track'
 
 const showErrorToast = (text: string) => {
   Toast.show({
@@ -36,6 +37,8 @@ export const useDaosStore = create<DaosState>()(
 
           try {
             await daosGroupStorage.setItem('saved', newSaved)
+
+            track('Save DAO', { Dao: dao.name })
           } catch {
             showErrorToast(`Couldn't save ${dao.name}`)
             set({ saved: saved })
@@ -44,16 +47,17 @@ export const useDaosStore = create<DaosState>()(
       },
       saveMultiple: async (daos: SavedDao[]) => {
         const saved = get().saved
-        let newSaved = [...saved]
+        let newDaos = []
 
         for (const dao of daos) {
           if (!saved.find(a => a.address === dao.address)) {
-            newSaved.push(dao)
+            newDaos.push(dao)
           }
         }
+        if (newDaos.length === 0) return
 
+        let newSaved = [...saved, ...newDaos]
         set({ saved: newSaved })
-
         try {
           await daosGroupStorage.setItem('saved', newSaved)
         } catch {
