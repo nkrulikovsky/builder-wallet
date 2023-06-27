@@ -18,10 +18,8 @@ import { wagmiConfig } from './src/constants/viemWagmi'
 import IntroScreen from './src/screens/IntroScreen'
 import WidgetsSetupInfoScreen from './src/screens/WidgetsSetupInfoScreen'
 import AppToast from './src/components/AppToast'
-import { mixpanel } from './src/constants/mixpanel'
-
-mixpanel.init()
-mixpanel.setUseIpAddressForGeolocation(false)
+import { PostHogProvider } from 'posthog-react-native'
+import { posthogAsync } from './src/constants/posthog'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<HomeTabParamList>()
@@ -56,28 +54,30 @@ const App = () => {
       <ApolloProvider client={zoraClient}>
         <WagmiConfig config={wagmiConfig}>
           <NavigationContainer>
-            <RootStack.Navigator initialRouteName="Home">
-              <RootStack.Screen
-                name="Home"
-                component={HomeTabs}
-                options={{ headerShown: false }}
-              />
-              <RootStack.Screen
-                name="Dao"
-                component={DaoScreen}
-                options={{ headerShown: false }}
-              />
-              <RootStack.Screen
-                name="Intro"
-                component={IntroScreen}
-                options={{ headerShown: false }}
-              />
-              <RootStack.Screen
-                name="WidgetsSetupInfo"
-                component={WidgetsSetupInfoScreen}
-                options={{ headerShown: false }}
-              />
-            </RootStack.Navigator>
+            <PostHogProvider client={posthogAsync} debug={false}>
+              <RootStack.Navigator initialRouteName="Home">
+                <RootStack.Screen
+                  name="Home"
+                  component={HomeTabs}
+                  options={{ headerShown: false }}
+                />
+                <RootStack.Screen
+                  name="Dao"
+                  component={DaoScreen}
+                  options={{ headerShown: false }}
+                />
+                <RootStack.Screen
+                  name="Intro"
+                  component={IntroScreen}
+                  options={{ headerShown: false }}
+                />
+                <RootStack.Screen
+                  name="WidgetsSetupInfo"
+                  component={WidgetsSetupInfoScreen}
+                  options={{ headerShown: false }}
+                />
+              </RootStack.Navigator>
+            </PostHogProvider>
           </NavigationContainer>
         </WagmiConfig>
       </ApolloProvider>

@@ -1,9 +1,12 @@
-import { MixpanelProperties } from 'mixpanel-react-native'
-import { mixpanel } from '../constants/mixpanel'
+import { posthog } from '../constants/posthog'
 
 export const track = (
   eventName: string,
-  properties?: MixpanelProperties | undefined
+  properties?:
+    | {
+        [key: string]: any
+      }
+    | undefined
 ) => {
-  mixpanel.track(eventName, properties)
+  posthog && posthog.capture(eventName, properties)
 }
