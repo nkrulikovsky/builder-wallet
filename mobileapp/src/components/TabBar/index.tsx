@@ -36,7 +36,7 @@ const SettingsIcon = ({ isFocused }: { isFocused: boolean }) => {
 
 const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   return (
-    <View className="flex flex-row h-20 pt-1 bg-white justify-evenly">
+    <View className="flex flex-row h-20 pt-1 bg-white justify-evenly border-t border-grey-one">
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key]
 
