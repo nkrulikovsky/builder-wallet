@@ -2686,14 +2686,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-async-storage/async-storage@npm:^1.18.1":
-  version: 1.18.1
-  resolution: "@react-native-async-storage/async-storage@npm:1.18.1"
+"@react-native-async-storage/async-storage@npm:^1.18.2":
+  version: 1.18.2
+  resolution: "@react-native-async-storage/async-storage@npm:1.18.2"
   dependencies:
     merge-options: ^3.0.4
   peerDependencies:
     react-native: ^0.0.0-0 || 0.60 - 0.72 || 1000.0.0
-  checksum: 58c8497fafdd4d112c4a70b0976783abdc6fa487f0cffca196901efd146fc838dee0cf498fdc4ef67a4634ba4ca97d60fec5a24720aea1d46f1999b0ba8b249b
+  checksum: bdbcd2e4785a1348657302fa48f4073d980d3b3626fc2ea1e8ec3013825d0013a49d0805a3fd1e98c0b8b12eb1273ef03fb842686ce740d25331398deb2691c4
   languageName: node
   linkType: hard
 
@@ -10339,13 +10339,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mixpanel-react-native@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "mixpanel-react-native@npm:2.3.1"
-  checksum: 019d11ee55f6da89d30111a31c514bc7de0ec2be51d81e4258f9dc89054fc44c5306bd7a7374d30e8cc2485b5db4825869a3b5764a8cf516127d08550c812a98
-  languageName: node
-  linkType: hard
-
 "mkdirp@npm:^0.5.1":
   version: 0.5.6
   resolution: "mkdirp@npm:0.5.6"
@@ -10377,7 +10370,7 @@ __metadata:
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
     "@ethersproject/shims": ^5.7.0
-    "@react-native-async-storage/async-storage": ^1.18.1
+    "@react-native-async-storage/async-storage": ^1.18.2
     "@react-native-clipboard/clipboard": ^1.11.2
     "@react-native-community/eslint-config": ^3.2.0
     "@react-navigation/bottom-tabs": ^6.5.7
@@ -10408,13 +10401,14 @@ __metadata:
     https-browserify: ^1.0.0
     jest: ^29.2.1
     metro-react-native-babel-preset: 0.73.9
-    mixpanel-react-native: ^2.3.1
     nativewind: ^2.0.11
+    posthog-react-native: ^2.7.1
     prettier: ^2.4.1
     process: ^0.11.10
     react: 18.2.0
     react-native: 0.71.7
     react-native-crypto: ^2.2.0
+    react-native-device-info: ^10.6.0
     react-native-dotenv: ^3.4.8
     react-native-get-random-values: ^1.8.0
     react-native-linear-gradient: ^2.6.2
@@ -11424,6 +11418,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"posthog-react-native@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "posthog-react-native@npm:2.7.1"
+  peerDependencies:
+    "@react-native-async-storage/async-storage": ">=1.0.0"
+    "@react-navigation/native": ">= 5.0.10"
+    expo-application: ">= 4.0.0"
+    expo-device: ">= 4.0.0"
+    expo-file-system: ">= 13.0.0"
+    expo-localization: ">= 11.0.0"
+    react-native-device-info: ">= 10.0.0"
+    react-native-navigation: ">=6.0.0"
+  peerDependenciesMeta:
+    "@react-native-async-storage/async-storage":
+      optional: true
+    "@react-navigation/native":
+      optional: true
+    expo-application:
+      optional: true
+    expo-device:
+      optional: true
+    expo-file-system:
+      optional: true
+    expo-localization:
+      optional: true
+    react-native-device-info:
+      optional: true
+    react-native-navigation:
+      optional: true
+  checksum: 8acfe544579740227496370dbd0fb0b1883ce0ff1b6e095dd25fc41ce159463d5790cdacf7aeb4886777e95658b571d03bb39d049de10f9f24678f351c498450
+  languageName: node
+  linkType: hard
+
 "preact@npm:^10.12.0, preact@npm:^10.5.9":
   version: 10.15.0
   resolution: "preact@npm:10.15.0"
@@ -11771,6 +11798,15 @@ __metadata:
   peerDependencies:
     react-native-randombytes: ">=2.0.0 <4.0.0"
   checksum: 52631bf32e5d3e0aad9329e3271808a30b91f8a072d4a0c2791105cd3c3aac5d1a63a4016a570790342baa7fc4b10f15024e4d6df47e57906197d7587af450e1
+  languageName: node
+  linkType: hard
+
+"react-native-device-info@npm:^10.6.0":
+  version: 10.6.0
+  resolution: "react-native-device-info@npm:10.6.0"
+  peerDependencies:
+    react-native: "*"
+  checksum: 7a7cc438844552aef687b4a5b8efd0cd0a2959e0a3b771febfbe0b6a9ca8ff05a563e2912b30b83523bd3d5143d6616ca8fac0476abf01936a726e1578211ebb
   languageName: node
   linkType: hard
 
