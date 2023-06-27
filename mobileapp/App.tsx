@@ -54,7 +54,7 @@ const App = () => {
       <ApolloProvider client={zoraClient}>
         <WagmiConfig config={wagmiConfig}>
           <NavigationContainer>
-            <PostHogProvider client={posthogAsync} debug={false}>
+            <PostHogProvider client={posthogAsync}>
               <RootStack.Navigator initialRouteName="Home">
                 <RootStack.Screen
                   name="Home"
