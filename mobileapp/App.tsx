@@ -18,6 +18,10 @@ import { wagmiConfig } from './src/constants/viemWagmi'
 import IntroScreen from './src/screens/IntroScreen'
 import WidgetsSetupInfoScreen from './src/screens/WidgetsSetupInfoScreen'
 import AppToast from './src/components/AppToast'
+import { mixpanel } from './src/constants/mixpanel'
+
+mixpanel.init()
+mixpanel.setUseIpAddressForGeolocation(false)
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<HomeTabParamList>()
