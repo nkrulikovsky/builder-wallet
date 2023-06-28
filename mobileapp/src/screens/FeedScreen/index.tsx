@@ -11,7 +11,7 @@ import { useDaosStore } from '../../store/daos'
 import { HomeTabScreenProps } from '../../navigation/types'
 import { useReducer } from 'react'
 import React from 'react'
-import { gql, useQuery } from '@apollo/client'
+import { ApolloError, gql, useQuery } from '@apollo/client'
 import { Proposal } from '../../utils/types'
 import ProposalCard from '../../components/ProposalCard'
 
@@ -37,11 +37,23 @@ const PROPS_QUERY = gql`
           againstVotes
           forVotes
           quorumVotes
+          votes {
+            voter
+            support
+          }
         }
       }
     }
   }
 `
+
+type BuilderDAOsPropsResponse = {
+  nouns: {
+    nounsProposals: {
+      nodes: Proposal[]
+    }
+  }
+}
 
 const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
   const insets = useSafeAreaInsets()
@@ -51,7 +63,17 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
   const [refreshing, setRefreshing] = React.useState(false)
   const [reloadKey, reloadData] = useReducer(x => x + 1, 0)
 
-  const { loading, error, data, refetch } = useQuery(PROPS_QUERY, {
+  const {
+    data,
+    loading,
+    error,
+    refetch
+  }: {
+    loading: boolean
+    error?: ApolloError
+    data?: BuilderDAOsPropsResponse
+    refetch: () => void
+  } = useQuery(PROPS_QUERY, {
     variables: {
       addresses: savedDaos.map(dao => dao.address),
       limit: 10 * savedDaos.length
@@ -69,35 +91,38 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
     }, reloadTime)
   }, [savedDaos])
 
-  const props: Proposal[] = data?.nouns.nounsProposals.nodes.filter(
+  const props = data?.nouns.nounsProposals.nodes.filter(
     (p: any) =>
       p.status === 'ACTIVE' || p.status === 'PENDING' || p.status === 'QUEUED'
   )
 
-  props.sort((a, b) => {
-    const statusOrder = ['ACTIVE', 'PENDING', 'QUEUED']
+  //   console.log(error)
 
-    // Compare the status order
-    const statusComparison =
-      statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
+  props &&
+    props.sort((a, b) => {
+      const statusOrder = ['ACTIVE', 'PENDING', 'QUEUED']
 
-    if (statusComparison === 0) {
-      // Same status, perform additional sorting
-      if (a.status === 'ACTIVE') {
-        return a.voteEnd - b.voteEnd
-      } else if (a.status === 'PENDING') {
-        return a.voteStart - b.voteStart
-      } else if (
-        a.status === 'QUEUED' &&
-        a.executableFrom &&
-        b.executableFrom
-      ) {
-        return a.executableFrom - b.executableFrom
+      // Compare the status order
+      const statusComparison =
+        statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
+
+      if (statusComparison === 0) {
+        // Same status, perform additional sorting
+        if (a.status === 'ACTIVE') {
+          return a.voteEnd - b.voteEnd
+        } else if (a.status === 'PENDING') {
+          return a.voteStart - b.voteStart
+        } else if (
+          a.status === 'QUEUED' &&
+          a.executableFrom &&
+          b.executableFrom
+        ) {
+          return a.executableFrom - b.executableFrom
+        }
       }
-    }
 
-    return statusComparison
-  })
+      return statusComparison
+    })
 
   return (
     <ScrollView
@@ -130,7 +155,7 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
                 Couldn't load proposals
               </Text>
             </View>
-          ) : data && props.length > 0 ? (
+          ) : data && props && props.length > 0 ? (
             <FlatList
               data={props}
               renderItem={({ item, index }) => (

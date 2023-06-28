@@ -25,4 +25,10 @@ export type Proposal = {
   quorumVotes: number
   executableFrom?: number
   expiresAt?: number
+  votes: Vote[]
+}
+
+export type Vote = {
+  voter: string
+  support: string
 }
