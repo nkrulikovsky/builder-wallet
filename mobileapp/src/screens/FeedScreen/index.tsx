@@ -12,6 +12,8 @@ import { HomeTabScreenProps } from '../../navigation/types'
 import { useReducer } from 'react'
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
+import { Proposal } from '../../utils/types'
+import ProposalCard from '../../components/ProposalCard'
 
 const PROPS_QUERY = gql`
   query BuilderDAOsProps($addresses: [String!], $limit: Int!) {
@@ -22,6 +24,7 @@ const PROPS_QUERY = gql`
         pagination: { limit: $limit }
       ) {
         nodes {
+          collectionAddress
           proposalNumber
           proposalId
           title
@@ -64,7 +67,7 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
     }, reloadTime)
   }, [savedDaos])
 
-  const props = data?.nouns.nounsProposals.nodes.filter(
+  const props: Proposal[] = data?.nouns.nounsProposals.nodes.filter(
     (p: any) =>
       p.status === 'ACTIVE' || p.status === 'PENDING' || p.status === 'QUEUED'
   )
@@ -104,11 +107,17 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
             <FlatList
               data={props}
               renderItem={({ item, index }) => (
-                <View key={`${index}-${item.id}-${reloadKey}`} className="my-8">
-                  <Text className="font-bold">{item.title}</Text>
-                </View>
+                <ProposalCard
+                  proposal={item}
+                  dao={
+                    savedDaos.find(
+                      dao => dao.address === item.collectionAddress
+                    )!
+                  }
+                  key={`${index}-${item.proposalId}-${reloadKey}`}
+                />
               )}
-              keyExtractor={item => item.address}
+              keyExtractor={item => item.proposalId}
               showsVerticalScrollIndicator={false}
               scrollEnabled={false}
               keyboardShouldPersistTaps="handled"
