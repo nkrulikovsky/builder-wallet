@@ -14,6 +14,10 @@ import React from 'react'
 import { ApolloError, gql, useQuery } from '@apollo/client'
 import { Proposal } from '../../utils/types'
 import ProposalCard from '../../components/ProposalCard'
+import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
+import LinearGradient from 'react-native-linear-gradient'
+
+const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
 const PROPS_QUERY = gql`
   query BuilderDAOsProps($addresses: [String!], $limit: Int!) {
@@ -124,6 +128,28 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
       return statusComparison
     })
 
+  const ShimmerBox = (opacity: number = 1) => {
+    return (
+      <View className="h-20 bg-grey-one/30 rounded-lg">
+        <ShimmerPlaceHolder
+          duration={2500}
+          width={400}
+          style={{
+            borderRadius: 8,
+            width: '100%',
+            height: '100%'
+          }}
+          shimmerWidthPercent={0.5}
+          shimmerColors={[
+            `rgba(242, 242, 242, ${opacity})`,
+            `rgba(231, 231, 231, ${opacity})`,
+            `rgba(242, 242, 242, ${opacity})`
+          ]}
+        />
+      </View>
+    )
+  }
+
   return (
     <ScrollView
       className="flex flex-col h-full bg-white"
@@ -144,11 +170,10 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
             <Text className="text-4xl font-extrabold">Feed</Text>
           </View>
           {loading ? (
-            <ActivityIndicator
-              className="mx-auto mt-[80%]"
-              size="small"
-              color="#9D9D9D"
-            />
+            <View className="flex flex-col gap-3">
+              {ShimmerBox(1)}
+              {ShimmerBox(0.2)}
+            </View>
           ) : error ? (
             <View className="mx-auto mt-[80%] max-w-[160px] text-center">
               <Text className="max-w-[160px] text-center text-red">
