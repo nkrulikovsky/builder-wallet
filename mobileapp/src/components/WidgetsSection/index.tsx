@@ -2,13 +2,17 @@ import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
+import Section from '../Section'
 
-const WidgetsSection = ({}) => {
+type WidgetsSectionProps = {
+  className?: string
+}
+
+const WidgetsSection = ({ className }: WidgetsSectionProps) => {
   const navigation = useNavigation()
 
   return (
-    <View className="flex flex-col mt-6">
-      <Text className="text-2xl font-bold mb-1">Widgets</Text>
+    <Section title="Widgets" className={className}>
       <View className="flex flex-col gap-3">
         <Text>Learn how to add and configure widgets for your Dao</Text>
         <Pressable
@@ -31,7 +35,7 @@ const WidgetsSection = ({}) => {
           </View>
         </Pressable>
       </View>
-    </View>
+    </Section>
   )
 }
 

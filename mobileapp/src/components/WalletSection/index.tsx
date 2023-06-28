@@ -3,17 +3,22 @@ import { Image, Text, View } from 'react-native'
 import { useAddressesStore } from '../../store/addresses'
 import AddAddressButton from '../AddAddressButton'
 import AddressesList from '../AddressesList'
+import clsx from 'clsx'
 
-const WalletSection = ({}) => {
+type WalletSectionProps = {
+  className?: string
+}
+
+const WalletSection = ({ className }: WalletSectionProps) => {
   const manualAddresses = useAddressesStore(state => state.manualAddresses)
 
   const anyManualAddresses = manualAddresses.length > 0
 
   return (
-    <View className="flex flex-col">
+    <View className={clsx('flex flex-col', className)}>
       {anyManualAddresses ? (
         <View className="flex flex-col">
-          <Text className="text-2xl font-bold mb-1">Wallets</Text>
+          <Text className="text-2xl font-bold mb-4">Wallets</Text>
           <AddressesList />
         </View>
       ) : (

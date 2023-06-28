@@ -15,8 +15,8 @@ const SettingsScreen = ({
           <View className="mb-3 flex flex-row">
             <Text className="text-4xl font-extrabold">Settings</Text>
           </View>
-          <WalletSection />
-          <WidgetsSection />
+          <WalletSection className="mt-0" />
+          <WidgetsSection className="mt-8" />
         </View>
       </SafeAreaView>
     </View>
