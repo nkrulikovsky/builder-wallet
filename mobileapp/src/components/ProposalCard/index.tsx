@@ -73,21 +73,26 @@ const ProposalCard = ({ dao, proposal }: ProposalCardProps) => {
 
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={openDaoPage}>
-      <View className="relative box-border flex flex-col mb-3 rounded-lg border border-grey-one p-3">
+      <View className="flex flex-col mb-3 rounded-lg border border-grey-one p-3">
         <View className="w-full flex flex-row justify-between items-center">
-          <Text className="font-bold text-grey-three text-base">
+          <Text className="font-bold text-grey-three tracking-tight flex-shrink">
             {dao.name}
           </Text>
-          <View className="flex flex-row gap-2 items-center">
-            <Text className="font-medium text-grey-two text">{timeLeft}</Text>
+          <View className="flex flex-row gap-1 items-center">
+            <Text className="font-medium text-grey-two tracking-tighter pl-1">
+              {timeLeft}
+            </Text>
             <View className={clsx('rounded-full py-0.5 px-2', statusBoxStyle)}>
-              <Text className={clsx('font-bold', statusTextColor)}>
+              <Text
+                className={clsx('font-bold tracking-tight', statusTextColor)}>
                 {statusString}
               </Text>
             </View>
           </View>
         </View>
-        <Text className="mt-0.5 font-bold text-lg">{proposal.title}</Text>
+        <Text className="mt-0.5 font-bold text-base leading-[1.375rem]">
+          {proposal.title}
+        </Text>
       </View>
     </TouchableOpacity>
   )

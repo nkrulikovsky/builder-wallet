@@ -48,11 +48,15 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
             />
           </View>
           <View className="mt-4">
-            <Text className="text-3xl font-bold truncate">{displayName}</Text>
+            <Text className="text-3xl font-bold flex-shrink leading-7 pt-2">
+              {displayName}
+            </Text>
             <View className="mt-3 flex flex-row">
               <View className="w-1/2">
                 <Text className="text-grey-three">Highest Bid</Text>
-                <Text className="text-xl font-bold text-black">{bid}</Text>
+                <Text className="text-xl font-bold text-black flex-shrink leading-5 pt-1.5">
+                  {bid}
+                </Text>
               </View>
               <View className="w-1/2 pl-[10%]">
                 <Text className="text-grey-three">Ends In</Text>

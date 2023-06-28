@@ -62,8 +62,10 @@ const ListElement = ({
           indexInList !== numberOfAddresses - 1 &&
           'border-b border-grey-two/60'
       )}>
-      <View className="w-[86%] pl-4">
-        <Text className="text-ellipsis">{ens ?? shorterAddress(address)}</Text>
+      <View className="w-[86%] pl-4 flex-shrink">
+        <Text numberOfLines={1} className="flex-shrink">
+          {ens ?? shorterAddress(address)}
+        </Text>
       </View>
       <Pressable
         className="h-12 w-12 items-center justify-center flex-none"

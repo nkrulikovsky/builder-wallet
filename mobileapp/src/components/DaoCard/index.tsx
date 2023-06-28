@@ -110,8 +110,8 @@ const DaoCard = ({ dao }: DaoCardProps) => {
 
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={openDaoPage}>
-      <View className="relative box-border flex flex-row items-center mb-3 rounded-lg">
-        <View className="bg-grey-one rounded-lg w-36 h-36">
+      <View className="relative box-border w-full flex flex-row items-center mb-3 rounded-lg">
+        <View className="bg-grey-one/60 rounded-lg w-36 h-36">
           {data && (
             <DaoCardImage
               daoAddress={dao.address}
@@ -121,11 +121,11 @@ const DaoCard = ({ dao }: DaoCardProps) => {
             />
           )}
         </View>
-        <View className="ml-4">
-          <Text className="text-xl font-bold truncate">
+        <View className="ml-4 w-full h-36 flex flex-col flex-shrink justify-evenly">
+          <Text className="text-xl font-bold flex-shrink leading-6">
             {loading ? dao.name : displayName}
           </Text>
-          <View className="pt-2 flex flex-col gap-1">
+          <View className="flex flex-col gap-0.5">
             <View>
               <Text className="text-sm text-grey-three">Highest Bid</Text>
               {loading ? (
