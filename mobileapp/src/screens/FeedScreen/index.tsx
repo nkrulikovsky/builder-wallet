@@ -31,6 +31,8 @@ const PROPS_QUERY = gql`
           status
           voteStart
           voteEnd
+          executableFrom
+          expiresAt
           abstainVotes
           againstVotes
           forVotes

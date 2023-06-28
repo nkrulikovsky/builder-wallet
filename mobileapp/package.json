@@ -28,7 +28,7 @@
     "buffer": "^6.0.3",
     "clsx": "^1.2.1",
     "crypto": "^1.0.1",
-    "dayjs": "^1.11.7",
+    "dayjs": "^1.11.8",
     "ethers": "^6.3.0",
     "events": "^3.3.0",
     "fast-text-encoding": "^1.0.6",

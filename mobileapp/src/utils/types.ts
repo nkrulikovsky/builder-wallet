@@ -23,4 +23,6 @@ export type Proposal = {
   againstVotes: number
   forVotes: number
   quorumVotes: number
+  executableFrom?: number
+  expiresAt?: number
 }
