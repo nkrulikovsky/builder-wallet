@@ -10,3 +10,25 @@ export type DAO = {
   metadata: string
   auction: CurrentAuction
 }
+
+export type Proposal = {
+  collectionAddress: string
+  proposalId: string
+  proposalNumber: number
+  status: string
+  title: string
+  voteEnd: number
+  voteStart: number
+  abstainVotes: number
+  againstVotes: number
+  forVotes: number
+  quorumVotes: number
+  executableFrom?: number
+  expiresAt?: number
+  votes: Vote[]
+}
+
+export type Vote = {
+  voter: string
+  support: string
+}

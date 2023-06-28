@@ -4,17 +4,19 @@ import type {
 } from '@react-navigation/native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import { DAO } from '../utils/types'
+import { DAO, Proposal } from '../utils/types'
 
 export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
   Dao: { dao: DAO }
   Intro: undefined
   WidgetsSetupInfo: undefined
+  Proposal: { proposal: Proposal }
 }
 
 export type HomeTabParamList = {
   Daos: undefined
+  Feed: undefined
   Settings: undefined
 }
 
