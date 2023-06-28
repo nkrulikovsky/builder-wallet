@@ -12,6 +12,7 @@ export type RootStackParamList = {
   Intro: undefined
   WidgetsSetupInfo: undefined
   Proposal: { proposal: Proposal }
+  Bid: { dao: DAO }
 }
 
 export type HomeTabParamList = {

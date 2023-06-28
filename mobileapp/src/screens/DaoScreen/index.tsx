@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import DaoCardImage from '../../components/DaoCardImage'
 import Countdown from '../../components/Countdown'
 import BackButton from '../../components/BackButton'
+import dayjs from 'dayjs'
 
 const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const { dao } = route.params
@@ -20,6 +21,10 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const saveOrUnsave = () => {
     if (daoIsSaved) removeFromSaved(dao.address)
     else save(dao)
+  }
+
+  const bidOnToken = () => {
+    navigation.navigate('Bid', { dao })
   }
 
   const displayName = `${dao.name} #${dao.auction.id}`
@@ -37,7 +42,7 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
               tokenId={dao.auction.id}
             />
           </View>
-          <View className="mt-3">
+          <View className="mt-4">
             <Text className="text-3xl font-bold truncate">{displayName}</Text>
             <View className="mt-3 flex flex-row">
               <View className="w-1/2">
@@ -53,6 +58,18 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
                 />
               </View>
             </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={bidOnToken}
+              className="mt-4">
+              <View className="bg-black h-12 w-full rounded-lg items-center justify-center">
+                <Text className="text-white font-bold">
+                  {dayjs().isBefore(dao.auction.endTime)
+                    ? 'Place bid in browser'
+                    : 'Settle in browser'}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity
             activeOpacity={0.8}

@@ -22,6 +22,7 @@ import { PostHogProvider } from 'posthog-react-native'
 import { posthogAsync } from './src/constants/posthog'
 import FeedScreen from './src/screens/FeedScreen'
 import ProposalScreen from './src/screens/ProposalScreen'
+import BidScreen from './src/screens/BidScreen'
 
 const RootStack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<HomeTabParamList>()
@@ -86,6 +87,11 @@ const App = () => {
                 <RootStack.Screen
                   name="Proposal"
                   component={ProposalScreen}
+                  options={{ headerShown: true, headerShadowVisible: true }}
+                />
+                <RootStack.Screen
+                  name="Bid"
+                  component={BidScreen}
                   options={{ headerShown: true, headerShadowVisible: true }}
                 />
               </RootStack.Navigator>
