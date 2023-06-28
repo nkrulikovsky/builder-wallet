@@ -19,6 +19,7 @@ const ProposalScreen = ({
         onLoadStart={() => setLoading(true)}
         onLoadEnd={() => setLoading(false)}
         className="flex-1 bg-white"
+        originWhitelist={['https://*', 'rainbow://*, metamask://*']}
       />
       {loading && (
         <View className="absolute h-full w-full bg-white items-center justify-center">
