@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, Text, TouchableOpacity, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 import Section from '../Section'
 
@@ -15,7 +15,8 @@ const WidgetsSection = ({ className }: WidgetsSectionProps) => {
     <Section title="Widgets" className={className}>
       <View className="flex flex-col gap-3">
         <Text>Learn how to add and configure widgets for your Dao</Text>
-        <Pressable
+        <TouchableOpacity
+          activeOpacity={0.6}
           onPress={() => {
             navigation.navigate('WidgetsSetupInfo')
           }}>
@@ -33,7 +34,7 @@ const WidgetsSection = ({ className }: WidgetsSectionProps) => {
               />
             </Svg>
           </View>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </Section>
   )
