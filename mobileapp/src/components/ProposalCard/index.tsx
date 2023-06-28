@@ -21,9 +21,9 @@ const ProposalCard = ({ dao, proposal }: ProposalCardProps) => {
   const navigation = useNavigation()
 
   const openDaoPage = () => {
-    // navigation.navigate('Dao', {
-    //   dao: daoData
-    // })
+    navigation.navigate('Proposal', {
+      proposal: proposal
+    })
   }
 
   let timeLeft = ''
