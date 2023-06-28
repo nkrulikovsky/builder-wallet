@@ -32,3 +32,11 @@ export type Vote = {
   voter: string
   support: string
 }
+
+export type BuilderDAOsPropsResponse = {
+  nouns: {
+    nounsProposals: {
+      nodes: Proposal[]
+    }
+  }
+}

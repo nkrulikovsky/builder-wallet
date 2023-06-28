@@ -1,32 +1,18 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  ScrollView,
-  Text,
-  View
-} from 'react-native'
+import { FlatList, RefreshControl, ScrollView, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDaosStore } from '../../store/daos'
 import { HomeTabScreenProps } from '../../navigation/types'
 import { useReducer } from 'react'
 import React from 'react'
 import { ApolloError, gql, useQuery } from '@apollo/client'
-import { Proposal } from '../../utils/types'
+import { BuilderDAOsPropsResponse, Proposal } from '../../utils/types'
 import ProposalCard from '../../components/ProposalCard'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import LinearGradient from 'react-native-linear-gradient'
 import { PROPS_QUERY } from '../../utils/queries'
+import { filterAndSortProposals } from '../../utils/proposals'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
-
-type BuilderDAOsPropsResponse = {
-  nouns: {
-    nounsProposals: {
-      nodes: Proposal[]
-    }
-  }
-}
 
 const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
   const insets = useSafeAreaInsets()
@@ -64,38 +50,8 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
     }, reloadTime)
   }, [savedDaos])
 
-  const props = data?.nouns.nounsProposals.nodes.filter(
-    (p: any) =>
-      p.status === 'ACTIVE' || p.status === 'PENDING' || p.status === 'QUEUED'
-  )
-
-  //   console.log(error)
-
-  props &&
-    props.sort((a, b) => {
-      const statusOrder = ['ACTIVE', 'PENDING', 'QUEUED']
-
-      // Compare the status order
-      const statusComparison =
-        statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
-
-      if (statusComparison === 0) {
-        // Same status, perform additional sorting
-        if (a.status === 'ACTIVE') {
-          return a.voteEnd - b.voteEnd
-        } else if (a.status === 'PENDING') {
-          return a.voteStart - b.voteStart
-        } else if (
-          a.status === 'QUEUED' &&
-          a.executableFrom &&
-          b.executableFrom
-        ) {
-          return a.executableFrom - b.executableFrom
-        }
-      }
-
-      return statusComparison
-    })
+  const props = data?.nouns.nounsProposals.nodes
+  const proposals = props && filterAndSortProposals(props)
 
   const ShimmerBox = (opacity: number = 1) => {
     return (
@@ -149,9 +105,9 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
                 Couldn't load proposals
               </Text>
             </View>
-          ) : data && props && props.length > 0 ? (
+          ) : data && proposals && proposals.length > 0 ? (
             <FlatList
-              data={props}
+              data={proposals}
               renderItem={({ item, index }) => (
                 <ProposalCard
                   proposal={item}

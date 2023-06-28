@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDaosStore } from '../../store/daos'
 import { RootStackScreenProps } from '../../navigation/types'
@@ -7,6 +7,8 @@ import DaoCardImage from '../../components/DaoCardImage'
 import Countdown from '../../components/Countdown'
 import BackButton from '../../components/BackButton'
 import dayjs from 'dayjs'
+import ProposalsSection from '../../components/ProposalsSection'
+import Section from '../../components/Section'
 
 const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const { dao } = route.params
@@ -31,7 +33,10 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const bid = `${dao.auction.highestBid} Ξ`
 
   return (
-    <View className="h-full bg-white">
+    <ScrollView
+      className="flex flex-col h-full bg-white"
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled">
       <SafeAreaView>
         <View className="mx-4 h-full">
           <BackButton onPress={() => navigation.goBack()} />
@@ -71,25 +76,25 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
               </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={saveOrUnsave}
-            className="mb-3 mt-3 absolute bottom-0 w-full">
-            <View
-              className={clsx(
-                'border border-opacity-30 h-12 w-full rounded-lg items-center justify-center',
-                daoIsSaved ? 'border-red' : 'border-grey-three'
-              )}>
-              {daoIsSaved ? (
-                <Text className="text-red">Remove from saved</Text>
-              ) : (
-                <Text className="text-black">Save</Text>
-              )}
-            </View>
-          </TouchableOpacity>
+          <ProposalsSection dao={dao} className="mt-8" />
+          <Section title="Actions" className="mt-8 mb-4">
+            <TouchableOpacity activeOpacity={0.6} onPress={saveOrUnsave}>
+              <View
+                className={clsx(
+                  'border border-opacity-30 h-12 w-full rounded-lg items-center justify-center',
+                  daoIsSaved ? 'border-red' : 'border-grey-three'
+                )}>
+                {daoIsSaved ? (
+                  <Text className="text-red">Remove from saved</Text>
+                ) : (
+                  <Text className="text-black">Save</Text>
+                )}
+              </View>
+            </TouchableOpacity>
+          </Section>
         </View>
       </SafeAreaView>
-    </View>
+    </ScrollView>
   )
 }
 
