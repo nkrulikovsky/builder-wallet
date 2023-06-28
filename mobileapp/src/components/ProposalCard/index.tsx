@@ -79,12 +79,12 @@ const ProposalCard = ({ dao, proposal }: ProposalCardProps) => {
             {dao.name}
           </Text>
           <View className="flex flex-row gap-1 items-center">
-            <Text className="font-medium text-grey-two tracking-tighter pl-1">
+            <Text className="font-medium text-grey-two tracking-tight pl-1">
               {timeLeft}
             </Text>
             <View className={clsx('rounded-full py-0.5 px-2', statusBoxStyle)}>
               <Text
-                className={clsx('font-bold tracking-tight', statusTextColor)}>
+                className={clsx('font-bold tracking-tighter', statusTextColor)}>
                 {statusString}
               </Text>
             </View>
