@@ -9,29 +9,11 @@ import { Path, Svg } from 'react-native-svg'
 import { useNavigation } from '@react-navigation/native'
 import { DAO } from '../../utils/types'
 import clsx from 'clsx'
+import { DAO_QUERY } from '../../utils/queries'
 
 type DaoCardProps = {
   dao: SavedDao | SearchDao
 }
-
-const DAO_QUERY = gql`
-  query BuilderDAOsProps($address: String!) {
-    nouns {
-      nounsActiveMarket(where: { collectionAddress: $address }) {
-        tokenId
-        endTime
-        estimatedDurationTime
-        highestBidPrice {
-          nativePrice {
-            decimal
-          }
-        }
-        address
-        metadata
-      }
-    }
-  }
-`
 
 const DaoCard = ({ dao }: DaoCardProps) => {
   const navigation = useNavigation()

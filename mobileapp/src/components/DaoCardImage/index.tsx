@@ -4,6 +4,7 @@ import { Image, Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import config from '../../../config'
+import { IMAGE_QUERY } from '../../utils/queries'
 
 const { app: appConfig } = config
 
@@ -15,29 +16,6 @@ type DaoCardImageProps = {
   tokenId: number | string
   imageType?: 'thumbnail' | 'full'
 }
-
-const IMAGE_QUERY = gql`
-  query Image($address: String!, $tokenId: String!) {
-    token(token: { address: $address, tokenId: $tokenId }) {
-      token {
-        image {
-          url
-          mimeType
-          mediaEncoding {
-            ... on ImageEncodingTypes {
-              original
-              thumbnail
-            }
-            ... on UnsupportedEncodingTypes {
-              __typename
-              original
-            }
-          }
-        }
-      }
-    }
-  }
-`
 
 const DaoCardImage = ({
   daoAddress,

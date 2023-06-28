@@ -3,24 +3,7 @@ import { ActivityIndicator, TextInput, View, Text } from 'react-native'
 import { useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import { DaoSearchStatus, useDaoSearchStore } from '../../store/daoSearch'
-
-const SEARCH_DAO_QUERY = gql`
-  query SearchDAO($text: String!) {
-    nouns {
-      nounsSearch(query: { text: $text }, pagination: { limit: 50 }) {
-        nodes {
-          name
-          collectionAddress
-        }
-        pageInfo {
-          limit
-          endCursor
-          hasNextPage
-        }
-      }
-    }
-  }
-`
+import { SEARCH_DAO_QUERY } from '../../utils/queries'
 
 const DaoSearch = () => {
   const focusRequested = useDaoSearchStore(state => state.focusRequested)

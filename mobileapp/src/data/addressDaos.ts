@@ -1,25 +1,13 @@
 import { gql } from '@apollo/client'
 import zoraClient from './zoraClient'
 import { SearchDao } from '../store/daoSearch'
-
-const DAOS_QUERY = gql`
-  query DAOsForAddresses($addresses: [String!]) {
-    nouns {
-      nounsDaos(where: { memberAddresses: $addresses }) {
-        nodes {
-          name
-          collectionAddress
-        }
-      }
-    }
-  }
-`
+import { DAOS_FOR_ADDRESS_QUERY } from '../utils/queries'
 
 export const loadDaosForAddresses = async (
   addresses: string[]
 ): Promise<null | SearchDao[]> => {
   const { data } = await zoraClient.query({
-    query: DAOS_QUERY,
+    query: DAOS_FOR_ADDRESS_QUERY,
     variables: {
       addresses
     }

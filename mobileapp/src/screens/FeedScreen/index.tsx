@@ -16,40 +16,9 @@ import { Proposal } from '../../utils/types'
 import ProposalCard from '../../components/ProposalCard'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import LinearGradient from 'react-native-linear-gradient'
+import { PROPS_QUERY } from '../../utils/queries'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
-
-const PROPS_QUERY = gql`
-  query BuilderDAOsProps($addresses: [String!], $limit: Int!) {
-    nouns {
-      nounsProposals(
-        where: { collectionAddresses: $addresses }
-        sort: { sortKey: CREATED, sortDirection: DESC }
-        pagination: { limit: $limit }
-      ) {
-        nodes {
-          collectionAddress
-          proposalNumber
-          proposalId
-          title
-          status
-          voteStart
-          voteEnd
-          executableFrom
-          expiresAt
-          abstainVotes
-          againstVotes
-          forVotes
-          quorumVotes
-          votes {
-            voter
-            support
-          }
-        }
-      }
-    }
-  }
-`
 
 type BuilderDAOsPropsResponse = {
   nouns: {
