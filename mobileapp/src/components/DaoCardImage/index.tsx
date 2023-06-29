@@ -56,6 +56,7 @@ const DaoCardImage = ({
           className="rounded-lg h-full w-full"
         />
       )}
+      <View className="absolute w-full h-full border border-grey-three/20 z-10 rounded-lg" />
       {loadError && (
         <View className="absolute rounded-lg w-full h-full z-10">
           <Text className="text-red/50 text-center text-xs my-auto">
