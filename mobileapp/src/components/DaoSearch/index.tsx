@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, TextInput, View, Text } from 'react-native'
 import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
 import { DaoSearchStatus, useDaoSearchStore } from '../../store/daoSearch'
 import { SEARCH_DAO_QUERY } from '../../utils/queries'
 

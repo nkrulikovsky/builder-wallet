@@ -24,7 +24,8 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   const searchDaos = useDaoSearchStore(state => state.searchResults)
 
   const { loading, error, data } = useQuery(DAO_QUERY, {
-    variables: { address: dao.address }
+    variables: { address: dao.address },
+    pollInterval: 900000
   })
 
   const activeMarket = data?.nouns.nounsActiveMarket

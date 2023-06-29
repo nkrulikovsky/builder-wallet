@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Image, Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
