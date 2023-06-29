@@ -75,6 +75,7 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
               <ProposalCard
                 proposal={item}
                 dao={dao}
+                topCorner="proposalNumber"
                 key={`${index}-${item.proposalId}`}
               />
             )}

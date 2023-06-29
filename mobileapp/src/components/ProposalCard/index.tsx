@@ -14,9 +14,14 @@ dayjs.extend(relativeTime)
 type ProposalCardProps = {
   dao: SavedDao
   proposal: Proposal
+  topCorner?: 'daoName' | 'proposalNumber'
 }
 
-const ProposalCard = ({ dao, proposal }: ProposalCardProps) => {
+const ProposalCard = ({
+  dao,
+  proposal,
+  topCorner = 'daoName'
+}: ProposalCardProps) => {
   const manualAddresses = useAddressesStore(state => state.manualAddresses)
   const navigation = useNavigation()
 
@@ -76,7 +81,7 @@ const ProposalCard = ({ dao, proposal }: ProposalCardProps) => {
       <View className="flex flex-col mb-3 rounded-lg border border-grey-one p-3">
         <View className="w-full flex flex-row justify-between items-center">
           <Text className="font-bold text-grey-three tracking-tight flex-shrink">
-            {dao.name}
+            {topCorner === 'daoName' ? dao.name : proposal.proposalNumber}
           </Text>
           <View className="flex flex-row gap-1 items-center">
             <Text className="font-medium text-grey-two tracking-tight pl-1">
