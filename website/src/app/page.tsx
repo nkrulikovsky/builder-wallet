@@ -14,26 +14,29 @@ export default function Home() {
         </div>
         <div className="pb-4">
           <h1 className="text-2xl md:text-4xl font-black">
-            Your Builder DAOs
+            Builder DAOs
             <br />
-            in the pocket
+            in your pocket
           </h1>
           <div className="mt-8">
             <p>
-              <span className="text-pink">•</span> All your Daos in one place
+              <span className="text-pink mr-0.5">•</span> All your Daos in one
+              place
             </p>
             <p>
-              <span className="text-purple">•</span> See pending proposals
+              <span className="text-purple mr-0.5">•</span> See pending
+              proposals
             </p>
             <p>
-              <span className="text-green">•</span> Track auctions
+              <span className="text-green mr-0.5">•</span> Track auctions
             </p>
             <p>
-              <span className="text-orange">•</span> Widgets for everything
+              <span className="text-orange mr-0.5">•</span> Widgets for
+              everything
             </p>
             <p>
-              <span className="text-red">•</span> Vote
-              <span className="text-black">&</span>Bid via in-app browser
+              <span className="text-red mr-0.5">•</span> Vote
+              <span className="text-black/90"> & </span>bid via in-app browser
             </p>
           </div>
           <div className="mt-10 max-w-max hidden md:flex flex-col">
