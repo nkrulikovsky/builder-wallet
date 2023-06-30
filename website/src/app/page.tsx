@@ -13,7 +13,7 @@ export default function Home() {
           />
         </div>
         <div className="pb-4">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black">
+          <h1 className="text-2xl md:text-4xl font-black">
             Your Builder DAOs
             <br />
             in the pocket

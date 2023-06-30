@@ -8,14 +8,20 @@ export const metadata: Metadata = {
   title: 'Builder Mobile App',
   description:
     'All your Builder Daos in the pocket. Track proposals and auctions. Vote and bid.',
-  metadataBase: new URL('https://builderapp.wtf'),
   openGraph: {
-    images: '/img/og-image.png'
+    url: 'https://builderapp.wtf',
+    images: 'https://builderapp.wtf/img/og-image.png',
+    title: 'Builder Mobile App',
+    description:
+      'All your Builder Daos in the pocket. Track proposals and auctions. Vote and bid.'
   },
   twitter: {
+    title: 'Builder Mobile App',
+    description:
+      'All your Builder Daos in the pocket. Track proposals and auctions. Vote and bid.',
     card: 'summary_large_image',
     creator: '@iamng_eth',
-    images: ['/img/og-image.png']
+    images: ['https://builderapp.wtf/img/og-image.png']
   },
   themeColor: 'white',
   appLinks: {
