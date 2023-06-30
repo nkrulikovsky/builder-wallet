@@ -1,11 +1,29 @@
+import { Metadata } from 'next'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: 'Builder App',
-  description: 'Follow all things Builder Daos'
+export const metadata: Metadata = {
+  title: 'Builder Mobile App',
+  description:
+    'All your Builder Daos in the pocket. Track proposals and auctions. Vote and bid.',
+  metadataBase: new URL('https://builderapp.wtf'),
+  openGraph: {
+    images: '/img/og-image.png'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    creator: '@iamng_eth',
+    images: ['/img/og-image.png']
+  },
+  themeColor: 'white',
+  appLinks: {
+    // ios: {
+    //   url: 'https://nextjs.org/ios',
+    //   app_store_id: 'app_store_id',
+    // },
+  }
 }
 
 export default function RootLayout({
