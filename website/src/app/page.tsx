@@ -12,7 +12,7 @@ export default function Home() {
             src="/video/showcase.mp4"
           />
         </div>
-        <div className="pb-4 md:pb-12">
+        <div className="pb-4">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-black">
             Your Builder DAOs
             <br />
@@ -36,29 +36,19 @@ export default function Home() {
               <span className="text-black">&</span>Bid via in-app browser
             </p>
           </div>
-          <div className="mt-8 max-w-max hidden md:flex flex-row bg-white rounded-2xl p-2 gap-1">
-            <img
-              src="/svg/app-store-qr.svg"
-              alt="App Store Install QR Code"
-              className="h-32 w-32"
-            />
-            <div className="flex flex-col justify-end items-start">
-              <p className="pl-2 pt-2 my-auto text-sm text-grey-four leading-4">
-                Scan to download
-                <br />
-                or click bellow 👇
-              </p>
-              <a
-                href="https://testflight.apple.com/join/Ja91wWG3"
-                target="_blank"
-              >
-                <img
-                  src="/svg/app-store-download-badge.svg"
-                  alt="App Store Download Badge"
-                  className="w-32 m-1.5"
-                />
-              </a>
+          <div className="mt-10 max-w-max hidden md:flex flex-col">
+            <div className="bg-white rounded-2xl p-2 gap-1">
+              <img
+                src="/svg/app-store-qr.svg"
+                alt="App Store Install QR Code"
+                className="h-32 w-32"
+              />
             </div>
+            <p className="mt-1.5 text-center text-xs text-[#3e87f8]/90 font-bold leading-3">
+              Scan to install
+              <br />
+              on the phone
+            </p>
           </div>
           <div className="mt-8 flex md:hidden w-full justify-center">
             <a
