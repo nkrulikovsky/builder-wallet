@@ -25,15 +25,6 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
 
   // TODO: show proposals from manualDaos
   const nouns = manualDaos.find(d => d.collectionAddress === dao.address)
-  // .forEach(dao => {
-  //   setSearchStatus(DaoSearchStatus.SUCCESS)
-  //   addToSearchResults([
-  //     {
-  //       name: dao.name,
-  //       address: dao.collectionAddress
-  //     }
-  //   ])
-  // })
 
   const {
     data,
