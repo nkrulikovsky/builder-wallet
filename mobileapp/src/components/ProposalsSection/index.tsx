@@ -37,7 +37,7 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
     data?: BuilderDAOsPropsResponse
     refetch: () => void
   } = useQuery(PROPS_QUERY, {
-    skip: !nouns,
+    skip: nouns !== undefined,
     variables: {
       addresses: [dao.address],
       limit: 20
