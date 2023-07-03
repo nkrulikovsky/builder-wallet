@@ -9,7 +9,7 @@ import { BuilderDAOsPropsResponse, Proposal } from '../../utils/types'
 import ProposalCard from '../../components/ProposalCard'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import LinearGradient from 'react-native-linear-gradient'
-import { PROPS_QUERY } from '../../utils/queries'
+import { PROPS_QUERY } from '../../constants/queries'
 import { filterAndSortProposals } from '../../utils/proposals'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)

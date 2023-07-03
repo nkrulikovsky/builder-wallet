@@ -22,6 +22,7 @@ interface DaoSearchState {
   setSearchResults: (results: SearchDao[]) => void
   clearSearchResults: () => void
   setFocusRequested: (focusRequested: boolean) => void
+  addToSearchResults: (results: SearchDao[]) => void
 }
 
 export const useDaoSearchStore = create<DaoSearchState>()((set, get) => ({
@@ -41,6 +42,9 @@ export const useDaoSearchStore = create<DaoSearchState>()((set, get) => ({
   },
   setSearchResults: (results: SearchDao[]) => {
     set({ searchResults: results })
+  },
+  addToSearchResults: (results: SearchDao[]) => {
+    set({ searchResults: [...get().searchResults, ...results] })
   },
   clearSearchResults: () => {
     set({ searchResults: [] })

@@ -9,7 +9,7 @@ import { Path, Svg } from 'react-native-svg'
 import { useNavigation } from '@react-navigation/native'
 import { DAO } from '../../utils/types'
 import clsx from 'clsx'
-import { DAO_QUERY } from '../../utils/queries'
+import { DAO_QUERY } from '../../constants/queries'
 
 type DaoCardProps = {
   dao: SavedDao | SearchDao

@@ -4,7 +4,7 @@ import { Image, Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import config from '../../../config'
-import { IMAGE_QUERY } from '../../utils/queries'
+import { IMAGE_QUERY } from '../../constants/queries'
 
 const { app: appConfig } = config
 

@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, TextInput, View, Text } from 'react-native'
 import { useQuery } from '@apollo/client'
 import { DaoSearchStatus, useDaoSearchStore } from '../../store/daoSearch'
-import { SEARCH_DAO_QUERY } from '../../utils/queries'
+import { SEARCH_DAO_QUERY } from '../../constants/queries'
+import { manualDaos } from '../../constants/manualDaos'
 
 const DaoSearch = () => {
   const focusRequested = useDaoSearchStore(state => state.focusRequested)
   const setFocusRequested = useDaoSearchStore(state => state.setFocusRequested)
   const setSearchStatus = useDaoSearchStore(state => state.setSearchStatus)
   const setSearchResults = useDaoSearchStore(state => state.setSearchResults)
+  const addToSearchResults = useDaoSearchStore(
+    state => state.addToSearchResults
+  )
   const clearSearchResults = useDaoSearchStore(
     state => state.clearSearchResults
   )
@@ -29,6 +33,18 @@ const DaoSearch = () => {
         }))
         setSearchResults(daos)
       }
+
+      manualDaos
+        .filter(dao => dao.keywords.includes(searchText.toLowerCase().trim()))
+        .forEach(dao => {
+          setSearchStatus(DaoSearchStatus.SUCCESS)
+          addToSearchResults([
+            {
+              name: dao.name,
+              address: dao.collectionAddress
+            }
+          ])
+        })
     },
     onError: () => {
       setSearchStatus(DaoSearchStatus.ERROR)

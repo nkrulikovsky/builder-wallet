@@ -4,13 +4,14 @@ import React from 'react'
 import { FlatList, Text, View } from 'react-native'
 import { LinearGradient } from 'react-native-svg'
 import { BuilderDAOsPropsResponse } from '../../utils/types'
-import { PROPS_QUERY } from '../../utils/queries'
+import { PROPS_QUERY } from '../../constants/queries'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import { SearchDao } from '../../store/daoSearch'
 import { SavedDao } from '../../store/daos'
 import { filterAndSortProposals } from '../../utils/proposals'
 import ProposalCard from '../ProposalCard'
 import Section from '../Section'
+import { manualDaos } from '../../constants/manualDaos'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
@@ -21,6 +22,18 @@ type ProposalsSectionProps = {
 
 const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
   const navigation = useNavigation()
+
+  // TODO: show proposals from manualDaos
+  const nouns = manualDaos.find(d => d.collectionAddress === dao.address)
+  // .forEach(dao => {
+  //   setSearchStatus(DaoSearchStatus.SUCCESS)
+  //   addToSearchResults([
+  //     {
+  //       name: dao.name,
+  //       address: dao.collectionAddress
+  //     }
+  //   ])
+  // })
 
   const {
     data,
@@ -33,6 +46,7 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
     data?: BuilderDAOsPropsResponse
     refetch: () => void
   } = useQuery(PROPS_QUERY, {
+    skip: !nouns,
     variables: {
       addresses: [dao.address],
       limit: 20
@@ -46,7 +60,13 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
   return (
     <Section title="Proposals" className={className}>
       <View className="flex flex-col gap-3">
-        {loading ? (
+        {nouns ? (
+          <View className="border border-grey-one rounded-lg p-4">
+            <Text className="text-grey-four">
+              Proposals are currently not supported for {dao.name}
+            </Text>
+          </View>
+        ) : loading ? (
           <View className="h-12 bg-grey-one/30 rounded-lg">
             <ShimmerPlaceHolder
               duration={2500}

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import zoraClient from './zoraClient'
 import { SearchDao } from '../store/daoSearch'
-import { DAOS_FOR_ADDRESS_QUERY } from '../utils/queries'
+import { DAOS_FOR_ADDRESS_QUERY } from '../constants/queries'
 
 export const loadDaosForAddresses = async (
   addresses: string[]
