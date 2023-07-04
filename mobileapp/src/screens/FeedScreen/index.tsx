@@ -11,6 +11,7 @@ import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import LinearGradient from 'react-native-linear-gradient'
 import { PROPS_QUERY } from '../../constants/queries'
 import { filterAndSortProposals } from '../../utils/proposals'
+import { isAddressEqual } from 'viem'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
@@ -112,8 +113,11 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
                 <ProposalCard
                   proposal={item}
                   dao={
-                    savedDaos.find(
-                      dao => dao.address === item.collectionAddress
+                    savedDaos.find(dao =>
+                      isAddressEqual(
+                        dao.address as `0x${string}`,
+                        item.collectionAddress as `0x${string}`
+                      )
                     )!
                   }
                   key={`${index}-${item.proposalId}-${reloadKey}`}

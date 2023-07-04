@@ -3,6 +3,7 @@ import React from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { manualDaos } from '../../constants/manualDaos'
+import { isAddressEqual } from 'viem'
 
 const BidScreen = ({ route, navigation }: RootStackScreenProps<'Bid'>) => {
   const [loading, setLoading] = React.useState(true)
@@ -11,7 +12,12 @@ const BidScreen = ({ route, navigation }: RootStackScreenProps<'Bid'>) => {
 
   let uri
 
-  const manualDao = manualDaos.find(d => d.collectionAddress === dao.address)
+  const manualDao = manualDaos.find(d =>
+    isAddressEqual(
+      d.collectionAddress as `0x${string}`,
+      dao.address as `0x${string}`
+    )
+  )
 
   if (manualDao && manualDao.name === 'Nouns') {
     uri = `https://nouns.wtf/noun/${dao.auction.id}`

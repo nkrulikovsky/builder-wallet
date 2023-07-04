@@ -4,6 +4,7 @@ import { daosGroupStorage } from '../storage/sharedStorage'
 import { zustandStorage } from '../storage/zustand'
 import Toast from 'react-native-toast-message'
 import { track } from '../utils/track'
+import { isAddressEqual } from 'viem'
 
 const showErrorToast = (text: string) => {
   Toast.show({
@@ -30,7 +31,14 @@ export const useDaosStore = create<DaosState>()(
       saved: [],
       save: async (dao: SavedDao) => {
         const saved = get().saved
-        if (!saved.find(a => a.address === dao.address)) {
+        if (
+          !saved.find(a =>
+            isAddressEqual(
+              a.address as `0x${string}`,
+              dao.address as `0x${string}`
+            )
+          )
+        ) {
           const newSaved = [dao, ...saved]
 
           set({ saved: newSaved })
@@ -50,7 +58,14 @@ export const useDaosStore = create<DaosState>()(
         let newDaos = []
 
         for (const dao of daos) {
-          if (!saved.find(a => a.address === dao.address)) {
+          const alreadySaved = saved.find(a =>
+            isAddressEqual(
+              a.address as `0x${string}`,
+              dao.address as `0x${string}`
+            )
+          )
+
+          if (!alreadySaved) {
             newDaos.push(dao)
           }
         }

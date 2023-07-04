@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native'
 import { DAO } from '../../utils/types'
 import clsx from 'clsx'
 import { DAO_QUERY } from '../../constants/queries'
+import { isAddressEqual } from 'viem'
 
 type DaoCardProps = {
   dao: SavedDao | SearchDao
@@ -56,8 +57,11 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   const displayName = `${dao.name} #${tokenId}`
   const bid = `${highestBid} Ξ`
 
-  const daoIsSaved = savedDaos.some(
-    savedDao => savedDao.address === dao.address
+  const daoIsSaved = savedDaos.some(savedDao =>
+    isAddressEqual(
+      savedDao.address as `0x${string}`,
+      dao.address as `0x${string}`
+    )
   )
 
   const openDaoPage = () => {
@@ -83,7 +87,11 @@ const DaoCard = ({ dao }: DaoCardProps) => {
 
   const saveOrUnSave = () => {
     if (daoIsSaved) {
-      if (searchDaos.some(d => d.address === dao.address)) {
+      const daoInSearch = searchDaos.some(d =>
+        isAddressEqual(d.address as `0x${string}`, dao.address as `0x${string}`)
+      )
+
+      if (daoInSearch) {
         removeFromSaved(dao.address)
       } else {
         Alert.prompt(

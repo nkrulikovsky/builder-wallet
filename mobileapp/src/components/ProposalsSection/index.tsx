@@ -10,6 +10,7 @@ import { filterAndSortProposals } from '../../utils/proposals'
 import ProposalCard from '../ProposalCard'
 import Section from '../Section'
 import { manualDaos } from '../../constants/manualDaos'
+import { isAddressEqual } from 'viem'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
@@ -22,7 +23,12 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
   const navigation = useNavigation()
 
   // TODO: show proposals from manualDaos
-  const nouns = manualDaos.find(d => d.collectionAddress === dao.address)
+  const nouns = manualDaos.find(d =>
+    isAddressEqual(
+      d.collectionAddress as `0x${string}`,
+      dao.address as `0x${string}`
+    )
+  )
 
   const {
     data,

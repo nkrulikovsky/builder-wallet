@@ -9,6 +9,7 @@ import BackButton from '../../components/BackButton'
 import dayjs from 'dayjs'
 import ProposalsSection from '../../components/ProposalsSection'
 import Section from '../../components/Section'
+import { isAddressEqual } from 'viem'
 
 const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const { dao } = route.params
@@ -16,8 +17,11 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const removeFromSaved = useDaosStore(state => state.removeFromSaved)
   const save = useDaosStore(state => state.save)
 
-  const daoIsSaved = savedDaos.some(
-    savedDao => savedDao.address === dao.address
+  const daoIsSaved = savedDaos.some(savedDao =>
+    isAddressEqual(
+      savedDao.address as `0x${string}`,
+      dao.address as `0x${string}`
+    )
   )
 
   const saveOrUnsave = () => {
