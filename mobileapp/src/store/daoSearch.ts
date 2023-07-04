@@ -44,7 +44,7 @@ export const useDaoSearchStore = create<DaoSearchState>()((set, get) => ({
     set({ searchResults: results })
   },
   addToSearchResults: (results: SearchDao[]) => {
-    set({ searchResults: [...get().searchResults, ...results] })
+    set({ searchResults: [...results, ...get().searchResults] })
   },
   clearSearchResults: () => {
     set({ searchResults: [] })
