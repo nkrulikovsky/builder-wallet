@@ -1,13 +1,11 @@
 import { ApolloError, useQuery } from '@apollo/client'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { LinearGradient } from 'react-native-svg'
-import { BuilderDAOsPropsResponse } from '../../utils/types'
+import { BuilderDAOsPropsResponse, DAO } from '../../utils/types'
 import { PROPS_QUERY } from '../../constants/queries'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
-import { SearchDao } from '../../store/daoSearch'
-import { SavedDao } from '../../store/daos'
 import { filterAndSortProposals } from '../../utils/proposals'
 import ProposalCard from '../ProposalCard'
 import Section from '../Section'
@@ -16,7 +14,7 @@ import { manualDaos } from '../../constants/manualDaos'
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
 type ProposalsSectionProps = {
-  dao: SavedDao | SearchDao
+  dao: DAO
   className?: string
 }
 
@@ -45,6 +43,10 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
     pollInterval: 600000
   })
 
+  const viewAllProposals = () => {
+    navigation.navigate('Proposals', { dao })
+  }
+
   const props = data?.nouns.nounsProposals.nodes
   const proposals = props && filterAndSortProposals(props)
 
@@ -54,7 +56,7 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
         {nouns ? (
           <View className="border border-grey-one rounded-lg p-4">
             <Text className="text-grey-four">
-              Proposals are currently not supported for {dao.name}
+              Proposals are currently not supported in app
             </Text>
           </View>
         ) : loading ? (
@@ -94,12 +96,21 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
             showsVerticalScrollIndicator={false}
             scrollEnabled={false}
             keyboardShouldPersistTaps="handled"
+            className="-mb-3"
           />
         ) : (
           <View className="border border-grey-one rounded-lg p-4">
             <Text>No active or pending proposals ⌐◨-◨</Text>
           </View>
         )}
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={viewAllProposals}
+          className="mt-4">
+          <View className="bg-grey-one border border-grey-one h-12 w-full rounded-lg items-center justify-center">
+            <Text className="text-black">View all proposals in browser</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </Section>
   )

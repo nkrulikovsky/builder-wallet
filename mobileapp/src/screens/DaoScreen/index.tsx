@@ -72,7 +72,7 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
               onPress={bidOnToken}
               className="mt-4">
               <View className="bg-black h-12 w-full rounded-lg items-center justify-center">
-                <Text className="text-white font-bold">
+                <Text className="text-white">
                   {dayjs().isBefore(dao.auction.endTime)
                     ? 'Place bid in browser'
                     : 'Settle in browser'}
