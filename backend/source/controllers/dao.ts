@@ -1,14 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import axios, { AxiosResponse } from 'axios'
 import { shortAddress, shortENS } from '../utils/addressAndENSDisplayUtils'
-import sharp from 'sharp'
 import { getQuery } from '../utils/query'
 import { createPublicClient, fallback, http, isAddress } from 'viem'
 import { mainnet } from 'viem/chains'
 
-import MetadataRendererAbi from '../abis/MetadataRenderer.json'
-import { base64ToObject, extractBase64FromDataUrl } from '../utils/types'
 import { Proposal } from '../types/nouns'
+import { loadImage } from '../data/images'
 
 require('dotenv').config()
 
@@ -70,22 +68,12 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
         amount = auctionAmount
       }
 
-      const tokenUri = await client.readContract({
-        address: auctionData.metadata,
-        abi: MetadataRendererAbi,
-        functionName: 'tokenURI',
-        args: [auctionData.tokenId]
-      })
-
-      const tokenUriObj = base64ToObject(
-        extractBase64FromDataUrl(String(tokenUri))
+      const pngBuffer = await loadImage(
+        client,
+        address,
+        auctionData.tokenId,
+        500
       )
-
-      const imageUrl = tokenUriObj.image
-      const imageData = await axios.get(imageUrl, {
-        responseType: 'arraybuffer'
-      })
-      const pngBuffer = await sharp(imageData.data).resize(500).png().toBuffer()
       const image = pngBuffer.toString('base64')
 
       returnData.auction = {
