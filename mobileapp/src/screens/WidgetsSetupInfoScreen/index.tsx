@@ -4,6 +4,7 @@ import { RootStackScreenProps } from '../../navigation/types'
 import BackButton from '../../components/BackButton'
 import Svg, { Path } from 'react-native-svg'
 import Section from '../../components/Section'
+import { track } from '../../utils/track'
 
 const appleVideoGuideUrl = 'https://www.youtube.com/watch?v=x49NAAOQyRA'
 
@@ -44,6 +45,7 @@ const WidgetsSetupInfoScreen = ({
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={async () => {
+                track('Watch Apple Widgets Guide')
                 if (await Linking.canOpenURL(appleVideoGuideUrl)) {
                   await Linking.openURL(appleVideoGuideUrl)
                 }
