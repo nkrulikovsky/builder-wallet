@@ -1,4 +1,4 @@
-export default function Home() {
+export default function PrivacyPolicy() {
   return (
     <main className="flex min-h-screen flex-col bg-gradient-to-b from-white to-sky/50 text-black">
       <div className="mx-auto my-8 sm:my-20 prose">
