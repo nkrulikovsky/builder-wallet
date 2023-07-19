@@ -1,5 +1,7 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import clsx from 'clsx'
 import { View, TouchableOpacity } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Path, Svg } from 'react-native-svg'
 
 const DaosIcon = ({ isFocused }: { isFocused: boolean }) => (
@@ -50,60 +52,70 @@ const SettingsIcon = ({ isFocused }: { isFocused: boolean }) => {
 }
 
 const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+  const insets = useSafeAreaInsets()
+
   return (
-    <View className="flex flex-row h-20 pt-1 bg-white justify-evenly border-t border-grey-one">
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key]
+    <View
+      className="bg-white border-t border-grey-one"
+      style={{ paddingBottom: insets.bottom }}>
+      <View
+        className={clsx(
+          'flex flex-row justify-evenly',
+          insets.bottom > 0 ? 'pt-1' : 'py-1'
+        )}>
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key]
 
-        const isFocused = state.index === index
+          const isFocused = state.index === index
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true
-          })
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true
+            })
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, { merge: true })
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name, { merge: true })
+            }
           }
-        }
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key
-          })
-        }
+          const onLongPress = () => {
+            navigation.emit({
+              type: 'tabLongPress',
+              target: route.key
+            })
+          }
 
-        return (
-          <TouchableOpacity
-            activeOpacity={1}
-            key={index}
-            accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            className="h-12 w-12 items-center justify-center">
-            <View>
-              {route.name === 'Daos' ? (
-                <DaosIcon isFocused={isFocused} />
-              ) : route.name === 'Feed' ? (
-                <FeedIcon isFocused={isFocused} />
-              ) : route.name === 'Settings' ? (
-                <SettingsIcon isFocused={isFocused} />
-              ) : (
-                <View />
-              )}
-              {isFocused && (
-                <View className="mt-1.5 bg-black h-1 w-1 rounded-full mx-auto" />
-              )}
-            </View>
-          </TouchableOpacity>
-        )
-      })}
+          return (
+            <TouchableOpacity
+              activeOpacity={1}
+              key={index}
+              accessibilityRole="button"
+              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              className="h-12 w-12 items-center justify-center">
+              <View>
+                {route.name === 'Daos' ? (
+                  <DaosIcon isFocused={isFocused} />
+                ) : route.name === 'Feed' ? (
+                  <FeedIcon isFocused={isFocused} />
+                ) : route.name === 'Settings' ? (
+                  <SettingsIcon isFocused={isFocused} />
+                ) : (
+                  <View />
+                )}
+                {isFocused && (
+                  <View className="mt-1.5 bg-black h-1 w-1 rounded-full mx-auto" />
+                )}
+              </View>
+            </TouchableOpacity>
+          )
+        })}
+      </View>
     </View>
   )
 }
