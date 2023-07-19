@@ -36,10 +36,15 @@ const DaoCardImage = ({
 
   const image = data?.token?.token?.image
   const media = image?.mediaEncoding
+  const typenameError = media?.__typename === 'UnsupportedEncodingTypes'
 
   let imageUrl = undefined
 
-  if ((image && String(image.mimeType).includes('svg')) || !image) {
+  if (
+    (image && String(image.mimeType).includes('svg')) ||
+    !image ||
+    typenameError
+  ) {
     imageUrl = `${appConfig.imageEndpoint}/${daoAddress}/${tokenId}?type=${imageType}`
   } else if (media && imageType === 'thumbnail' && media.thumbnail) {
     imageUrl = media.thumbnail
