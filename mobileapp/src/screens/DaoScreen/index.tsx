@@ -6,10 +6,10 @@ import clsx from 'clsx'
 import DaoCardImage from '../../components/DaoCardImage'
 import Countdown from '../../components/Countdown'
 import BackButton from '../../components/BackButton'
-import dayjs from 'dayjs'
 import ProposalsSection from '../../components/ProposalsSection'
 import Section from '../../components/Section'
 import { isAddressEqual } from 'viem'
+import Bidder from '../../components/Bid'
 
 const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const { dao } = route.params
@@ -27,10 +27,6 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const saveOrUnsave = () => {
     if (daoIsSaved) removeFromSaved(dao.address)
     else save(dao)
-  }
-
-  const bidOnToken = () => {
-    navigation.navigate('Bid', { dao })
   }
 
   const displayName = `${dao.name} #${dao.auction.id}`
@@ -71,18 +67,11 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
                 />
               </View>
             </View>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={bidOnToken}
-              className="mt-4">
-              <View className="bg-black h-12 w-full rounded-lg items-center justify-center">
-                <Text className="text-white">
-                  {dayjs().isBefore(dao.auction.endTime)
-                    ? 'Place bid in browser'
-                    : 'Settle in browser'}
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <Bidder
+              address={dao.auction.highestBidder}
+              bid={dao.auction.highestBid}
+              className="mt-4"
+            />
           </View>
           <ProposalsSection dao={dao} className="mt-8" />
           <Section title="Actions" className="mt-8 mb-4">

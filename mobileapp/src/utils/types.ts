@@ -2,6 +2,7 @@ export type CurrentAuction = {
   id: string
   endTime: number
   highestBid: string
+  highestBidder: `0x${string}`
 }
 
 export type DAO = {

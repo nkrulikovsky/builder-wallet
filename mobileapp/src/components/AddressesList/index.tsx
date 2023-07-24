@@ -7,7 +7,7 @@ import { shortAddress, shorterAddress } from '../../utils/address'
 import { useEnsName } from 'wagmi'
 
 type ElementProps = {
-  address: string
+  address: `0x${string}`
   indexInList: number
   numberOfAddresses: number
 }
@@ -22,7 +22,6 @@ const ListElement = ({
   )
 
   const { data: ens } = useEnsName({
-    // @ts-ignore
     address: address
   })
 
@@ -95,7 +94,7 @@ const AddressesList = ({}) => {
         data={manualAddresses}
         renderItem={({ item, index }) => (
           <ListElement
-            address={item}
+            address={item as `0x${string}`}
             indexInList={index}
             numberOfAddresses={manualAddresses.length}
           />

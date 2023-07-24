@@ -76,7 +76,8 @@ const DaoCard = ({ dao }: DaoCardProps) => {
         auction: {
           id: activeMarket?.tokenId,
           highestBid: activeMarket?.highestBidPrice.nativePrice.decimal,
-          endTime: activeMarket?.endTime * 1000
+          endTime: activeMarket?.endTime * 1000,
+          highestBidder: activeMarket?.highestBidder
         }
       }
 

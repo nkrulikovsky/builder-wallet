@@ -44,6 +44,7 @@ export const DAO_QUERY = gql`
             decimal
           }
         }
+        highestBidder
         address
         metadata
       }
