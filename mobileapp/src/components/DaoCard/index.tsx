@@ -36,11 +36,12 @@ const DaoCard = ({ dao }: DaoCardProps) => {
       <View className="flex flex-row items-center mb-3">
         <View className="bg-grey-one rounded-lg w-36 h-36" />
         <View className="ml-4">
-          <Text className={clsx('text-xl font-bold', error && 'text-red/90')}>
+          <Text
+            className={clsx('text-xl font-bold', error && 'text-grey-four')}>
             {error ? `Couldn't load Dao` : dao.name}
           </Text>
           <View className="pt-4 flex flex-col gap-2">
-            <Text className={clsx(error && 'text-red/70')}>
+            <Text className={clsx(error && 'text-grey-four')}>
               {error ? `Try to refresh later` : `No tokens minted yet`}
             </Text>
             <View className="bg-grey-one rounded-md h-5 w-20" />
