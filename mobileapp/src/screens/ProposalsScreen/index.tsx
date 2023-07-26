@@ -27,7 +27,7 @@ const ProposalsScreen = ({
   } else if (manualDao && manualDao.name === 'Lil Nouns') {
     uri = `https://lilnouns.wtf/vote`
   } else {
-    uri = `https://nouns.build/dao/${dao.address}?tab=activity`
+    uri = `https://proposals.builderapp.wtf/dao/${dao.address}`
   }
 
   return (
