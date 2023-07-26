@@ -6,7 +6,7 @@ type AppConfig = {
 
 const app: AppConfig = {
   zoraUrl: 'https://api.zora.co/graphql',
-  imageEndpoint: 'https://api.builderwidgets.wtf/image',
+  imageEndpoint: 'https://api.builderapp.wtf/image',
   daosAppGroup: 'group.com.nouns.ng.builder.daos'
 }
 
