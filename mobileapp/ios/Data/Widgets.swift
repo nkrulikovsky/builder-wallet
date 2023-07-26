@@ -2,7 +2,7 @@ import Foundation
 import Alamofire
 
 class WidgetDataLoader {
-  private let baseApiUrl = "https://api.builderwidgets.wtf/dao/"
+  private let baseApiUrl = "https://api.builderapp.wtf/dao/"
   
   let placeholderDao = PlaceholderDao(
     address: "0xdf9b7d26c8fc806b1ae6273684556761ff02d422",
