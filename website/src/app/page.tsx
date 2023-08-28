@@ -34,10 +34,10 @@ export default function Home() {
               <span className="text-orange mr-0.5">•</span> Widgets for
               everything
             </p>
-            <p>
+            {/* <p>
               <span className="text-red mr-0.5">•</span> Vote
               <span className="text-black/90"> & </span>bid via in-app browser
-            </p>
+            </p> */}
           </div>
           <div className="mt-10 max-w-max hidden md:flex flex-col">
             <div className="bg-white rounded-2xl p-2 gap-1">
@@ -55,7 +55,7 @@ export default function Home() {
           </div>
           <div className="mt-8 flex md:hidden w-full justify-center">
             <a
-              href="https://testflight.apple.com/join/Ja91wWG3"
+              href="https://apps.apple.com/us/app/builder-daos/id6450520394"
               target="_blank"
             >
               <img
