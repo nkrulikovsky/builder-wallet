@@ -34,24 +34,38 @@ export default function Home() {
               <span className="text-orange mr-0.5">•</span> Widgets for
               everything
             </p>
-            {/* <p>
-              <span className="text-red mr-0.5">•</span> Vote
-              <span className="text-black/90"> & </span>bid via in-app browser
-            </p> */}
-          </div>
-          <div className="mt-10 max-w-max hidden md:flex flex-col">
-            <div className="bg-white rounded-2xl p-2 gap-1">
-              <img
-                src="/svg/app-store-qr.svg"
-                alt="App Store Install QR Code"
-                className="h-32 w-32"
-              />
-            </div>
-            <p className="mt-1.5 text-center text-xs text-[#3e87f8]/90 font-bold leading-3">
-              Scan to install
-              <br />
-              on the phone
+            <p>
+              <span className="text-red mr-0.5">•</span> Install on M1-M2 Macs
+              too
             </p>
+          </div>
+          <div className="mt-10 max-w-max hidden md:flex flex-row bg-white rounded-2xl p-2 gap-1">
+            <img
+              src="/svg/app-store-qr.svg"
+              alt="App Store Install QR Code"
+              className="h-32 w-32"
+            />
+            <div className="flex flex-col">
+              <div className="my-auto">
+                <p className="mt-1.5 text-center text text-[#3e87f8]/80 font-bold leading-5 tracking-tight">
+                  Scan to install
+                  <br />
+                  on the phone
+                </p>
+              </div>
+              <div className="grow-0">
+                <a
+                  href="https://apps.apple.com/us/app/builder-daos/id6450520394"
+                  target="_blank"
+                >
+                  <img
+                    src="/svg/app-store-download-badge.svg"
+                    alt="App Store Download Badge"
+                    className="w-32 m-1.5"
+                  />
+                </a>
+              </div>
+            </div>
           </div>
           <div className="mt-8 flex md:hidden w-full justify-center">
             <a
