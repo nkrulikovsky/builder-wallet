@@ -5,10 +5,13 @@ type ContractAddresses = {
 
 type AppConfig = {
   zoraUrl: string
+  subgraph: string
 }
 
 const app: AppConfig = {
-  zoraUrl: 'https://api.zora.co/graphql'
+  zoraUrl: 'https://api.zora.co/graphql',
+  subgraph:
+    'https://api.goldsky.com/api/public/project_clkk1ucdyf6ak38svcatie9tf/subgraphs/nouns-builder-ethereum-mainnet/stable/gn'
 }
 
 const addresses: ContractAddresses = {

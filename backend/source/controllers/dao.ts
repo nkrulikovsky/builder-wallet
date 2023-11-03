@@ -2,19 +2,27 @@ import { Request, Response, NextFunction } from 'express'
 import axios, { AxiosResponse } from 'axios'
 import { shortAddress, shortENS } from '../utils/addressAndENSDisplayUtils'
 import { getQuery } from '../utils/query'
-import { createPublicClient, fallback, http, isAddress } from 'viem'
+import {
+  createPublicClient,
+  fallback,
+  formatEther,
+  http,
+  isAddress,
+  isAddressEqual
+} from 'viem'
 import { mainnet } from 'viem/chains'
 
 import { Proposal } from '../types/nouns'
-import { loadImage } from '../data/images'
+import { loadImage, loadImageFromUrl } from '../data/images'
+import config from '../config'
 
 require('dotenv').config()
 
+const { addresses } = config
+
 const ANKR_RPC_URL = process.env.ANKR_RPC_URL
 const BLOCKPI_RPC_URL = process.env.BLOCKPI_RPC_URL
-const ALCHEMY_RPC_URL = process.env.ALCHEMY_RPC_URL
-
-const url = 'https://api.zora.co/graphql'
+const ALCHEMY_RPC_URL = process.env.ALCHEMY_RPC_UR
 
 const getData = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -35,14 +43,15 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
       transport: fallback([ankr, blockpi, alchemy])
     })
 
-    const query = getQuery(address, dataToLoad)
+    const currentTime = Math.floor(Date.now() / 1000)
+    const query = getQuery(address, dataToLoad, currentTime)
 
-    let result: AxiosResponse = await axios.post(url, {
+    let result: AxiosResponse = await axios.post(config.app.subgraph, {
       query: query
     })
     const data = result.data.data
 
-    const daoData = data.nouns.nounsDaos.nodes[0]
+    const daoData = data.dao
 
     let returnData: { [k: string]: any } = {
       dao: {
@@ -51,13 +60,13 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     if (dataToLoad.includes('auction')) {
-      const auctionData = data.nouns.nounsActiveMarket
+      const auctionData = data.auctions[0]
 
       let bidder = '-'
       let amount = '0'
 
-      const auctionBidder = auctionData.highestBidder
-      const auctionAmount = auctionData.highestBidPrice.nativePrice.decimal
+      const auctionBidder = auctionData.highestBid.bidder
+      const auctionAmount = formatEther(auctionData.highestBid.amount)
 
       if (auctionBidder && auctionAmount) {
         const ens = await client.getEnsName({
@@ -68,44 +77,55 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
         amount = auctionAmount
       }
 
-      const pngBuffer = await loadImage(
-        client,
-        address,
-        auctionData.tokenId,
-        500
-      )
+      const isNounsContract =
+        isAddressEqual(address, addresses.lilNounsToken) ||
+        isAddressEqual(address, addresses.nounsToken)
+
+      const pngBuffer = isNounsContract
+        ? await loadImage(client, address, auctionData.tokenId, 500)
+        : await loadImageFromUrl(auctionData.token.image, 500)
+
       const image = pngBuffer.toString('base64')
 
+      const duration = Number(data.auctionConfig.duration)
+
       returnData.auction = {
-        id: Number(auctionData.tokenId),
+        id: Number(auctionData.token.tokenId),
         bidder: bidder,
         amount: Number(amount),
         endTime: Number(auctionData.endTime),
-        duration: Number(auctionData.duration),
+        duration: duration,
         image: image
       }
     }
     if (dataToLoad.includes('governance')) {
-      const governanceData = data.nouns.nounsProposals.nodes
+      const governanceData = data.proposals
 
       const proposals = Array<Proposal>()
 
       for (const prop of governanceData) {
-        if (prop.status === 'ACTIVE' || prop.status === 'PENDING') {
+        const state =
+          prop.voteStart > currentTime
+            ? 'PENDING'
+            : prop.voteStart <= currentTime && prop.voteEnd > currentTime
+            ? 'ACTIVE'
+            : 'PASSED'
+
+        if (state === 'ACTIVE' || state === 'PENDING') {
           const endTime = Number(
-            prop.status === 'ACTIVE' ? prop.voteEnd : prop.voteStart
+            state === 'ACTIVE' ? prop.voteEnd : prop.voteStart
           )
 
           let propToAdd: Proposal = {
             id: prop.proposalId,
             number: Number(prop.proposalNumber),
             title: prop.title,
-            state: prop.status,
+            state: state,
             endTime: endTime,
             quorum: prop.quorumVotes
           }
 
-          if (prop.status === 'ACTIVE') {
+          if (state === 'ACTIVE') {
             propToAdd.votes = {
               yes: prop.forVotes,
               no: prop.againstVotes,

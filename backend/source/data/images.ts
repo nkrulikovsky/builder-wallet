@@ -99,3 +99,15 @@ export const loadImage = async (
 
   return pngBuffer
 }
+
+export const loadImageFromUrl = async (url: string, size: number) => {
+  const imageData = await axios.get(url, {
+    responseType: 'arraybuffer'
+  })
+
+  const image = imageData.data
+
+  const pngBuffer = await sharp(image).resize(size).png().toBuffer()
+
+  return pngBuffer
+}

@@ -1,56 +1,66 @@
-export const getQuery = (address: string, dataToLoad: string[]) => {
+export const getQuery = (
+  address: string,
+  dataToLoad: string[],
+  currentTime: number
+) => {
   const auction = dataToLoad.includes('auction')
-    ? `nounsActiveMarket(
-            where: {collectionAddress: "${address}"}
-        ) {
-            tokenId
-            status
-            endTime
-            estimatedDurationTime
-            highestBidder
-            highestBidPrice {
-                nativePrice {
-                    decimal
-                }
-            }
-            metadata
-            duration
-        }`
+    ? `auctions(
+        where: {
+          dao: "${address}",
+          settled: false
+        }
+      ) {
+        token {
+          name
+          image
+          tokenId
+        }
+        endTime
+        highestBid {
+          id
+          amount
+          bidder
+        }
+      }
+      auctionConfig(id: "${address}") {
+        duration
+      }`
     : ''
   const governance = dataToLoad.includes('governance')
-    ? `nounsProposals(
-        where: {collectionAddresses: "${address}"}
-        sort: {sortKey: CREATED, sortDirection: DESC}
-        pagination: { limit: 20 }
-        ) {
-            nodes {
-                proposalNumber
-                proposalId
-                title
-                status
-                voteStart
-                voteEnd
-                abstainVotes
-                againstVotes
-                forVotes
-                quorumVotes
-            }
-        }`
+    ? `proposals(
+        orderBy: proposalNumber
+        where: {
+          dao: "${address}",
+          expiresAt_gt: ${currentTime},
+          executed: false,
+          canceled: false
+        }
+        orderDirection: desc
+      ) {
+        abstainVotes
+        queued
+        againstVotes
+        executed
+        executableFrom
+        expiresAt
+        forVotes
+        proposalId
+        proposalNumber
+        quorumVotes
+        title
+        vetoed
+        voteEnd
+        voteStart
+      }`
     : ''
 
   return `
     query BuilderDAO {
-      nouns {
-        nounsDaos(
-            where: {collectionAddresses: "${address}"}
-          ) {
-            nodes {
-              name
-            }
-        }
-        ${auction}
-        ${governance}
-      }
+      dao(id: "${address}") {
+        name
+      },
+      ${auction}
+      ${governance}
     }
   `
 }
