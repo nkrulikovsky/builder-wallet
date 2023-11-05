@@ -65,7 +65,7 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
       let bidder = '-'
       let amount = '0'
 
-      if (auctionData.highestBid) {
+      if (auctionData?.highestBid) {
         const auctionBidder = auctionData.highestBid.bidder
         const auctionAmount = formatEther(auctionData.highestBid.amount)
 
