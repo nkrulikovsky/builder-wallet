@@ -65,10 +65,10 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
       let bidder = '-'
       let amount = '0'
 
-      const auctionBidder = auctionData.highestBid.bidder
-      const auctionAmount = formatEther(auctionData.highestBid.amount)
+      if (auctionData.highestBid) {
+        const auctionBidder = auctionData.highestBid.bidder
+        const auctionAmount = formatEther(auctionData.highestBid.amount)
 
-      if (auctionBidder && auctionAmount) {
         const ens = await client.getEnsName({
           address: auctionBidder
         })
