@@ -26,16 +26,17 @@ export const getQuery = (
         duration
       }`
     : ''
+  // expiresAt_gt: ${currentTime},
   const governance = dataToLoad.includes('governance')
     ? `proposals(
         orderBy: proposalNumber
         where: {
           dao: "${address}",
-          expiresAt_gt: ${currentTime},
           executed: false,
-          canceled: false
+          canceled: false,
         }
-        orderDirection: desc
+        orderDirection: desc,
+        first: 10
       ) {
         abstainVotes
         queued
