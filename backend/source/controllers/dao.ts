@@ -123,7 +123,7 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
             title: prop.title,
             state: state,
             endTime: endTime,
-            quorum: prop.quorumVotes
+            quorum: Number(prop.quorumVotes)
           }
 
           if (state === 'ACTIVE') {
