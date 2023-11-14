@@ -100,7 +100,6 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     }
     if (dataToLoad.includes('governance')) {
       const governanceData = data.proposals
-      console.log(governanceData)
 
       const proposals = Array<Proposal>()
 

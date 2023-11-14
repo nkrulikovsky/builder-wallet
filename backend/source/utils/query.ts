@@ -26,12 +26,13 @@ export const getQuery = (
         duration
       }`
     : ''
-  // expiresAt_gt: ${currentTime},
+  // TODO: remove voteEnd_gte to also load Queued proposals
   const governance = dataToLoad.includes('governance')
     ? `proposals(
         orderBy: proposalNumber
         where: {
           dao: "${address}",
+          voteEnd_gte: "${currentTime}",
           executed: false,
           canceled: false,
         }
