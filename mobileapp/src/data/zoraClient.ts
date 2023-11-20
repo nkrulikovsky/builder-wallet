@@ -4,7 +4,7 @@ import config from '../../config'
 const { app: AppConfig } = config
 
 const zoraClient = new ApolloClient({
-  uri: AppConfig.zoraUrl,
+  uri: AppConfig.graphUrl,
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

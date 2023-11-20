@@ -26,8 +26,10 @@ pod install
 4.Start app on simulator:
 
 ```shell
-yarn ios
+yarn start
 ```
+
+After Metro is loaded, you can start the app with `i`
 
 ## Publishing in store
 

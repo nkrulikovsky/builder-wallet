@@ -1,11 +1,11 @@
 type AppConfig = {
-  zoraUrl: string
+  graphUrl: string
   imageEndpoint: string
   daosAppGroup: string
 }
 
 const app: AppConfig = {
-  zoraUrl: 'https://api.zora.co/graphql',
+  graphUrl: 'https://api.zora.co/graphql',
   imageEndpoint: 'https://api.builderapp.wtf/image',
   daosAppGroup: 'group.com.nouns.ng.builder.daos'
 }
