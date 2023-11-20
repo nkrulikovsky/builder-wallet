@@ -130,9 +130,6 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
                 ) : (
                   <View />
                 )}
-                {/* {isFocused && (
-                  <View className="mt-1.5 bg-black h-1 w-1 rounded-full mx-auto" />
-                )} */}
               </View>
             </TouchableOpacity>
           )
