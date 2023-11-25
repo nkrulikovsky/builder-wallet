@@ -32,23 +32,23 @@ export const PROPS_QUERY = gql`
   }
 `
 
-// TODO: update this query to use the new DAOs endpoint
 export const DAO_QUERY = gql`
-  query BuilderDAOsProps($address: String!) {
-    nouns {
-      nounsActiveMarket(where: { collectionAddress: $address }) {
+  query BuilderDAO($dao: String!) {
+    auctions(where: { dao: $dao, settled: false }) {
+      token {
+        name
+        image
         tokenId
-        endTime
-        estimatedDurationTime
-        highestBidPrice {
-          nativePrice {
-            decimal
-          }
-        }
-        highestBidder
-        address
-        metadata
       }
+      endTime
+      highestBid {
+        id
+        amount
+        bidder
+      }
+    }
+    auctionConfig(id: $dao) {
+      duration
     }
   }
 `

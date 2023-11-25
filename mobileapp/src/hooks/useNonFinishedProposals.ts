@@ -9,7 +9,7 @@ import { getProposalStatus } from '../utils/proposals'
  * @param savedDaos - An array of saved DAOs.
  * @returns An object containing the non-finished proposals, loading state, error state, and a refetch function.
  */
-const useNonFinishedProposals = (savedDaos: string[]) => {
+export default function useNonFinishedProposals(savedDaos: string[]) {
   const {
     data,
     loading,
@@ -41,5 +41,3 @@ const useNonFinishedProposals = (savedDaos: string[]) => {
 
   return { proposals, loading, error, refetch }
 }
-
-export default useNonFinishedProposals

@@ -9,7 +9,8 @@ import BackButton from '../../components/BackButton'
 import ProposalsSection from '../../components/ProposalsSection'
 import Section from '../../components/Section'
 import { isAddressEqual } from 'viem'
-import Bidder from '../../components/Bid'
+import Bid from '../../components/Bid'
+import { formatBid } from '../../utils/format'
 
 const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
   const { dao } = route.params
@@ -29,8 +30,9 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
     else save(dao)
   }
 
-  const displayName = `${dao.name} #${dao.auction.id}`
-  const bid = `${dao.auction.highestBid} Ξ`
+  const displayName = dao.auction.token.name
+  const highestBid = formatBid(dao.auction?.highestBid?.amount || '0')
+  const bid = `${highestBid} Ξ`
 
   return (
     <ScrollView
@@ -43,8 +45,7 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
           <View className="bg-grey-one rounded-lg w-full aspect-square">
             <DaoCardImage
               daoAddress={dao.address}
-              metadataAddress={dao.metadata}
-              tokenId={dao.auction.id}
+              tokenId={dao.auction.token.tokenId}
             />
           </View>
           <View className="mt-4">
@@ -67,11 +68,13 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
                 />
               </View>
             </View>
-            <Bidder
-              address={dao.auction.highestBidder}
-              bid={dao.auction.highestBid}
-              className="mt-4"
-            />
+            {dao.auction.highestBid && (
+              <Bid
+                address={dao.auction?.highestBid.bidder}
+                bid={dao.auction?.highestBid.amount}
+                className="mt-4"
+              />
+            )}
           </View>
           <ProposalsSection dao={dao} className="mt-8" />
           <Section title="Actions" className="mt-8 mb-4">

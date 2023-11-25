@@ -14,14 +14,12 @@ const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
 type DaoCardImageProps = {
   daoAddress: string
-  metadataAddress: string
   tokenId: number | string
   imageType?: 'thumbnail' | 'full'
 }
 
 const DaoCardImage = ({
   daoAddress,
-  metadataAddress,
   tokenId,
   imageType = 'full'
 }: DaoCardImageProps) => {
