@@ -23,25 +23,27 @@ const DaoCard = ({ dao }: DaoCardProps) => {
 
   if (error || !auction)
     return (
-      <View className="flex flex-row items-center mb-3">
-        <View className="bg-grey-one rounded-lg w-36 h-36" />
-        <View className="ml-4">
-          <Text
-            className={clsx('text-xl font-bold', error && 'text-grey-four')}>
-            {error ? `Couldn't load Dao` : dao.name}
-          </Text>
-          <View className="pt-4 flex flex-col gap-2">
-            <Text className={clsx(error && 'text-grey-four')}>
-              {error ? `Try to refresh later` : `No tokens minted yet`}
+      <View className="relative mb-3 rounded-lg">
+        <View className="flex flex-row items-center">
+          <View className="bg-grey-one rounded-lg w-36 h-36" />
+          <View className="ml-4">
+            <Text
+              className={clsx('text-xl font-bold', error && 'text-grey-four')}>
+              {error ? `Couldn't load Dao` : dao.name}
             </Text>
-            <View className="bg-grey-one rounded-md h-5 w-20" />
-            <View className="bg-grey-one rounded-md h-5 w-16" />
+            <View className="pt-4 flex flex-col gap-2">
+              <Text className={clsx(error && 'text-grey-four')}>
+                {error ? `Try to refresh later` : `No active auction`}
+              </Text>
+              <View className="bg-grey-one rounded-md h-5 w-20" />
+              <View className="bg-grey-one rounded-md h-5 w-16" />
+            </View>
           </View>
         </View>
+        {activeSearch && <SaveDaoIconButton dao={dao} />}
       </View>
     )
 
-  const tokenId = auction.token.tokenId
   const highestBid = formatBid(auction?.highestBid?.amount || '0')
   const endTime = auction.endTime
 
@@ -68,7 +70,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     <TouchableOpacity activeOpacity={0.8} onPress={openDaoPage}>
       <View className="relative box-border h-36 w-full flex flex-row items-center mb-3 rounded-lg">
         <View className="rounded-lg h-full aspect-square">
-          {auction && <DaoCardImage image={auction.token.image} />}
+          <DaoCardImage image={auction.token.image} />
         </View>
         <View className="ml-4 w-full h-36 flex flex-col flex-shrink justify-evenly">
           <Text className="text-xl font-bold flex-shrink leading-6">

@@ -62,7 +62,6 @@ export const SEARCH_DAO_QUERY = gql`
   }
 `
 
-// TODO: update this query to use the new DAOs endpoint
 export const DAOS_FOR_ADDRESS_QUERY = gql`
   query DAOsForAddresses($where: DAOTokenOwner_filter!) {
     daotokenOwners(where: $where) {
