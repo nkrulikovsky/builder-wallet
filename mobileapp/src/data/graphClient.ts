@@ -5,41 +5,7 @@ const { app: AppConfig } = config
 
 const graphClient = new ApolloClient({
   uri: AppConfig.graphUrl,
-  cache: new InMemoryCache({
-    // TODO: Update policies for new endpoint
-    typePolicies: {
-      Query: {
-        fields: {
-          nouns: {
-            merge(existing, incoming) {
-              let nounsActiveMarket = {}
-              // Merge existing and incoming data
-              if (existing && existing.nounsActiveMarket) {
-                nounsActiveMarket = {
-                  ...nounsActiveMarket,
-                  ...existing.nounsActiveMarket
-                }
-              }
-              if (incoming && incoming.nounsActiveMarket) {
-                nounsActiveMarket = {
-                  ...nounsActiveMarket,
-                  ...incoming.nounsActiveMarket
-                }
-              }
-              // Return merged result
-              return {
-                ...incoming,
-                nounsActiveMarket
-              }
-            }
-          }
-        }
-      },
-      NounsBuilderAuction: {
-        keyFields: ['address']
-      }
-    }
-  })
+  cache: new InMemoryCache()
 })
 
 export default graphClient
