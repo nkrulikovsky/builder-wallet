@@ -37,7 +37,9 @@ const Countdown = ({ timestamp, style, endText }: CountdownProps) => {
     return `${hours}h ${minutes}m ${seconds}s`
   }
 
-  return <Text className={style}>{formatTime(timeRemaining)}</Text>
+  const time = formatTime(timeRemaining)
+
+  return <Text className={style}>{time}</Text>
 }
 
 export default Countdown
