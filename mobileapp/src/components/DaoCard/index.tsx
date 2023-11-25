@@ -67,7 +67,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={openDaoPage}>
       <View className="relative box-border h-36 w-full flex flex-row items-center mb-3 rounded-lg">
-        <View className="bg-grey-one/60 rounded-lg h-full aspect-square">
+        <View className="rounded-lg h-full aspect-square">
           {auction && <DaoCardImage image={auction.token.image} />}
         </View>
         <View className="ml-4 w-full h-36 flex flex-col flex-shrink justify-evenly">

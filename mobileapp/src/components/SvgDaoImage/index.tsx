@@ -13,13 +13,11 @@ export default function SvgDaoImage({ image }: { image: string }) {
     })
   }
 
-  console.log('dimensions', dimensions)
-
   const htmlContent = `
     <html>
     <head>
       <style>
-        body, html { width: ${dimensions.width}px; height: ${dimensions.height}px; margin: 0; padding: 0; }
+        body, html { width: ${dimensions.width}px; height: ${dimensions.height}px; margin: 0; padding: 0; background-color: rgb(242 242 242 / 0.6); }
         img { width: 100%; height: 100%; }
       </style>
     </head>

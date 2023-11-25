@@ -53,21 +53,11 @@ export const DAO_QUERY = gql`
   }
 `
 
-// TODO: update this query to use the new DAOs endpoint
 export const SEARCH_DAO_QUERY = gql`
-  query SearchDAO($text: String!) {
-    nouns {
-      nounsSearch(query: { text: $text }, pagination: { limit: 50 }) {
-        nodes {
-          name
-          collectionAddress
-        }
-        pageInfo {
-          limit
-          endCursor
-          hasNextPage
-        }
-      }
+  query SearchDAO($where: DAO_filter, $first: Int!) {
+    daos(where: $where, first: $first) {
+      name
+      tokenAddress
     }
   }
 `

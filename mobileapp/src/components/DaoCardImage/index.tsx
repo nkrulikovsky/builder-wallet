@@ -20,7 +20,7 @@ const DaoCardImage = ({ image, imageType = 'full' }: DaoCardImageProps) => {
   const isSvg = String(image).includes('svg')
 
   return (
-    <View className="w-full h-full">
+    <View className="bg-grey-one/60 w-full h-full">
       {image && (
         <View className="rounded-lg h-full w-full overflow-hidden">
           {isSvg ? (
@@ -71,7 +71,7 @@ const DaoCardImage = ({ image, imageType = 'full' }: DaoCardImageProps) => {
             contentStyle={{ visibility: showShimmer ? 'hidden' : 'visible' }}
             style={{ borderRadius: 8, width: '100%', height: '100%' }}
             shimmerWidthPercent={0.5}
-            shimmerColors={['#F2F2F2', '#E7E7E7', '#F2F2F2']}
+            shimmerColors={['#F2F2F2', '#CFCFCF', '#F2F2F2']}
           />
         </View>
       )}

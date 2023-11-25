@@ -65,3 +65,10 @@ export type BuilderDAOsAuctionResponse = {
     duration: string
   }
 }
+
+export type DaoSearchPropsResponse = {
+  daos: {
+    name: string
+    tokenAddress: string
+  }[]
+}
