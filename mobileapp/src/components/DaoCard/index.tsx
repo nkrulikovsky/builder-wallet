@@ -65,10 +65,6 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     }
   }
 
-  if (dao.name === 'Builder') {
-    console.log(auction.endTime)
-  }
-
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={openDaoPage}>
       <View className="relative box-border h-36 w-full flex flex-row items-center mb-3 rounded-lg">
