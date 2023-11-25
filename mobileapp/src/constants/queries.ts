@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const PROPS_QUERY = gql`
-  query BuilderDAOsProps($where: Proposal_filter, $first: Int!) {
+  query BuilderDAOsProps($where: Proposal_filter!, $first: Int!) {
     proposals(
       where: $where
       first: $first
@@ -54,7 +54,7 @@ export const DAO_QUERY = gql`
 `
 
 export const SEARCH_DAO_QUERY = gql`
-  query SearchDAO($where: DAO_filter, $first: Int!) {
+  query SearchDAO($where: DAO_filter!, $first: Int!) {
     daos(where: $where, first: $first) {
       name
       tokenAddress
@@ -64,13 +64,11 @@ export const SEARCH_DAO_QUERY = gql`
 
 // TODO: update this query to use the new DAOs endpoint
 export const DAOS_FOR_ADDRESS_QUERY = gql`
-  query DAOsForAddresses($addresses: [String!]) {
-    nouns {
-      nounsDaos(where: { memberAddresses: $addresses }) {
-        nodes {
-          name
-          collectionAddress
-        }
+  query DAOsForAddresses($where: DAOTokenOwner_filter!) {
+    daotokenOwners(where: $where) {
+      dao {
+        name
+        tokenAddress
       }
     }
   }

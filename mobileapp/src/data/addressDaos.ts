@@ -9,17 +9,17 @@ export const loadDaosForAddresses = async (
   const { data } = await graphClient.query({
     query: DAOS_FOR_ADDRESS_QUERY,
     variables: {
-      addresses
+      where: { owner_in: addresses }
     }
   })
 
-  if (!data || !data.nouns || !data.nouns.nounsDaos) {
+  if (!data || !data.daotokenOwners) {
     return null
   } else {
-    return data.nouns.nounsDaos.nodes.map((dao: any) => {
+    return data.daotokenOwners.map((d: any) => {
       return {
-        address: dao.collectionAddress,
-        name: dao.name
+        address: d.dao.tokenAddress,
+        name: d.dao.name
       }
     })
   }
