@@ -1,25 +1,25 @@
 import { gql } from '@apollo/client'
-import zoraClient from './zoraClient'
+import graphClient from './graphClient'
 import { SearchDao } from '../store/daoSearch'
 import { DAOS_FOR_ADDRESS_QUERY } from '../constants/queries'
 
 export const loadDaosForAddresses = async (
   addresses: string[]
 ): Promise<null | SearchDao[]> => {
-  const { data } = await zoraClient.query({
+  const { data } = await graphClient.query({
     query: DAOS_FOR_ADDRESS_QUERY,
     variables: {
-      addresses
+      where: { owner_in: addresses }
     }
   })
 
-  if (!data || !data.nouns || !data.nouns.nounsDaos) {
+  if (!data || !data.daotokenOwners) {
     return null
   } else {
-    return data.nouns.nounsDaos.nodes.map((dao: any) => {
+    return data.daotokenOwners.map((d: any) => {
       return {
-        address: dao.collectionAddress,
-        name: dao.name
+        address: d.dao.tokenAddress,
+        name: d.dao.name
       }
     })
   }

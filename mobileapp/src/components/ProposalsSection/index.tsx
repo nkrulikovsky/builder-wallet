@@ -11,6 +11,7 @@ import ProposalCard from '../ProposalCard'
 import Section from '../Section'
 import { manualDaos } from '../../constants/manualDaos'
 import { isAddressEqual } from 'viem'
+import useNonFinishedProposals from '../../hooks/useNonFinishedProposals'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
@@ -22,50 +23,23 @@ type ProposalsSectionProps = {
 const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
   const navigation = useNavigation()
 
-  // TODO: show proposals from manualDaos
-  const nouns = manualDaos.find(d =>
-    isAddressEqual(
-      d.collectionAddress as `0x${string}`,
-      dao.address as `0x${string}`
-    )
-  )
-
   const {
-    data,
+    proposals: props,
     loading,
     error,
     refetch
-  }: {
-    loading: boolean
-    error?: ApolloError
-    data?: BuilderDAOsPropsResponse
-    refetch: () => void
-  } = useQuery(PROPS_QUERY, {
-    skip: nouns !== undefined,
-    variables: {
-      addresses: [dao.address],
-      limit: 20
-    },
-    pollInterval: 600000
-  })
+  } = useNonFinishedProposals([dao.address])
 
   const viewAllProposals = () => {
     navigation.navigate('Proposals', { dao })
   }
 
-  const props = data?.nouns.nounsProposals.nodes
   const proposals = props && filterAndSortProposals(props)
 
   return (
     <Section title="Proposals" className={className}>
       <View className="flex flex-col gap-3">
-        {nouns ? (
-          <View className="border border-grey-one rounded-lg p-4">
-            <Text className="text-grey-four">
-              Proposals are currently not supported in app
-            </Text>
-          </View>
-        ) : loading ? (
+        {loading ? (
           <View className="h-12 bg-grey-one/30 rounded-lg">
             <ShimmerPlaceHolder
               duration={2500}
@@ -87,7 +61,7 @@ const ProposalsSection = ({ dao, className }: ProposalsSectionProps) => {
           <View className="border border-grey-one rounded-lg p-4">
             <Text className="text-red">Couldn't load proposals</Text>
           </View>
-        ) : data && proposals && proposals.length > 0 ? (
+        ) : proposals && proposals.length > 0 ? (
           <FlatList
             data={proposals}
             renderItem={({ item, index }) => (

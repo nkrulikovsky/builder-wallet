@@ -1,19 +1,24 @@
 export type CurrentAuction = {
-  id: string
+  token: {
+    name: string
+    image: string
+    tokenId: string
+  }
   endTime: number
-  highestBid: string
-  highestBidder: `0x${string}`
+  highestBid?: {
+    amount: string
+    bidder: string
+  }
 }
 
 export type DAO = {
   address: string
   name: string
-  metadata: string
+  // metadata: string
   auction: CurrentAuction
 }
 
 export type Proposal = {
-  collectionAddress: string
   proposalId: string
   proposalNumber: number
   status: string
@@ -26,7 +31,12 @@ export type Proposal = {
   quorumVotes: number
   executableFrom?: number
   expiresAt?: number
+  executed: boolean
+  canceled: boolean
   votes: Vote[]
+  dao: {
+    tokenAddress: string
+  }
 }
 
 export type Vote = {
@@ -35,9 +45,30 @@ export type Vote = {
 }
 
 export type BuilderDAOsPropsResponse = {
-  nouns: {
-    nounsProposals: {
-      nodes: Proposal[]
+  proposals: Proposal[]
+}
+
+export type BuilderDAOsAuctionResponse = {
+  auctions: {
+    token: {
+      name: string
+      image: string
+      tokenId: string
     }
+    endTime: number
+    highestBid: {
+      amount: string
+      bidder: string
+    }
+  }[]
+  auctionConfig: {
+    duration: string
   }
+}
+
+export type DaoSearchPropsResponse = {
+  daos: {
+    name: string
+    tokenAddress: string
+  }[]
 }

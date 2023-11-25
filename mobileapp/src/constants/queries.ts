@@ -1,106 +1,73 @@
 import { gql } from '@apollo/client'
 
 export const PROPS_QUERY = gql`
-  query BuilderDAOsProps($addresses: [String!], $limit: Int!) {
-    nouns {
-      nounsProposals(
-        where: { collectionAddresses: $addresses }
-        sort: { sortKey: CREATED, sortDirection: DESC }
-        pagination: { limit: $limit }
-      ) {
-        nodes {
-          collectionAddress
-          proposalNumber
-          proposalId
-          title
-          status
-          voteStart
-          voteEnd
-          executableFrom
-          expiresAt
-          abstainVotes
-          againstVotes
-          forVotes
-          quorumVotes
-          votes {
-            voter
-            support
-          }
-        }
+  query BuilderDAOsProps($where: Proposal_filter!, $first: Int!) {
+    proposals(
+      where: $where
+      first: $first
+      orderBy: timeCreated
+      orderDirection: desc
+    ) {
+      proposalNumber
+      proposalId
+      title
+      voteStart
+      voteEnd
+      executableFrom
+      expiresAt
+      executed
+      canceled
+      abstainVotes
+      againstVotes
+      forVotes
+      quorumVotes
+      dao {
+        tokenAddress
+      }
+      votes {
+        voter
+        support
       }
     }
   }
 `
 
 export const DAO_QUERY = gql`
-  query BuilderDAOsProps($address: String!) {
-    nouns {
-      nounsActiveMarket(where: { collectionAddress: $address }) {
+  query BuilderDAO($dao: String!) {
+    auctions(where: { dao: $dao, settled: false }) {
+      token {
+        name
+        image
         tokenId
-        endTime
-        estimatedDurationTime
-        highestBidPrice {
-          nativePrice {
-            decimal
-          }
-        }
-        highestBidder
-        address
-        metadata
+      }
+      endTime
+      highestBid {
+        id
+        amount
+        bidder
       }
     }
-  }
-`
-
-export const IMAGE_QUERY = gql`
-  query Image($address: String!, $tokenId: String!) {
-    token(token: { address: $address, tokenId: $tokenId }) {
-      token {
-        image {
-          url
-          mimeType
-          mediaEncoding {
-            ... on ImageEncodingTypes {
-              original
-              thumbnail
-            }
-            ... on UnsupportedEncodingTypes {
-              __typename
-              original
-            }
-          }
-        }
-      }
+    auctionConfig(id: $dao) {
+      duration
     }
   }
 `
 
 export const SEARCH_DAO_QUERY = gql`
-  query SearchDAO($text: String!) {
-    nouns {
-      nounsSearch(query: { text: $text }, pagination: { limit: 50 }) {
-        nodes {
-          name
-          collectionAddress
-        }
-        pageInfo {
-          limit
-          endCursor
-          hasNextPage
-        }
-      }
+  query SearchDAO($where: DAO_filter!, $first: Int!) {
+    daos(where: $where, first: $first) {
+      name
+      tokenAddress
     }
   }
 `
 
 export const DAOS_FOR_ADDRESS_QUERY = gql`
-  query DAOsForAddresses($addresses: [String!]) {
-    nouns {
-      nounsDaos(where: { memberAddresses: $addresses }) {
-        nodes {
-          name
-          collectionAddress
-        }
+  query DAOsForAddresses($where: DAOTokenOwner_filter!) {
+    daotokenOwners(where: $where) {
+      dao {
+        name
+        tokenAddress
       }
     }
   }

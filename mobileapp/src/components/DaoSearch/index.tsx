@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 import { DaoSearchStatus, useDaoSearchStore } from '../../store/daoSearch'
 import { SEARCH_DAO_QUERY } from '../../constants/queries'
 import { manualDaos } from '../../constants/manualDaos'
+import useDaoSearch from '../../hooks/useDaoSearch'
 
 const DaoSearch = () => {
   const focusRequested = useDaoSearchStore(state => state.focusRequested)
@@ -21,35 +22,35 @@ const DaoSearch = () => {
 
   const inputRef = React.useRef<TextInput>(null)
 
-  const { data, loading, error } = useQuery(SEARCH_DAO_QUERY, {
-    variables: { text: searchText },
-    skip: !searchText,
-    onCompleted: () => {
+  const { data, loading, error } = useDaoSearch(
+    searchText,
+    () => {
       if (data) {
         setSearchStatus(DaoSearchStatus.SUCCESS)
-        const daos = data.nouns.nounsSearch.nodes.map((dao: any) => ({
+        const daos = data.daos.map((dao: any) => ({
           name: dao.name,
-          address: dao.collectionAddress
+          address: dao.tokenAddress
         }))
         setSearchResults(daos)
       }
 
-      manualDaos
-        .filter(dao => dao.keywords.includes(searchText.toLowerCase().trim()))
-        .forEach(dao => {
-          setSearchStatus(DaoSearchStatus.SUCCESS)
-          addToSearchResults([
-            {
-              name: dao.name,
-              address: dao.collectionAddress
-            }
-          ])
-        })
+      // manualDaos
+      //   .filter(dao => dao.keywords.includes(searchText.toLowerCase().trim()))
+      //   .forEach(dao => {
+      //     setSearchStatus(DaoSearchStatus.SUCCESS)
+      //     addToSearchResults([
+      //       {
+      //         name: dao.name,
+      //         address: dao.collectionAddress
+      //       }
+      //     ])
+      //   })
     },
-    onError: () => {
+    e => {
+      console.log(e)
       setSearchStatus(DaoSearchStatus.ERROR)
     }
-  })
+  )
 
   useEffect(() => {
     if (focusRequested) {
@@ -66,7 +67,7 @@ const DaoSearch = () => {
     if (text.length === 0) clearSearchResults()
   }
 
-  const noDaos = data && data.nouns.nounsSearch.nodes.length === 0
+  const noDaos = data && data.daos.length === 0
 
   return (
     <View className="mb-3 justify-center">

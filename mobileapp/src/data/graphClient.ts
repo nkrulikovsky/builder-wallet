@@ -3,9 +3,10 @@ import config from '../../config'
 
 const { app: AppConfig } = config
 
-const zoraClient = new ApolloClient({
+const graphClient = new ApolloClient({
   uri: AppConfig.graphUrl,
   cache: new InMemoryCache({
+    // TODO: Update policies for new endpoint
     typePolicies: {
       Query: {
         fields: {
@@ -41,4 +42,4 @@ const zoraClient = new ApolloClient({
   })
 })
 
-export default zoraClient
+export default graphClient

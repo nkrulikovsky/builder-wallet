@@ -2,16 +2,17 @@ import clsx from 'clsx'
 import { Image, Text, View } from 'react-native'
 import { useEnsAvatar, useEnsName } from 'wagmi'
 import { shortAddress } from '../../utils/address'
+import { formatBid } from '../../utils/format'
 
-type BidderProps = {
-  address: `0x${string}`
+type BidProps = {
+  address: string
   bid: string
   className?: string
 }
 
-const Bidder = ({ address, bid, className }: BidderProps) => {
+const Bid = ({ address, bid, className }: BidProps) => {
   const { data: ens } = useEnsName({
-    address: address
+    address: address as `0x${string}`
   })
   const { data: avatar } = useEnsAvatar({
     name: ens
@@ -19,7 +20,8 @@ const Bidder = ({ address, bid, className }: BidderProps) => {
 
   const noBid = Number(bid) === 0
   const displayName = `${ens ?? shortAddress(address)}`
-  const displayBid = `${bid} Ξ`
+  const formattedBid = formatBid(bid || '0')
+  const displayBid = `${formattedBid} Ξ`
   const displayAvatar = avatar
 
   return (
@@ -50,4 +52,4 @@ const Bidder = ({ address, bid, className }: BidderProps) => {
   )
 }
 
-export default Bidder
+export default Bid

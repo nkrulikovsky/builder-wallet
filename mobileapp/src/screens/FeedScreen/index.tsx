@@ -4,14 +4,12 @@ import { useDaosStore } from '../../store/daos'
 import { HomeTabScreenProps } from '../../navigation/types'
 import { useReducer } from 'react'
 import React from 'react'
-import { ApolloError, useQuery } from '@apollo/client'
-import { BuilderDAOsPropsResponse, Proposal } from '../../utils/types'
 import ProposalCard from '../../components/ProposalCard'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import LinearGradient from 'react-native-linear-gradient'
-import { PROPS_QUERY } from '../../constants/queries'
 import { filterAndSortProposals } from '../../utils/proposals'
 import { isAddressEqual } from 'viem'
+import useNonFinishedProposals from '../../hooks/useNonFinishedProposals'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
@@ -24,22 +22,11 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
   const [reloadKey, reloadData] = useReducer(x => x + 1, 0)
 
   const {
-    data,
+    proposals: props,
     loading,
     error,
     refetch
-  }: {
-    loading: boolean
-    error?: ApolloError
-    data?: BuilderDAOsPropsResponse
-    refetch: () => void
-  } = useQuery(PROPS_QUERY, {
-    variables: {
-      addresses: savedDaos.map(dao => dao.address),
-      limit: 10 * savedDaos.length
-    },
-    pollInterval: 600000
-  })
+  } = useNonFinishedProposals(savedDaos.map(dao => dao.address))
 
   const onRefresh = React.useCallback(() => {
     refetch()
@@ -51,7 +38,6 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
     }, reloadTime)
   }, [savedDaos])
 
-  const props = data?.nouns.nounsProposals.nodes
   const proposals = props && filterAndSortProposals(props)
 
   const ShimmerBox = (opacity: number = 1) => {
@@ -106,7 +92,7 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
                 Couldn't load proposals
               </Text>
             </View>
-          ) : data && proposals && proposals.length > 0 ? (
+          ) : proposals && proposals.length > 0 ? (
             <FlatList
               data={proposals}
               renderItem={({ item, index }) => (
@@ -116,7 +102,7 @@ const FeedScreen = ({ route, navigation }: HomeTabScreenProps<'Feed'>) => {
                     savedDaos.find(dao =>
                       isAddressEqual(
                         dao.address as `0x${string}`,
-                        item.collectionAddress as `0x${string}`
+                        item.dao.tokenAddress as `0x${string}`
                       )
                     )!
                   }
