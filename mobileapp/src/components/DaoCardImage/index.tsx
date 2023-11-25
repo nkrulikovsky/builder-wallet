@@ -1,69 +1,44 @@
-import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Image, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
-import config from '../../../config'
-import { IMAGE_QUERY } from '../../constants/queries'
 import Svg, { Path } from 'react-native-svg'
 import clsx from 'clsx'
-
-const { app: appConfig } = config
+import SvgDaoImage from '../SvgDaoImage'
 
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient)
 
 type DaoCardImageProps = {
-  daoAddress: string
-  tokenId: number | string
+  image: string
   imageType?: 'thumbnail' | 'full'
 }
 
-const DaoCardImage = ({
-  daoAddress,
-  tokenId,
-  imageType = 'full'
-}: DaoCardImageProps) => {
+const DaoCardImage = ({ image, imageType = 'full' }: DaoCardImageProps) => {
   const [showShimmer, setShowShimmer] = React.useState(true)
   const [loadError, setLoadError] = React.useState(false)
 
-  const { data } = useQuery(IMAGE_QUERY, {
-    variables: { address: daoAddress, tokenId: String(tokenId) },
-    onCompleted: () => setLoadError(true),
-    onError: () => setLoadError(true)
-  })
-
-  const image = data?.token?.token?.image
-  const media = image?.mediaEncoding
-  const typenameError = media?.__typename === 'UnsupportedEncodingTypes'
-
-  let imageUrl = undefined
-
-  if (
-    (image && String(image.mimeType).includes('svg')) ||
-    !image ||
-    typenameError
-  ) {
-    imageUrl = `${appConfig.imageEndpoint}/${daoAddress}/${tokenId}?type=${imageType}`
-  } else if (media && imageType === 'thumbnail' && media.thumbnail) {
-    imageUrl = media.thumbnail
-  } else if (media && media.original) {
-    imageUrl = media.original
-  }
+  const isSvg = String(image).includes('svg')
 
   return (
     <View className="w-full h-full">
-      {imageUrl && (
-        <Image
-          onError={() => setLoadError(true)}
-          onLoad={() => {
-            if (loadError) setLoadError(false)
-          }}
-          onLoadEnd={() => setShowShimmer(false)}
-          source={{
-            uri: imageUrl
-          }}
-          className="rounded-lg h-full w-full"
-        />
+      {image && (
+        <View className="rounded-lg h-full w-full overflow-hidden">
+          {isSvg ? (
+            <SvgDaoImage image={image} />
+          ) : (
+            <Image
+              onError={() => setLoadError(true)}
+              onLoad={() => {
+                if (loadError) setLoadError(false)
+              }}
+              onLoadEnd={() => setShowShimmer(false)}
+              source={{
+                uri: image
+              }}
+              className="rounded-lg h-full w-full"
+            />
+          )}
+        </View>
       )}
       <View className="absolute w-full h-full border border-grey-three/20 z-10 rounded-lg" />
       {loadError && !showShimmer && (

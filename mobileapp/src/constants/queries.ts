@@ -54,30 +54,6 @@ export const DAO_QUERY = gql`
 `
 
 // TODO: update this query to use the new DAOs endpoint
-export const IMAGE_QUERY = gql`
-  query Image($address: String!, $tokenId: String!) {
-    token(token: { address: $address, tokenId: $tokenId }) {
-      token {
-        image {
-          url
-          mimeType
-          mediaEncoding {
-            ... on ImageEncodingTypes {
-              original
-              thumbnail
-            }
-            ... on UnsupportedEncodingTypes {
-              __typename
-              original
-            }
-          }
-        }
-      }
-    }
-  }
-`
-
-// TODO: update this query to use the new DAOs endpoint
 export const SEARCH_DAO_QUERY = gql`
   query SearchDAO($text: String!) {
     nouns {

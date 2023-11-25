@@ -43,10 +43,7 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
         <View className="mx-4 h-full">
           <BackButton onPress={() => navigation.goBack()} />
           <View className="bg-grey-one rounded-lg w-full aspect-square">
-            <DaoCardImage
-              daoAddress={dao.address}
-              tokenId={dao.auction.token.tokenId}
-            />
+            <DaoCardImage image={dao.auction.token.image} />
           </View>
           <View className="mt-4">
             <Text className="text-3xl font-bold flex-shrink leading-7 pt-2">
