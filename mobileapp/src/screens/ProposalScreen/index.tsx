@@ -10,7 +10,7 @@ const ProposalScreen = ({
   const [loading, setLoading] = React.useState(true)
 
   const proposal = route.params.proposal
-  const uri = `https://proposals.builderapp.wtf/dao/${proposal.collectionAddress}/vote/${proposal.proposalId}`
+  const uri = `https://proposals.builderapp.wtf/dao/${proposal.dao.tokenAddress}/vote/${proposal.proposalId}`
 
   return (
     <View className="flex-1">

@@ -65,13 +65,11 @@ const DaoScreen = ({ route, navigation }: RootStackScreenProps<'Dao'>) => {
                 />
               </View>
             </View>
-            {dao.auction.highestBid && (
-              <Bid
-                address={dao.auction?.highestBid.bidder}
-                bid={dao.auction?.highestBid.amount}
-                className="mt-4"
-              />
-            )}
+            <Bid
+              address={dao.auction?.highestBid?.bidder || ''}
+              bid={dao.auction?.highestBid?.amount || '0'}
+              className="mt-4"
+            />
           </View>
           <ProposalsSection dao={dao} className="mt-8" />
           <Section title="Actions" className="mt-8 mb-4">

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, TextInput, View, Text } from 'react-native'
-import { useQuery } from '@apollo/client'
 import { DaoSearchStatus, useDaoSearchStore } from '../../store/daoSearch'
-import { SEARCH_DAO_QUERY } from '../../constants/queries'
-import { manualDaos } from '../../constants/manualDaos'
 import useDaoSearch from '../../hooks/useDaoSearch'
 
 const DaoSearch = () => {
@@ -33,18 +30,6 @@ const DaoSearch = () => {
         }))
         setSearchResults(daos)
       }
-
-      // manualDaos
-      //   .filter(dao => dao.keywords.includes(searchText.toLowerCase().trim()))
-      //   .forEach(dao => {
-      //     setSearchStatus(DaoSearchStatus.SUCCESS)
-      //     addToSearchResults([
-      //       {
-      //         name: dao.name,
-      //         address: dao.collectionAddress
-      //       }
-      //     ])
-      //   })
     },
     e => {
       console.log(e)

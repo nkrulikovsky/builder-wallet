@@ -14,7 +14,6 @@ export type CurrentAuction = {
 export type DAO = {
   address: string
   name: string
-  // metadata: string
   auction: CurrentAuction
 }
 

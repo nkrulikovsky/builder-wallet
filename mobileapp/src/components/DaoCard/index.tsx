@@ -45,7 +45,6 @@ const DaoCard = ({ dao }: DaoCardProps) => {
     )
 
   const highestBid = formatBid(auction?.highestBid?.amount || '0')
-  const endTime = auction.endTime
 
   const displayName = auction.token.name
   const bid = `${highestBid} Ξ`
@@ -91,7 +90,7 @@ const DaoCard = ({ dao }: DaoCardProps) => {
                 <View className="bg-grey-one rounded-md h-5 w-24" />
               ) : (
                 <Countdown
-                  timestamp={endTime}
+                  timestamp={auction.endTime}
                   style="text-base font-bold text-black"
                   endText="Ended"
                 />
