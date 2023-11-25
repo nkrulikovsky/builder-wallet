@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 
-import zoraClient from './src/data/zoraClient'
+import graphClient from './src/data/graphClient'
 import DaosScreen from './src/screens/DaosScreen'
 import { useColorScheme } from 'nativewind'
 import SettingsScreen from './src/screens/SettingsScreen'
@@ -60,7 +60,7 @@ const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" hidden={false} />
-      <ApolloProvider client={zoraClient}>
+      <ApolloProvider client={graphClient}>
         <WagmiConfig config={wagmiConfig}>
           <NavigationContainer>
             <PostHogProvider client={posthogAsync}>

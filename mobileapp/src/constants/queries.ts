@@ -1,37 +1,38 @@
 import { gql } from '@apollo/client'
 
 export const PROPS_QUERY = gql`
-  query BuilderDAOsProps($addresses: [String!], $limit: Int!) {
-    nouns {
-      nounsProposals(
-        where: { collectionAddresses: $addresses }
-        sort: { sortKey: CREATED, sortDirection: DESC }
-        pagination: { limit: $limit }
-      ) {
-        nodes {
-          collectionAddress
-          proposalNumber
-          proposalId
-          title
-          status
-          voteStart
-          voteEnd
-          executableFrom
-          expiresAt
-          abstainVotes
-          againstVotes
-          forVotes
-          quorumVotes
-          votes {
-            voter
-            support
-          }
-        }
+  query BuilderDAOsProps($where: Proposal_filter, $first: Int!) {
+    proposals(
+      where: $where
+      first: $first
+      orderBy: timeCreated
+      orderDirection: desc
+    ) {
+      proposalNumber
+      proposalId
+      title
+      voteStart
+      voteEnd
+      executableFrom
+      expiresAt
+      executed
+      canceled
+      abstainVotes
+      againstVotes
+      forVotes
+      quorumVotes
+      dao {
+        tokenAddress
+      }
+      votes {
+        voter
+        support
       }
     }
   }
 `
 
+// TODO: update this query to use the new DAOs endpoint
 export const DAO_QUERY = gql`
   query BuilderDAOsProps($address: String!) {
     nouns {
@@ -52,6 +53,7 @@ export const DAO_QUERY = gql`
   }
 `
 
+// TODO: update this query to use the new DAOs endpoint
 export const IMAGE_QUERY = gql`
   query Image($address: String!, $tokenId: String!) {
     token(token: { address: $address, tokenId: $tokenId }) {
@@ -75,6 +77,7 @@ export const IMAGE_QUERY = gql`
   }
 `
 
+// TODO: update this query to use the new DAOs endpoint
 export const SEARCH_DAO_QUERY = gql`
   query SearchDAO($text: String!) {
     nouns {
@@ -93,6 +96,7 @@ export const SEARCH_DAO_QUERY = gql`
   }
 `
 
+// TODO: update this query to use the new DAOs endpoint
 export const DAOS_FOR_ADDRESS_QUERY = gql`
   query DAOsForAddresses($addresses: [String!]) {
     nouns {

@@ -13,7 +13,6 @@ export type DAO = {
 }
 
 export type Proposal = {
-  collectionAddress: string
   proposalId: string
   proposalNumber: number
   status: string
@@ -26,7 +25,12 @@ export type Proposal = {
   quorumVotes: number
   executableFrom?: number
   expiresAt?: number
+  executed: boolean
+  canceled: boolean
   votes: Vote[]
+  dao: {
+    tokenAddress: string
+  }
 }
 
 export type Vote = {
@@ -35,9 +39,5 @@ export type Vote = {
 }
 
 export type BuilderDAOsPropsResponse = {
-  nouns: {
-    nounsProposals: {
-      nodes: Proposal[]
-    }
-  }
+  proposals: Proposal[]
 }
