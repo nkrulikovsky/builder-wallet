@@ -37,6 +37,10 @@
 		0A9D4AAC2A01DA1000183302 /* SelectDAO.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 0A90E36E29FC5FAB00FB320D /* SelectDAO.intentdefinition */; };
 		0A9D4AB22A01E7C100183302 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9D4AB12A01E7C100183302 /* Data.swift */; };
 		0A9D4AB52A02D73A00183302 /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 0A9D4AB42A02D73A00183302 /* SwiftyUserDefaults */; };
+		0A9EBA8F2B4F301D00C817EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EBA8E2B4F301D00C817EA /* Extensions.swift */; };
+		0A9EBA902B4F301D00C817EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EBA8E2B4F301D00C817EA /* Extensions.swift */; };
+		0A9EBA912B4F301D00C817EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EBA8E2B4F301D00C817EA /* Extensions.swift */; };
+		0A9EBA922B4F301D00C817EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EBA8E2B4F301D00C817EA /* Extensions.swift */; };
 		0AA7E8D62A05DD88000B0F4D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA7E8D52A05DD88000B0F4D /* Utils.swift */; };
 		0AE29FCB2A09B56D0035242E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A90E36329FC5FAB00FB320D /* WidgetKit.framework */; };
 		0AE29FCC2A09B56D0035242E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A90E36529FC5FAB00FB320D /* SwiftUI.framework */; };
@@ -159,6 +163,7 @@
 		0A9D4AAD2A01DA9C00183302 /* mobileapp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mobileapp-Bridging-Header.h"; sourceTree = "<group>"; };
 		0A9D4AB12A01E7C100183302 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		0A9D4AB32A02B3B300183302 /* SelectDAOIntentExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelectDAOIntentExtension.entitlements; sourceTree = "<group>"; };
+		0A9EBA8E2B4F301D00C817EA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0AA7E8D52A05DD88000B0F4D /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0AE29FCA2A09B56D0035242E /* AuctionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AuctionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AE29FCE2A09B56D0035242E /* AuctionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionBundle.swift; sourceTree = "<group>"; };
@@ -291,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3802E02A0B0711000C34A0 /* Proposals.swift */,
+				0A9EBA8E2B4F301D00C817EA /* Extensions.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -886,6 +892,7 @@
 				0A3802D72A0AFE12000C34A0 /* SelectDAO.intentdefinition in Sources */,
 				0A3802DA2A0AFED4000C34A0 /* Types.swift in Sources */,
 				0A3802D92A0AFECE000C34A0 /* Utils.swift in Sources */,
+				0A9EBA922B4F301D00C817EA /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -894,6 +901,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AE29FEA2A09F0F10035242E /* Utils.swift in Sources */,
+				0A9EBA8F2B4F301D00C817EA /* Extensions.swift in Sources */,
 				0A90E37229FC5FAD00FB320D /* SelectDAO.intentdefinition in Sources */,
 				0AE29FED2A09F1130035242E /* Types.swift in Sources */,
 				0A90E36D29FC5FAB00FB320D /* Art.swift in Sources */,
@@ -922,6 +930,7 @@
 				0AE29FEE2A09F1130035242E /* Types.swift in Sources */,
 				0AE29FE82A09F0670035242E /* Widgets.swift in Sources */,
 				0AE29FEB2A09F0F10035242E /* Utils.swift in Sources */,
+				0A9EBA902B4F301D00C817EA /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,6 +944,7 @@
 				0AE2A0042A09FB6A0035242E /* SelectDAO.intentdefinition in Sources */,
 				0AE2A0072A09FC5C0035242E /* Types.swift in Sources */,
 				0AE2A0062A09FC5A0035242E /* Utils.swift in Sources */,
+				0A9EBA912B4F301D00C817EA /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -140,14 +140,14 @@ struct GovernanceEntryView : View {
           Spacer(minLength: 0)
         }
       }
-      .foregroundColor(colorScheme == .light ? .black : .white)
-      .padding(16)
+      .paddingForOlderVersions()
+      .widgetBackground(backgroundView: colorScheme == .light ? Color.white : Color.black)
     case .error:
       VStack {
         Image(systemName: "xmark.octagon").padding(.bottom, 1)
         Text("Error happened")
       }
-      .foregroundColor(colorScheme == .light ? .black : .white)
+      .widgetBackground(backgroundView: colorScheme == .light ? Color.white : Color.black)
     }
   }
 }

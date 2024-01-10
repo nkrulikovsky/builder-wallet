@@ -65,12 +65,14 @@ struct ArtEntryView: View {
       Image(uiImage: UIImage(data: entry.image!)!)
         .resizable()
         .aspectRatio(contentMode: .fit)
+        .widgetBackground(backgroundView: colorScheme == .light ? Color.white : Color.black)
     case .error:
       VStack {
-        Image(systemName: "xmark.octagon").padding(.bottom, 1)
+        Image(systemName: "xmark.octagon")
+          .padding(.bottom, 1)
         Text("Error happened")
       }
-      .foregroundColor(colorScheme == .light ? .black : .white)
+      .widgetBackground(backgroundView: colorScheme == .light ? Color.white : Color.black)
     }
   }
 }
@@ -86,5 +88,6 @@ struct ArtWidget: Widget {
     .supportedFamilies([.systemSmall])
     .configurationDisplayName("Art")
     .description("Current auctioned artwork.")
+    .contentMarginsDisabledIfAvailable()
   }
 }
