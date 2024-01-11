@@ -116,14 +116,14 @@ struct AuctionEntryView : View {
             .padding(.top, 2)
         }
       }
-      .padding(16)
-      .foregroundColor(colorScheme == .light ? .black : .white)
+      .paddingForOlderVersions()
+      .widgetBackground(backgroundView: colorScheme == .light ? Color.white : Color.black)
     case .error:
       VStack {
         Image(systemName: "xmark.octagon").padding(.bottom, 1)
         Text("Error happened")
       }
-      .foregroundColor(colorScheme == .light ? .black : .white)
+      .widgetBackground(backgroundView: colorScheme == .light ? Color.white : Color.black)
     }
   }
 }
@@ -137,8 +137,8 @@ struct ProgressBar: View {
   var body: some View {
     let foregroundColor: Color = colorScheme == .light ? .black : .white
     let backgroundColor: Color = colorScheme == .light
-    ? Color(red: 0.95, green: 0.95, blue: 0.95)
-    : Color(red: 0.08, green: 0.08, blue: 0.08)
+    ? Color(red: 0.92, green: 0.92, blue: 0.92)
+    : Color(red: 0.16, green: 0.16, blue: 0.16)
     
     GeometryReader { geometry in
       ZStack(alignment: .leading) {
