@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "PORT=3051 nodemon source/server.ts",
     "build": "rm -rf build/ && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node build/server.js"
   },
   "author": "ng",
   "license": "ISC",

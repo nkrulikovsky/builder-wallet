@@ -25,7 +25,7 @@ This is Nouns Builder mobile app monorepo. You can find Nouns Builder app on:
 pnpm i
 ```
 
-4. After installing the packages, follow README on each app on more steps to run them.
+4. After installing the packages, follow README for the each app to learn more on how to run them.
 
 #### Formatting
 
