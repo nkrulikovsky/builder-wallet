@@ -1,3 +1,6 @@
+import GithubLink from '@/components/github'
+import MadeBy from '@/components/madeBy'
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-gradient-to-b from-white to-sky/50 text-black">
@@ -81,6 +84,13 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <footer className="mb-6 mt-12 flex flex-col items-center justify-center gap-4">
+        <div className="flex flex-row gap-2 items-center">
+          <MadeBy />
+          <p className="text-xs text-grey-four">•</p>
+          <GithubLink />
+        </div>
+      </footer>
     </main>
   )
 }
