@@ -1,7 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "build:backend": "pnpm --filter \"./apps/backend\" build",
+    "start:backend": "pnpm --filter \"./apps/backend\" start",
+    "dev:backend": "pnpm --filter \"./apps/backend\" dev",
+    "start:mobileapp": "pnpm --filter \"./apps/mobileapp\" start",
+    "dev:website": "pnpm --filter \"./apps/website\" dev"
   },
   "devDependencies": {
     "prettier": "^2.5.1"

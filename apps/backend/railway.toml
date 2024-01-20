@@ -1,0 +1,7 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "pnpm build"
+watchPatterns = ["/apps/backend/**"]
+
+[deploy]
+startCommand = "pnpm start"
